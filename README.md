@@ -81,6 +81,17 @@ Azure Policy（效果、计划、修正）、资源锁、Microsoft Purview、服
 Azure Monitor（指标与日志、Log Analytics 与 KQL、警报与操作组）、Application Insights、
 Azure Advisor、Service Health 与资源运行状况。
 
+## 网页版
+
+`web/` 是同一套题库的网页版（手机/电脑都能刷，进度和错题本会保存）：
+
+```bash
+python3 tools/build_web.py     # 从 data/questions/ 重新打包 web/bank.js
+```
+
+改了题库之后跑一次这个脚本，网页版就同步了。`web/index.html` 以 Claude Artifact 形式发布，
+运行时用 Artifact 的 db 能力保存进度；本地直接用浏览器打开时会退回到浏览器本地存储。
+
 ## 开发
 
 ```bash
