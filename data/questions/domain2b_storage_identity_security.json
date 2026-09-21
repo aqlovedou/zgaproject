@@ -1008,6 +1008,714 @@
         "Key Vault",
         "机密"
       ]
+    },
+    {
+      "id": "D2-073",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 3,
+      "question": "可用性集与可用性区域的关键区别是什么？",
+      "options": {
+        "A": "两者完全相同",
+        "B": "可用性集在单个数据中心内跨机架分布虚拟机；可用性区域跨同一区域内多个物理隔离的数据中心",
+        "C": "可用性集跨区域，可用性区域在单个机架内",
+        "D": "可用性集只能用于存储"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "可用性集用容错域和更新域把虚拟机分散到不同机架，防的是服务器、机架和计划维护级别的故障——但整个数据中心断电它救不了。可用性区域把实例分散到区域内多个独立供电、制冷、联网的数据中心，防护级别更高，对应的 SLA 也更高。",
+      "option_reasons": {
+        "A": "两者的隔离粒度和防护级别明显不同。",
+        "C": "方向说反了：可用性集在数据中心内，可用性区域跨数据中心。",
+        "D": "可用性集是虚拟机的高可用选项，与存储冗余是两回事。"
+      },
+      "reference": {
+        "title": "虚拟机可用性选项",
+        "url": "https://learn.microsoft.com/azure/virtual-machines/availability"
+      },
+      "keywords": [
+        "可用性集",
+        "可用性区域"
+      ]
+    },
+    {
+      "id": "D2-074",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 2,
+      "question": "虚拟机规模集的自动缩放规则通常基于什么来触发？",
+      "options": {
+        "A": "虚拟机的创建日期",
+        "B": "CPU 使用率、内存、队列长度等指标，或按计划时间表",
+        "C": "订阅的类型",
+        "D": "管理员每次手动点击"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "规模集的自动缩放有两类触发方式：基于指标（CPU 百分比、内存、磁盘队列、甚至自定义的应用指标）和基于计划（比如工作日早九点扩容、晚八点缩容）。两者可以组合使用。",
+      "option_reasons": {
+        "A": "创建日期与负载无关，不会作为缩放依据。",
+        "C": "订阅类型影响配额和计费，不驱动自动缩放。",
+        "D": "手动调整实例数属于手动缩放，不是自动缩放。"
+      },
+      "reference": {
+        "title": "虚拟机规模集概述",
+        "url": "https://learn.microsoft.com/azure/virtual-machine-scale-sets/overview"
+      },
+      "keywords": [
+        "自动缩放"
+      ]
+    },
+    {
+      "id": "D2-075",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪个场景最适合用容器而不是虚拟机？",
+      "options": {
+        "A": "需要运行需要特定内核版本和自定义驱动的旧版应用",
+        "B": "需要把应用拆成多个可独立部署、快速启动、密集部署的微服务",
+        "C": "需要完整的 Windows 桌面环境",
+        "D": "需要运行 VMware 虚拟机"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "容器共享宿主内核、镜像小、秒级启动、部署密度高，天生契合微服务：每个服务独立打包、独立升级、按需伸缩。而对内核有硬性依赖、需要完整桌面、或要跑虚拟化平台的场景，仍然需要虚拟机。",
+      "option_reasons": {
+        "A": "对特定内核版本和驱动有依赖的应用更适合虚拟机，容器共享宿主内核反而受限。",
+        "C": "完整 Windows 桌面环境应使用 Azure 虚拟桌面。",
+        "D": "运行 VMware 虚拟机需要 Azure VMware 解决方案。"
+      },
+      "reference": {
+        "title": "容器与虚拟机",
+        "url": "https://learn.microsoft.com/azure/container-instances/container-instances-overview"
+      },
+      "keywords": [
+        "容器",
+        "微服务"
+      ]
+    },
+    {
+      "id": "D2-076",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "multi",
+      "difficulty": 3,
+      "question": "关于 Azure Kubernetes 服务（AKS）的费用，下列哪两项说法正确？（选两项）",
+      "options": {
+        "A": "Kubernetes 控制平面由 Microsoft 托管，标准层级下不单独收费",
+        "B": "需要为工作节点使用的虚拟机、存储和网络资源付费",
+        "C": "AKS 完全免费，不产生任何费用",
+        "D": "必须为每个 Pod 单独付费"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "AKS 的计费模型是「控制平面免费、工作节点照常计费」：Microsoft 负责 API Server、etcd、调度器的运行和升级，不对这部分收费（标准免费层级）；你只为承载工作负载的节点虚拟机及其磁盘、负载均衡器、出站流量付费。",
+      "option_reasons": {
+        "C": "工作节点是实实在在的虚拟机，照常计费。",
+        "D": "Azure 按节点资源计费，不按 Pod 数量计费。"
+      },
+      "reference": {
+        "title": "Azure Kubernetes 服务",
+        "url": "https://learn.microsoft.com/azure/aks/what-is-aks"
+      },
+      "keywords": [
+        "AKS",
+        "计费"
+      ]
+    },
+    {
+      "id": "D2-077",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 容器注册表（Azure Container Registry）的作用是什么？",
+      "options": {
+        "A": "运行容器",
+        "B": "存储和管理容器镜像，供 AKS、ACI、App Service 等服务拉取",
+        "C": "编排容器的部署顺序",
+        "D": "监控容器的资源使用"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "容器注册表是私有的镜像仓库：团队把构建好的镜像推送上去，运行时由 AKS、容器实例或 App Service 拉取部署。它还支持镜像扫描、异地复制和基于 Entra ID 的访问控制。",
+      "option_reasons": {
+        "A": "运行容器是 ACI、Container Apps、AKS 的职责，注册表只负责存镜像。",
+        "C": "编排由 Kubernetes 等编排器负责。",
+        "D": "资源监控由 Azure Monitor 负责。"
+      },
+      "reference": {
+        "title": "Azure 容器注册表",
+        "url": "https://learn.microsoft.com/azure/container-registry/container-registry-intro"
+      },
+      "keywords": [
+        "ACR",
+        "镜像"
+      ]
+    },
+    {
+      "id": "D2-078",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 2,
+      "question": "App Service 的「部署槽（Deployment Slot）」主要解决什么问题？",
+      "options": {
+        "A": "降低存储成本",
+        "B": "先把新版本部署到暂存槽验证，确认无误后与生产槽交换，实现零停机发布和快速回滚",
+        "C": "自动扩展实例数量",
+        "D": "加密应用配置"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "部署槽本质上是同一个 App Service 内的多个独立运行环境。新版本先发到 staging 槽做预热和验证，再执行 swap（实际是路由切换）使其成为生产——用户无感知；出问题再 swap 回去即可秒级回滚。",
+      "option_reasons": {
+        "A": "部署槽会占用额外资源，不降低成本。",
+        "C": "扩展实例是自动缩放的功能，与部署槽无关。",
+        "D": "配置加密由应用设置和 Key Vault 引用负责。"
+      },
+      "reference": {
+        "title": "App Service 部署槽",
+        "url": "https://learn.microsoft.com/azure/app-service/deploy-staging-slots"
+      },
+      "keywords": [
+        "部署槽",
+        "零停机"
+      ]
+    },
+    {
+      "id": "D2-079",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于 Azure Functions 的消耗（Consumption）计划，下列说法正确的是？",
+      "options": {
+        "A": "无论是否有请求都按固定月费收取",
+        "B": "按执行次数和执行期间消耗的资源计费，无请求时可缩放到零、不产生计算费用",
+        "C": "必须预先购买固定数量的实例",
+        "D": "不支持自动缩放"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "消耗计划是最纯粹的无服务器计费：平台按请求自动创建和销毁实例，没有请求时实例数可以是零，这段时间不产生计算费用。代价是首次调用可能有冷启动延迟——对延迟敏感的场景可以改用高级计划。",
+      "option_reasons": {
+        "A": "固定月费是应用服务计划的特征，不是消耗计划。",
+        "C": "消耗计划不需要也不能预购实例，实例由平台按需分配。",
+        "D": "自动缩放正是消耗计划的核心能力。"
+      },
+      "reference": {
+        "title": "Azure Functions 托管选项",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-scale"
+      },
+      "keywords": [
+        "消耗计划",
+        "冷启动"
+      ]
+    },
+    {
+      "id": "D2-080",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某 Web 应用需要在每天凌晨定时执行一次数据汇总，并在用户上传文件时立即处理。用 Azure Functions 实现，应分别使用什么触发器？",
+      "options": {
+        "A": "都用 HTTP 触发器",
+        "B": "计时器（Timer）触发器和 Blob 触发器",
+        "C": "都用队列触发器",
+        "D": "Functions 不支持定时执行"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Functions 的核心是「事件驱动」，不同事件对应不同触发器：计时器触发器按 CRON 表达式定时执行；Blob 触发器在存储容器出现新文件时触发。此外还有 HTTP、队列、事件网格、服务总线等多种触发器。",
+      "option_reasons": {
+        "A": "HTTP 触发器需要外部主动调用，无法自己定时执行。",
+        "C": "队列触发器需要有人往队列投消息，不能直接响应定时和文件上传。",
+        "D": "计时器触发器正是为定时执行设计的。"
+      },
+      "reference": {
+        "title": "Azure Functions 触发器",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-triggers-bindings"
+      },
+      "keywords": [
+        "触发器"
+      ]
+    },
+    {
+      "id": "D2-081",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Bastion 提供什么能力？",
+      "options": {
+        "A": "在浏览器中通过 Azure 门户安全地远程连接虚拟机，无需为虚拟机分配公共 IP 或开放 RDP/SSH 端口",
+        "B": "为虚拟网络提供 DNS 解析",
+        "C": "在虚拟机之间同步文件",
+        "D": "加速静态内容分发"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Bastion 是托管的跳板机服务：它部署在 VNet 的专用子网中，用户通过门户用 HTTPS 连接，Bastion 再用私有 IP 连到目标虚拟机。这样虚拟机不需要公共 IP，也不必对 Internet 开放 3389/22 端口，显著缩小攻击面。",
+      "option_reasons": {
+        "B": "DNS 解析由 Azure DNS 和 VNet 内置解析器负责。",
+        "C": "文件同步是 Azure 文件同步的功能。",
+        "D": "内容分发加速由 CDN 或 Front Door 负责。"
+      },
+      "reference": {
+        "title": "Azure Bastion 概述",
+        "url": "https://learn.microsoft.com/azure/bastion/bastion-overview"
+      },
+      "keywords": [
+        "Bastion",
+        "跳板机"
+      ]
+    },
+    {
+      "id": "D2-082",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 3,
+      "question": "Azure 防火墙（Azure Firewall）与网络安全组（NSG）的主要区别是什么？",
+      "options": {
+        "A": "两者完全相同",
+        "B": "NSG 是免费的基础流量筛选（基于 IP、端口、协议）；Azure 防火墙是收费的托管有状态防火墙，支持 FQDN、威胁情报、应用层规则和集中日志",
+        "C": "NSG 是收费的，Azure 防火墙是免费的",
+        "D": "Azure 防火墙只能用于本地网络"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "两者是互补而非替代：NSG 附加在子网或网卡上，做基础的五元组过滤，不额外收费；Azure 防火墙是独立部署的托管服务，提供 FQDN 过滤、威胁情报过滤、应用规则和统一日志，适合作为整个网络的集中出入口管控。",
+      "option_reasons": {
+        "A": "能力层次和计费方式都不同。",
+        "C": "方向说反了：NSG 不额外收费，Azure 防火墙按部署时长和流量收费。",
+        "D": "Azure 防火墙部署在 Azure 虚拟网络中，保护的是 Azure 侧的流量。"
+      },
+      "reference": {
+        "title": "Azure 防火墙概述",
+        "url": "https://learn.microsoft.com/azure/firewall/overview"
+      },
+      "keywords": [
+        "防火墙",
+        "NSG"
+      ]
+    },
+    {
+      "id": "D2-083",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure DDoS 防护的作用是什么？",
+      "options": {
+        "A": "防止未经授权的用户登录",
+        "B": "检测并缓解针对应用的分布式拒绝服务攻击，保证服务在流量洪峰攻击下仍然可用",
+        "C": "加密传输中的数据",
+        "D": "备份虚拟机磁盘"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "DDoS 攻击的目的是用海量流量耗尽资源让服务不可用。Azure 的 DDoS 基础防护对所有公共 IP 默认启用；DDoS 网络防护（付费层）提供针对应用的自适应调优、攻击指标与报告，以及攻击期间的费用保护。",
+      "option_reasons": {
+        "A": "登录控制属于身份验证和条件访问的范畴。",
+        "C": "传输加密由 TLS 负责。",
+        "D": "备份由 Azure 备份服务负责。"
+      },
+      "reference": {
+        "title": "Azure DDoS 防护",
+        "url": "https://learn.microsoft.com/azure/ddos-protection/ddos-protection-overview"
+      },
+      "keywords": [
+        "DDoS"
+      ]
+    },
+    {
+      "id": "D2-084",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 3,
+      "question": "关于虚拟网络对等互连（VNet Peering），下列哪项说法是正确的？",
+      "options": {
+        "A": "对等互连具有传递性：A 与 B 互连、B 与 C 互连，则 A 与 C 自动互通",
+        "B": "对等互连不具有传递性，A 与 C 需要单独建立连接或通过中心辐射架构路由",
+        "C": "对等互连的流量必须经过公共 Internet",
+        "D": "只能连接同一区域内的虚拟网络"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "对等互连不传递，这是设计网络拓扑时最容易踩的坑。要让多个 VNet 互通，要么两两互连（数量多时不现实），要么采用中心辐射（hub-spoke）架构，在中心 VNet 部署网络虚拟设备或 Azure 防火墙来转发流量。",
+      "option_reasons": {
+        "A": "这是常见误解；Azure 明确说明对等互连不具备传递性。",
+        "C": "对等互连的流量走 Microsoft 骨干网络，不经过公共 Internet。",
+        "D": "全球对等互连支持跨区域连接虚拟网络。"
+      },
+      "reference": {
+        "title": "虚拟网络对等互连",
+        "url": "https://learn.microsoft.com/azure/virtual-network/virtual-network-peering-overview"
+      },
+      "keywords": [
+        "peering",
+        "传递性"
+      ]
+    },
+    {
+      "id": "D2-085",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 3,
+      "question": "公司已有 ExpressRoute 线路，但担心线路中断影响业务连续性。最经济的备份方案是？",
+      "options": {
+        "A": "再买一条 ExpressRoute",
+        "B": "配置站点到站点 VPN 作为 ExpressRoute 的故障转移备份",
+        "C": "把所有工作负载迁回本地",
+        "D": "不需要备份，ExpressRoute 不会中断"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "这是标准的混合连接冗余模式：ExpressRoute 作为主路径提供低延迟高带宽，站点到站点 VPN 作为备份，在专线中断时自动接管。VPN 成本远低于第二条专线，虽然带宽和延迟较差，但足以维持业务连续。",
+      "option_reasons": {
+        "A": "第二条 ExpressRoute 确实更可靠，但成本高得多，不是「最经济」的方案。",
+        "C": "迁回本地是倒退，且无法解决连接可靠性问题。",
+        "D": "任何线路都可能因施工、设备故障等原因中断，必须规划冗余。"
+      },
+      "reference": {
+        "title": "ExpressRoute 简介",
+        "url": "https://learn.microsoft.com/azure/expressroute/expressroute-introduction"
+      },
+      "keywords": [
+        "故障转移",
+        "冗余"
+      ]
+    },
+    {
+      "id": "D2-086",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 队列存储的典型用途是什么？",
+      "options": {
+        "A": "存储大型视频文件",
+        "B": "在应用组件之间传递异步消息，实现解耦和削峰填谷",
+        "C": "提供可挂载的文件共享",
+        "D": "存储关系型数据"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "队列存储用于组件间的异步通信：前端把任务写入队列立即返回，后端工作进程按自己的节奏取出处理。这样前后端解耦，流量高峰时消息在队列里排队而不是压垮后端。单条消息最大 64 KB。",
+      "option_reasons": {
+        "A": "大文件应使用 Blob 存储，队列消息有大小限制。",
+        "C": "可挂载的文件共享是 Azure 文件存储。",
+        "D": "关系型数据应使用 Azure SQL 数据库。"
+      },
+      "reference": {
+        "title": "Azure 存储服务简介",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-introduction"
+      },
+      "keywords": [
+        "队列",
+        "异步"
+      ]
+    },
+    {
+      "id": "D2-087",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 表存储适合存储什么样的数据？",
+      "options": {
+        "A": "需要复杂联接和事务的关系型数据",
+        "B": "结构化但无需复杂联接的 NoSQL 键值数据，如设备遥测、用户配置",
+        "C": "虚拟机的操作系统磁盘",
+        "D": "需要 SMB 协议访问的文件"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "表存储是 NoSQL 键值存储：用分区键和行键定位数据，schema 灵活、成本低、可存海量记录，但不支持跨表联接和复杂事务。适合日志、遥测、配置、目录这类「写得多、按键查、结构简单」的数据。",
+      "option_reasons": {
+        "A": "需要联接和复杂事务应使用 Azure SQL 数据库。",
+        "C": "虚拟机磁盘使用 Azure 托管磁盘。",
+        "D": "SMB 文件共享是 Azure 文件存储。"
+      },
+      "reference": {
+        "title": "Azure 存储服务简介",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-introduction"
+      },
+      "keywords": [
+        "表存储",
+        "NoSQL"
+      ]
+    },
+    {
+      "id": "D2-088",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 2,
+      "question": "存储在「存档（Archive）」层的 Blob，要读取其内容必须先做什么？",
+      "options": {
+        "A": "直接读取即可",
+        "B": "先解冻（rehydrate）到热层或冷层，该过程通常需要数小时",
+        "C": "先删除再重新上传",
+        "D": "先升级存储账户类型"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "存档层是离线存储：数据虽然安全保存，但不能直接访问。必须先发起解冻操作把 Blob 改到在线层级，标准优先级通常需要数小时（高优先级更快但更贵）。这就是存档层存储便宜但取回慢且贵的原因。",
+      "option_reasons": {
+        "A": "存档层的 Blob 处于离线状态，无法直接读取内容。",
+        "C": "解冻不需要删除重传，数据本身一直在。",
+        "D": "存储账户类型与访问层解冻无关。"
+      },
+      "reference": {
+        "title": "Blob 访问层",
+        "url": "https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview"
+      },
+      "keywords": [
+        "Archive",
+        "rehydrate"
+      ]
+    },
+    {
+      "id": "D2-089",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 存储资源管理器（Azure Storage Explorer）是什么？",
+      "options": {
+        "A": "一个命令行工具",
+        "B": "一个跨平台的图形界面工具，用于浏览和管理存储账户中的 Blob、文件、队列和表",
+        "C": "一个物理传输设备",
+        "D": "一个用于迁移虚拟机的服务"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "存储资源管理器是桌面图形工具（Windows/macOS/Linux），可以连接多个存储账户，像文件管理器一样浏览容器、上传下载文件、管理访问策略。适合人工操作；脚本化和大批量传输应使用 AzCopy。",
+      "option_reasons": {
+        "A": "命令行工具是 AzCopy，存储资源管理器是图形界面。",
+        "C": "物理传输设备是 Azure Data Box。",
+        "D": "虚拟机迁移使用 Azure Migrate。"
+      },
+      "reference": {
+        "title": "Azure 存储资源管理器",
+        "url": "https://learn.microsoft.com/azure/storage/storage-explorer/vs-azure-tools-storage-manage-with-storage-explorer"
+      },
+      "keywords": [
+        "Storage Explorer"
+      ]
+    },
+    {
+      "id": "D2-090",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列关于选择数据迁移工具的判断，哪一项是正确的？",
+      "options": {
+        "A": "任何数据量都应该用 Data Box 物理传输",
+        "B": "数据量适中且网络带宽充足时用 AzCopy 在线传输；数据量达 TB~PB 级而带宽不足时用 Data Box 物理运输",
+        "C": "AzCopy 只能上传不能下载",
+        "D": "Data Box 只能用于把数据从 Azure 传出"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "选型的核心变量是「数据量 ÷ 可用带宽 = 传输时间」。算下来时间可接受就在线传（AzCopy 或存储资源管理器）；如果要几周几个月，就用 Data Box 把数据装进加密设备寄到 Azure 数据中心导入。",
+      "option_reasons": {
+        "A": "小数据量用物理设备反而更慢更麻烦（寄送往返本身就要几天）。",
+        "C": "AzCopy 支持上传、下载和存储账户之间的复制。",
+        "D": "Data Box 支持导入 Azure 和从 Azure 导出两个方向。"
+      },
+      "reference": {
+        "title": "Azure Data Box",
+        "url": "https://learn.microsoft.com/azure/databox/data-box-overview"
+      },
+      "keywords": [
+        "迁移选型"
+      ]
+    },
+    {
+      "id": "D2-091",
+      "domain": "architecture-services",
+      "topic": "身份与访问：Microsoft Entra ID",
+      "type": "single",
+      "difficulty": 3,
+      "question": "Microsoft Entra ID 与本地 Active Directory 域服务（AD DS）的关键区别是什么？",
+      "options": {
+        "A": "两者完全相同，只是名字不同",
+        "B": "Entra ID 是面向云和 Web 应用的标识服务，使用 OAuth/SAML 等现代协议；AD DS 是本地目录服务，使用 Kerberos/LDAP，提供域加入和组策略",
+        "C": "Entra ID 只能管理设备",
+        "D": "AD DS 只能在云中运行"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "两者不是同一样东西的新旧版本。AD DS 面向的是局域网内的 Windows 设备和应用，核心能力是域加入、组策略、Kerberos/LDAP；Entra ID 面向的是互联网上的用户和 SaaS 应用，核心能力是 OAuth/OIDC/SAML 单点登录、MFA、条件访问。企业常用 Entra Connect 把两者同步打通。",
+      "option_reasons": {
+        "A": "协议、适用场景和能力都不同，不是改名关系。",
+        "C": "Entra ID 管理用户、组、应用和设备，不限于设备。",
+        "D": "AD DS 是本地部署的；云中的托管版本叫 Entra 域服务。"
+      },
+      "reference": {
+        "title": "Microsoft Entra ID 是什么",
+        "url": "https://learn.microsoft.com/entra/fundamentals/whatis"
+      },
+      "keywords": [
+        "Entra ID",
+        "AD DS"
+      ]
+    },
+    {
+      "id": "D2-092",
+      "domain": "architecture-services",
+      "topic": "身份与访问：Microsoft Entra ID",
+      "type": "single",
+      "difficulty": 2,
+      "question": "在 Microsoft Entra ID 中，把用户加入「组」并对组授权，相比逐个给用户授权的好处是什么？",
+      "options": {
+        "A": "组的权限更高",
+        "B": "权限随成员身份自动生效和回收，入职离职只需调整组成员，降低漏配和权限残留的风险",
+        "C": "组不需要身份验证",
+        "D": "组可以绕过条件访问策略"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "基于组授权是最小权限原则的落地手段：权限挂在角色/组上而不是个人身上，人员流动时只改组成员即可，避免了「离职了权限还在」和「换岗后权限越积越多」这两类常见的权限残留问题。",
+      "option_reasons": {
+        "A": "组本身没有更高权限，权限取决于分配给组的角色。",
+        "C": "组内成员访问资源时同样要通过身份验证。",
+        "D": "条件访问策略同样适用于通过组获得权限的用户。"
+      },
+      "reference": {
+        "title": "Microsoft Entra ID 是什么",
+        "url": "https://learn.microsoft.com/entra/fundamentals/whatis"
+      },
+      "keywords": [
+        "组",
+        "最小权限"
+      ]
+    },
+    {
+      "id": "D2-093",
+      "domain": "architecture-services",
+      "topic": "身份与访问：外部身份 B2B/B2C",
+      "type": "single",
+      "difficulty": 2,
+      "question": "公司需要让合作伙伴的员工用他们自己公司的账号访问本公司的 SharePoint 站点，不希望为他们创建和维护新密码。应使用什么？",
+      "options": {
+        "A": "Microsoft Entra B2B 协作（来宾用户）",
+        "B": "Microsoft Entra B2C",
+        "C": "为每个合作伙伴员工创建内部账号",
+        "D": "共享一个通用账号给合作伙伴"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "B2B 协作面向的是「其他组织的员工」：通过邀请把对方添加为来宾用户，对方用自己公司的凭据登录，密码和 MFA 由对方组织管理。你只需管理这个来宾身份能访问什么，不需要维护对方的凭据生命周期。",
+      "option_reasons": {
+        "B": "B2C 面向的是消费者/外部客户的自助注册场景，不是企业间协作。",
+        "C": "创建内部账号意味着你要负责对方的密码重置和生命周期管理，且对方离职后极易留下僵尸账号。",
+        "D": "共享通用账号无法审计到人，是明确的安全反模式。"
+      },
+      "reference": {
+        "title": "Microsoft Entra B2B 协作",
+        "url": "https://learn.microsoft.com/entra/external-id/what-is-b2b"
+      },
+      "keywords": [
+        "B2B",
+        "来宾用户"
+      ]
+    },
+    {
+      "id": "D2-094",
+      "domain": "architecture-services",
+      "topic": "身份与访问：外部身份 B2B/B2C",
+      "type": "single",
+      "difficulty": 2,
+      "question": "面向消费者的电商应用希望让用户用微信、Google 或邮箱自行注册登录，并自定义登录页面品牌。应使用什么？",
+      "options": {
+        "A": "Microsoft Entra B2B 协作",
+        "B": "Microsoft Entra External ID（B2C）",
+        "C": "Microsoft Entra 域服务",
+        "D": "Azure Bastion"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "B2C（现归入 Microsoft Entra External ID）是面向消费者的客户标识与访问管理方案：支持自助注册、社交账号登录、自定义品牌的登录界面，以及百万量级的用户规模。它与企业内部目录是隔离的。",
+      "option_reasons": {
+        "A": "B2B 面向的是合作伙伴企业的员工，不支持消费者自助注册和社交登录品牌化。",
+        "C": "Entra 域服务提供的是托管域（域加入、LDAP、Kerberos），与消费者登录无关。",
+        "D": "Azure Bastion 是远程连接虚拟机的服务，完全不相关。"
+      },
+      "reference": {
+        "title": "Microsoft Entra External ID",
+        "url": "https://learn.microsoft.com/entra/external-id/customers/overview-customers-ciam"
+      },
+      "keywords": [
+        "B2C",
+        "消费者身份"
+      ]
+    },
+    {
+      "id": "D2-095",
+      "domain": "architecture-services",
+      "topic": "身份与访问：RBAC 基于角色的访问控制",
+      "type": "single",
+      "difficulty": 2,
+      "question": "应该在哪个范围分配 RBAC 角色，才最符合最小权限原则？",
+      "options": {
+        "A": "总是在管理组级别分配，方便统一管理",
+        "B": "在满足工作需要的最小范围分配，例如只在某个资源组或单个资源上",
+        "C": "总是在订阅级别分配",
+        "D": "范围无所谓，只要角色选对即可"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "RBAC 权限会向下继承，所以在高层级分配意味着覆盖其下全部资源——一旦账号被盗或误操作，影响面就是整个订阅。最小权限原则要求把范围收窄到「刚好够用」：能用资源组就不用订阅，能用单个资源就不用资源组。",
+      "option_reasons": {
+        "A": "管理组级别的分配覆盖所有订阅，影响面最大，只适合确实需要全局生效的角色。",
+        "C": "订阅级别同样过宽，大多数日常工作不需要整个订阅的权限。",
+        "D": "范围和角色同等重要：「读者」角色配在管理组上，也意味着能看到全公司所有资源。"
+      },
+      "reference": {
+        "title": "Azure RBAC 概述",
+        "url": "https://learn.microsoft.com/azure/role-based-access-control/overview"
+      },
+      "keywords": [
+        "最小权限",
+        "范围"
+      ]
     }
   ]
 }
