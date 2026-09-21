@@ -1,0 +1,1197 @@
+{
+  "domain": "architecture-services",
+  "title": "领域2A 核心架构 / 计算 / 网络",
+  "questions": [
+    {
+      "id": "D2-001",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 区域（Region）的定义是什么？",
+      "options": {
+        "A": "一个单独的物理数据中心",
+        "B": "一组通过低延迟网络互联的数据中心所构成的地理区域",
+        "C": "一个 Azure 订阅的计费边界",
+        "D": "一组虚拟机的逻辑集合"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 区域是一个地理区域内由一个或多个数据中心组成、通过低延迟网络互联的集合。部署资源时选择区域，主要考虑三点：①靠近用户以降低延迟 ②数据驻留/合规要求 ③该区域是否提供所需服务（并非所有服务在所有区域可用）。",
+      "option_reasons": {
+        "A": "单个数据中心只是区域的组成部分，一个区域通常包含多个数据中心。",
+        "C": "计费边界是订阅（Subscription），不是区域。",
+        "D": "虚拟机的逻辑集合是资源组或可用性集，不是区域。"
+      },
+      "reference": {
+        "title": "Azure 区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/regions-overview"
+      },
+      "keywords": [
+        "region",
+        "区域"
+      ]
+    },
+    {
+      "id": "D2-002",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于 Azure 可用性区域（Availability Zone），下列说法正确的是？",
+      "options": {
+        "A": "可用性区域是位于不同 Azure 区域的数据中心",
+        "B": "同一区域内物理隔离的数据中心，各自拥有独立的供电、制冷和网络",
+        "C": "可用性区域之间的距离至少 300 英里",
+        "D": "每个 Azure 区域都提供可用性区域"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "可用性区域是同一个 Azure 区域内物理分离的位置，每个区域拥有独立的电源、冷却和网络。启用可用性区域的区域至少有三个区域。把实例分布到多个可用性区域可以抵御数据中心级别的故障，是区域内高可用的标准做法。",
+      "option_reasons": {
+        "A": "跨 Azure 区域的概念是「区域对」和多区域部署，不是可用性区域。",
+        "C": "300 英里是「区域对」之间的最小距离要求，不是可用性区域之间。可用性区域在同一区域内，距离近到能保证低延迟同步复制。",
+        "D": "并非所有 Azure 区域都支持可用性区域，部署前需要确认目标区域是否启用。"
+      },
+      "reference": {
+        "title": "可用性区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/availability-zones-overview"
+      },
+      "keywords": [
+        "availability zone",
+        "可用性区域"
+      ]
+    },
+    {
+      "id": "D2-003",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "single",
+      "difficulty": 3,
+      "question": "下列哪项是「区域对（Region Pair）」的特征？",
+      "options": {
+        "A": "两个区域位于同一个数据中心",
+        "B": "配对的区域通常相距至少 300 英里，且计划内更新一次只在其中一个区域推出",
+        "C": "区域对之间的数据会自动同步所有资源",
+        "D": "区域对内的两个区域必须属于不同的地理位置（Geography）"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "区域对是同一地理位置内的两个区域，通常相距 300 英里以上，用于降低自然灾害、电力故障等同时影响两地的风险。Azure 的计划内平台更新一次只在配对中的一个区域推出；发生大范围中断时，配对区域中的一个会被优先恢复。",
+      "option_reasons": {
+        "A": "区域对是两个相距很远的独立区域，绝不在同一数据中心。",
+        "C": "区域对本身不自动复制资源——只有选择了异地冗余存储（GRS/GZRS）等跨区域复制功能，数据才会复制到配对区域。",
+        "D": "恰恰相反，区域对通常位于同一地理位置内以满足数据驻留要求（巴西南部因地理位置内无其他区域而与美国中南部配对，属于著名例外）。"
+      },
+      "reference": {
+        "title": "跨区域复制与区域对",
+        "url": "https://learn.microsoft.com/azure/reliability/cross-region-replication-azure"
+      },
+      "keywords": [
+        "region pair",
+        "区域对"
+      ]
+    },
+    {
+      "id": "D2-004",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "下列哪两个属于 Azure 的主权区域（Sovereign Region）？（选两项）",
+      "options": {
+        "A": "Azure 政府版（Azure Government）",
+        "B": "由世纪互联运营的 Azure 中国区",
+        "C": "Azure 美国东部",
+        "D": "Azure 西欧"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "主权区域是与全球 Azure 实例物理和逻辑隔离的独立云：Azure 政府版（面向美国联邦、州、地方政府及其合作伙伴）和由世纪互联运营的 Azure 中国区（满足中国法规要求）。它们使用独立的门户地址、独立的标识系统，服务可用性也与全球 Azure 不同。",
+      "option_reasons": {
+        "C": "美国东部是全球 Azure 的普通公有区域。",
+        "D": "西欧是全球 Azure 的普通公有区域。"
+      },
+      "reference": {
+        "title": "Azure 区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/regions-overview"
+      },
+      "keywords": [
+        "sovereign",
+        "主权区域"
+      ]
+    },
+    {
+      "id": "D2-005",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "single",
+      "difficulty": 1,
+      "question": "选择部署区域时，下列哪项通常不是主要考虑因素？",
+      "options": {
+        "A": "与最终用户的距离（延迟）",
+        "B": "数据驻留和合规要求",
+        "C": "该区域是否提供所需的服务",
+        "D": "该区域的数据中心建筑面积"
+      },
+      "answer": [
+        "D"
+      ],
+      "explanation": "选择区域的三大标准是：合规与数据驻留、服务可用性、以及与用户的距离（延迟），此外不同区域的价格也可能不同。数据中心的物理规模是 Microsoft 的运营细节，客户既看不到也不需要关心。",
+      "option_reasons": {
+        "A": "延迟直接影响用户体验，是核心考虑因素。",
+        "B": "某些法规要求数据必须保存在特定国家/地区，这是首要约束。",
+        "C": "新服务通常先在部分区域上线，必须确认目标区域支持。"
+      },
+      "reference": {
+        "title": "Azure 区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/regions-overview"
+      },
+      "keywords": [
+        "选择区域"
+      ]
+    },
+    {
+      "id": "D2-006",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某应用必须在单个数据中心发生整体故障时仍然可用，但所有组件需保持在同一区域内以满足数据驻留要求。应采用什么方案？",
+      "options": {
+        "A": "部署到区域对中的两个区域",
+        "B": "将实例分布到该区域的多个可用性区域",
+        "C": "使用本地冗余存储（LRS）",
+        "D": "使用 Azure Traffic Manager 做全球路由"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "要求是「抵御数据中心级故障」+「不出区域」，这正是可用性区域的定位：同区域内物理隔离的多个数据中心，既满足数据驻留，又能在单个数据中心失效时继续提供服务。",
+      "option_reasons": {
+        "A": "跨区域部署会把数据放到另一个区域，可能违反数据驻留要求。",
+        "C": "LRS 在单个数据中心内保存三个副本，该数据中心整体故障时数据不可用。",
+        "D": "Traffic Manager 只是 DNS 级流量路由，本身不提供跨数据中心的冗余部署。"
+      },
+      "reference": {
+        "title": "可用性区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/availability-zones-overview"
+      },
+      "keywords": [
+        "可用性区域",
+        "数据驻留"
+      ]
+    },
+    {
+      "id": "D2-007",
+      "domain": "architecture-services",
+      "topic": "核心架构：区域与可用性区域",
+      "type": "truefalse",
+      "difficulty": 1,
+      "question": "判断：所有 Azure 服务在所有 Azure 区域中都可用。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "错误。Azure 服务的区域可用性各不相同：新服务通常先在少数区域预览，逐步扩展；部分服务是全球性的（如 Microsoft Entra ID、Azure DNS）不绑定区域。设计架构前必须查阅「按区域提供的产品」页面确认。",
+      "option_reasons": {
+        "A": "这是常见误区。服务可用性因区域而异，必须事先确认。"
+      },
+      "reference": {
+        "title": "Azure 区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/regions-overview"
+      },
+      "keywords": [
+        "服务可用性"
+      ]
+    },
+    {
+      "id": "D2-008",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 资源组织层级从上到下的正确顺序是？",
+      "options": {
+        "A": "管理组 → 订阅 → 资源组 → 资源",
+        "B": "订阅 → 管理组 → 资源组 → 资源",
+        "C": "资源组 → 订阅 → 管理组 → 资源",
+        "D": "订阅 → 资源组 → 管理组 → 资源"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "层级自上而下是：管理组（Management group）→ 订阅（Subscription）→ 资源组（Resource group）→ 资源（Resource）。上层施加的 Azure Policy 和 RBAC 权限会向下继承，这是整个 Azure 治理体系的基础。",
+      "option_reasons": {
+        "B": "管理组在订阅之上，用于统一管理多个订阅。",
+        "C": "资源组是最底层的容器，不可能在订阅之上。",
+        "D": "管理组不可能位于资源组之下。"
+      },
+      "reference": {
+        "title": "Azure Resource Manager 概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/overview"
+      },
+      "keywords": [
+        "层级",
+        "management group"
+      ]
+    },
+    {
+      "id": "D2-009",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "关于 Azure 资源组，下列哪两项说法是正确的？（选两项）",
+      "options": {
+        "A": "一个资源只能属于一个资源组",
+        "B": "资源组可以嵌套在另一个资源组中",
+        "C": "同一个资源组中的资源可以位于不同的区域",
+        "D": "删除资源组不会删除其中的资源"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "资源组是资源的逻辑容器：①每个资源有且只有一个资源组归属（可以移动到别的资源组，但不能同时属于两个）；②资源组本身有一个位置（用于存放元数据），但其中的资源可以分布在任意区域。常见做法是把同生命周期的资源放在一个资源组里统一部署和删除。",
+      "option_reasons": {
+        "B": "资源组不能嵌套，这是明确的限制。要做多层分组请使用管理组和订阅。",
+        "D": "删除资源组会删除其中的所有资源，这是考试和实务中都必须牢记的高危操作。"
+      },
+      "reference": {
+        "title": "资源组管理",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/overview"
+      },
+      "keywords": [
+        "resource group",
+        "资源组"
+      ]
+    },
+    {
+      "id": "D2-010",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 订阅（Subscription）主要提供什么边界？",
+      "options": {
+        "A": "仅提供网络边界",
+        "B": "计费边界和访问控制边界",
+        "C": "物理数据中心边界",
+        "D": "身份验证边界"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "订阅提供两类边界：①计费边界——每个订阅生成独立的账单和成本报告，常用于按部门/项目分摊成本；②访问控制边界——可以在订阅级别授予 RBAC 角色和应用策略，实现不同部门的隔离管理。订阅上还有服务配额和限制。",
+      "option_reasons": {
+        "A": "网络边界由虚拟网络（VNet）提供，不是订阅。",
+        "C": "订阅是逻辑概念，与物理数据中心无关。",
+        "D": "身份验证边界是 Microsoft Entra 租户（Tenant），一个租户可以包含多个订阅。"
+      },
+      "reference": {
+        "title": "Azure 订阅",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription"
+      },
+      "keywords": [
+        "subscription",
+        "订阅"
+      ]
+    },
+    {
+      "id": "D2-011",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某企业有 30 个 Azure 订阅，需要对所有订阅统一强制执行「只能在指定区域部署资源」的策略。最有效的做法是？",
+      "options": {
+        "A": "在每个订阅上分别创建 Azure Policy 分配",
+        "B": "创建管理组，把所有订阅放入，在管理组级别分配策略",
+        "C": "在每个资源组上分配策略",
+        "D": "为每个订阅创建单独的 Entra 租户"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "管理组的存在意义就是「在订阅之上统一治理」。在管理组级别分配的 Azure Policy 和 RBAC 会被其下所有订阅、资源组和资源继承，30 个订阅只需配置一次。管理组层级最多可嵌套 6 层（不含根管理组）。",
+      "option_reasons": {
+        "A": "配置 30 次既费时又容易遗漏，后续变更也难以同步，不是最有效的做法。",
+        "C": "资源组数量远多于订阅，工作量更大，且新建资源组会漏掉策略。",
+        "D": "拆分租户会带来身份割裂和巨大的管理复杂度，完全不解决策略统一的问题。"
+      },
+      "reference": {
+        "title": "管理组概述",
+        "url": "https://learn.microsoft.com/azure/governance/management-groups/overview"
+      },
+      "keywords": [
+        "management group",
+        "Policy"
+      ]
+    },
+    {
+      "id": "D2-012",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于管理组，下列说法正确的是？",
+      "options": {
+        "A": "管理组只能包含订阅，不能包含其他管理组",
+        "B": "管理组可以包含订阅，也可以包含其他管理组，形成多层结构",
+        "C": "一个订阅可以同时属于多个管理组",
+        "D": "管理组会自动删除其下的订阅"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "管理组可以嵌套（订阅之上最多 6 层），从而按业务部门、环境（生产/测试）或地域构建治理树。每个目录有一个根管理组，所有其他管理组和订阅都在其下。一个订阅只能属于一个管理组。",
+      "option_reasons": {
+        "A": "管理组支持嵌套，这正是它能表达复杂组织结构的原因。",
+        "C": "与资源只能属于一个资源组同理，一个订阅只能归属一个管理组。",
+        "D": "管理组只是治理容器，不会删除订阅。"
+      },
+      "reference": {
+        "title": "管理组概述",
+        "url": "https://learn.microsoft.com/azure/governance/management-groups/overview"
+      },
+      "keywords": [
+        "management group"
+      ]
+    },
+    {
+      "id": "D2-013",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Resource Manager（ARM）在 Azure 中扮演什么角色？",
+      "options": {
+        "A": "监控资源性能的服务",
+        "B": "所有资源管理请求（创建、更新、删除）的统一部署和管理服务层",
+        "C": "负责资源计费的服务",
+        "D": "提供虚拟网络连接的服务"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "ARM 是 Azure 的管理平面：无论你通过门户、CLI、PowerShell、REST API 还是 SDK 操作资源，请求都会经过 ARM，由它进行身份验证、授权（RBAC）、策略评估，然后分发给相应的资源提供程序。这保证了所有工具产生一致的结果。",
+      "option_reasons": {
+        "A": "监控性能的是 Azure Monitor。",
+        "C": "计费由 Cost Management + Billing 负责，ARM 只负责资源操作。",
+        "D": "网络连接由虚拟网络等网络服务提供。"
+      },
+      "reference": {
+        "title": "Azure Resource Manager 概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/overview"
+      },
+      "keywords": [
+        "ARM",
+        "管理平面"
+      ]
+    },
+    {
+      "id": "D2-014",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "truefalse",
+      "difficulty": 1,
+      "question": "判断：在管理组级别分配的 Azure Policy 会被其下所有的订阅和资源组继承。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。Azure 的治理设置（Azure Policy 分配和 RBAC 角色分配）沿层级向下继承：管理组 → 订阅 → 资源组 → 资源。因此把通用规则放在尽量高的层级，可以大幅减少重复配置。",
+      "option_reasons": {
+        "B": "继承是管理组设计的核心价值，没有继承就失去了统一治理的意义。"
+      },
+      "reference": {
+        "title": "管理组概述",
+        "url": "https://learn.microsoft.com/azure/governance/management-groups/overview"
+      },
+      "keywords": [
+        "继承",
+        "Policy"
+      ]
+    },
+    {
+      "id": "D2-015",
+      "domain": "architecture-services",
+      "topic": "核心架构：资源组织层级",
+      "type": "single",
+      "difficulty": 3,
+      "question": "下列哪一项是 Microsoft Entra 租户（Tenant）与 Azure 订阅的正确关系？",
+      "options": {
+        "A": "一个订阅可以关联多个 Entra 租户",
+        "B": "一个 Entra 租户可以关联多个订阅，但每个订阅只信任一个租户",
+        "C": "租户和订阅必须一一对应",
+        "D": "订阅不需要与任何租户关联"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Entra 租户是身份边界，订阅是计费与访问控制边界。一个租户下可以有很多订阅（企业常见做法），但每个订阅在同一时刻只信任一个租户来进行身份验证。订阅可以在租户之间转移，但会影响已有的 RBAC 分配。",
+      "option_reasons": {
+        "A": "订阅只能信任一个租户，不能同时关联多个。",
+        "C": "一一对应不是要求；大型企业通常在一个租户下管理数十个订阅。",
+        "D": "订阅必须关联租户，否则无法进行身份验证和授权。"
+      },
+      "reference": {
+        "title": "Microsoft Entra ID 与订阅",
+        "url": "https://learn.microsoft.com/entra/fundamentals/whatis"
+      },
+      "keywords": [
+        "tenant",
+        "租户"
+      ]
+    },
+    {
+      "id": "D2-016",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 虚拟机规模集（Virtual Machine Scale Sets）的主要用途是什么？",
+      "options": {
+        "A": "为单台虚拟机增加 CPU 和内存",
+        "B": "创建和管理一组相同配置的负载均衡虚拟机，并支持自动缩放",
+        "C": "在虚拟机之间复制磁盘",
+        "D": "把虚拟机迁移到其他区域"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "虚拟机规模集让你用统一配置创建一组相同的虚拟机，内置负载均衡，并可以按 CPU 使用率、队列长度等指标自动增减实例数量（水平缩放）。它是 IaaS 层面实现弹性和高可用的标准服务。",
+      "option_reasons": {
+        "A": "为单台 VM 增加规格是垂直缩放，直接更改 VM 大小即可，与规模集无关。",
+        "C": "磁盘复制是存储功能（快照/映像），不是规模集的用途。",
+        "D": "跨区域迁移由 Azure Site Recovery 或重新部署完成。"
+      },
+      "reference": {
+        "title": "虚拟机规模集概述",
+        "url": "https://learn.microsoft.com/azure/virtual-machine-scale-sets/overview"
+      },
+      "keywords": [
+        "VMSS",
+        "规模集"
+      ]
+    },
+    {
+      "id": "D2-017",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 2,
+      "question": "可用性集（Availability Set）通过什么机制保护虚拟机免受硬件故障和计划维护的影响？",
+      "options": {
+        "A": "跨区域复制",
+        "B": "容错域（Fault Domain）和更新域（Update Domain）",
+        "C": "异地冗余存储",
+        "D": "负载均衡器探测"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "可用性集把虚拟机分布到多个容错域（不同的机架，拥有独立电源和网络交换机，防止硬件单点故障）和多个更新域（分批重启，保证计划内维护时不会所有实例同时下线）。注意可用性集保护的是数据中心内部的故障，而跨数据中心故障需要可用性区域。",
+      "option_reasons": {
+        "A": "跨区域复制属于灾难恢复范畴，不是可用性集的机制。",
+        "C": "异地冗余存储是存储层的数据复制，与虚拟机可用性集无关。",
+        "D": "负载均衡器负责流量分发和健康探测，不提供物理隔离。"
+      },
+      "reference": {
+        "title": "虚拟机可用性选项",
+        "url": "https://learn.microsoft.com/azure/virtual-machines/availability"
+      },
+      "keywords": [
+        "availability set",
+        "容错域"
+      ]
+    },
+    {
+      "id": "D2-018",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 1,
+      "question": "下列哪种情况最适合使用 Azure 虚拟机而不是 PaaS 服务？",
+      "options": {
+        "A": "需要完全控制操作系统并安装特定的旧版软件",
+        "B": "希望完全不管理操作系统",
+        "C": "只需要托管一个静态网站",
+        "D": "需要按执行次数计费的事件驱动函数"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "当应用对操作系统版本、内核参数、特殊驱动或老旧中间件有硬性依赖时，只有 IaaS 虚拟机能提供所需的控制权。其他三个场景都有更省心、更省钱的 PaaS/无服务器方案。",
+      "option_reasons": {
+        "B": "不想管操作系统正是选择 PaaS 的理由。",
+        "C": "静态网站用 Azure 存储的静态网站托管或 App Service 更简单便宜。",
+        "D": "事件驱动、按次计费是 Azure Functions 的场景。"
+      },
+      "reference": {
+        "title": "Azure 虚拟机概述",
+        "url": "https://learn.microsoft.com/azure/virtual-machines/overview"
+      },
+      "keywords": [
+        "IaaS",
+        "虚拟机"
+      ]
+    },
+    {
+      "id": "D2-019",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 虚拟桌面（Azure Virtual Desktop）提供的核心能力是什么？",
+      "options": {
+        "A": "在云中运行容器化应用",
+        "B": "在云中提供虚拟化的桌面和应用，用户可从任意设备访问",
+        "C": "自动扩展网站实例",
+        "D": "把本地服务器纳入 Azure 治理"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 虚拟桌面（AVD）是桌面与应用虚拟化服务：桌面运行在云中，用户通过任意设备（含个人设备 BYOD）访问，数据不落地到终端，因此安全性更好。它还支持 Windows 多会话，让多个用户共享同一虚拟机以降低成本。",
+      "option_reasons": {
+        "A": "运行容器化应用是 ACI/Container Apps/AKS 的职责。",
+        "C": "自动扩展网站实例是 App Service 或规模集的能力。",
+        "D": "把本地服务器纳入 Azure 治理是 Azure Arc。"
+      },
+      "reference": {
+        "title": "Azure 虚拟桌面",
+        "url": "https://learn.microsoft.com/azure/virtual-desktop/overview"
+      },
+      "keywords": [
+        "AVD",
+        "虚拟桌面"
+      ]
+    },
+    {
+      "id": "D2-020",
+      "domain": "architecture-services",
+      "topic": "计算服务：虚拟机与规模集",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "使用 Azure 虚拟桌面相比传统本地 VDI，下列哪两项是主要优势？（选两项）",
+      "options": {
+        "A": "支持 Windows 多会话，多个用户共享同一台虚拟机以降低成本",
+        "B": "应用数据保存在用户的本地设备上，提高性能",
+        "C": "可以从个人设备安全访问企业桌面，数据保留在云中",
+        "D": "完全不产生任何计算费用"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "AVD 的两大卖点：①Windows 10/11 多会话——这是 Azure 独有的，可让多个并发用户共用一台会话主机，显著降低每用户成本；②集中化安全——数据和应用留在云端，终端只显示画面，即便使用个人设备（BYOD）也不会把企业数据落到本地。",
+      "option_reasons": {
+        "B": "恰恰相反，AVD 的安全价值在于数据不落到本地设备。",
+        "D": "AVD 的会话主机是虚拟机，运行时照常产生计算和存储费用。"
+      },
+      "reference": {
+        "title": "Azure 虚拟桌面",
+        "url": "https://learn.microsoft.com/azure/virtual-desktop/overview"
+      },
+      "keywords": [
+        "AVD",
+        "多会话"
+      ]
+    },
+    {
+      "id": "D2-021",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要以最快、最简单的方式在 Azure 中运行单个容器，不需要编排能力。应选择哪个服务？",
+      "options": {
+        "A": "Azure Kubernetes 服务（AKS）",
+        "B": "Azure 容器实例（ACI）",
+        "C": "Azure 虚拟机",
+        "D": "Azure App Service"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 容器实例（ACI）是最简单的无服务器容器托管方式：给一个镜像就能秒级启动，按秒计费，不需要管理虚拟机或编排器。适合简单任务、批处理作业和构建代理。需要复杂编排（滚动升级、服务发现、自愈）时才上 AKS。",
+      "option_reasons": {
+        "A": "AKS 提供完整的 Kubernetes 编排，但需要管理群集和节点池，对「运行单个容器」来说过重。",
+        "C": "虚拟机需要自行安装容器运行时，最慢最繁琐。",
+        "D": "App Service 也能运行容器，但它面向 Web 应用长期托管，不是运行一次性单容器的最简方案。"
+      },
+      "reference": {
+        "title": "Azure 容器实例概述",
+        "url": "https://learn.microsoft.com/azure/container-instances/container-instances-overview"
+      },
+      "keywords": [
+        "ACI",
+        "容器"
+      ]
+    },
+    {
+      "id": "D2-022",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure Kubernetes 服务（AKS）为客户提供的主要价值是什么？",
+      "options": {
+        "A": "托管的 Kubernetes 控制平面，简化容器编排群集的部署和管理",
+        "B": "提供虚拟桌面",
+        "C": "提供无服务器函数运行时",
+        "D": "提供关系型数据库"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "AKS 是托管的 Kubernetes：Microsoft 负责控制平面（API Server、etcd、调度器）的运行、升级和高可用，且控制平面免费；客户只为工作节点付费并管理工作负载。这大幅降低了自建 Kubernetes 的运维门槛。",
+      "option_reasons": {
+        "B": "虚拟桌面是 Azure Virtual Desktop。",
+        "C": "无服务器函数是 Azure Functions。",
+        "D": "关系型数据库是 Azure SQL 数据库等服务。"
+      },
+      "reference": {
+        "title": "Azure Kubernetes 服务",
+        "url": "https://learn.microsoft.com/azure/aks/what-is-aks"
+      },
+      "keywords": [
+        "AKS",
+        "Kubernetes"
+      ]
+    },
+    {
+      "id": "D2-023",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 2,
+      "question": "容器相对于虚拟机的核心区别是什么？",
+      "options": {
+        "A": "容器包含完整的客户机操作系统",
+        "B": "容器共享宿主机的操作系统内核，因此更轻量、启动更快",
+        "C": "容器只能运行 Linux 应用",
+        "D": "容器不能水平扩展"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "虚拟机虚拟化的是硬件，每台 VM 自带一整套操作系统；容器虚拟化的是操作系统，多个容器共享宿主机内核，只打包应用及其依赖。因此容器镜像小、启动以秒计、密度高，非常适合微服务和 CI/CD。",
+      "option_reasons": {
+        "A": "自带完整客户机操作系统的是虚拟机，这正是两者的根本差异。",
+        "C": "Windows 容器同样存在，容器不限于 Linux。",
+        "D": "容器天生适合水平扩展，这是它的优势而非限制。"
+      },
+      "reference": {
+        "title": "容器与虚拟机",
+        "url": "https://learn.microsoft.com/azure/container-instances/container-instances-overview"
+      },
+      "keywords": [
+        "容器",
+        "内核"
+      ]
+    },
+    {
+      "id": "D2-024",
+      "domain": "architecture-services",
+      "topic": "计算服务：容器与 Kubernetes",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 容器应用（Azure Container Apps）最适合哪类场景？",
+      "options": {
+        "A": "需要直接访问 Kubernetes API 做深度定制",
+        "B": "运行无服务器容器化微服务，需要自动缩放（包括缩放到零）但不想管理 Kubernetes",
+        "C": "运行 Windows 桌面会话",
+        "D": "托管关系型数据库"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 容器应用构建在 Kubernetes 之上，但把群集完全隐藏起来：你只提交容器，平台负责伸缩（可缩放到零）、修订管理、服务发现和流量拆分。它介于 ACI（太简单）和 AKS（太复杂）之间，适合微服务和事件驱动应用。",
+      "option_reasons": {
+        "A": "需要直接操作 Kubernetes API 就应该选 AKS，Container Apps 不暴露群集。",
+        "C": "Windows 桌面会话是 Azure 虚拟桌面的范畴。",
+        "D": "数据库应使用 Azure SQL 数据库等托管数据服务。"
+      },
+      "reference": {
+        "title": "Azure 容器应用概述",
+        "url": "https://learn.microsoft.com/azure/container-apps/overview"
+      },
+      "keywords": [
+        "Container Apps"
+      ]
+    },
+    {
+      "id": "D2-025",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure Functions 最典型的特征是什么？",
+      "options": {
+        "A": "始终运行的长期服务",
+        "B": "由事件触发、执行完即结束，按执行次数和资源消耗计费",
+        "C": "必须先创建虚拟机",
+        "D": "只能用 C# 编写"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Functions 是事件驱动的无服务器计算：由 HTTP 请求、计时器、队列消息、Blob 上传等事件触发，执行短小的逻辑后结束。消耗计划下没有请求就不计费，可缩放到零；支持 C#、JavaScript、Python、Java、PowerShell 等多种语言。",
+      "option_reasons": {
+        "A": "长期常驻的 Web 应用更适合 App Service；Functions 面向短时任务。",
+        "C": "无服务器的价值就在于不需要创建和管理虚拟机。",
+        "D": "Functions 支持多种语言，不限于 C#。"
+      },
+      "reference": {
+        "title": "Azure Functions 概述",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-overview"
+      },
+      "keywords": [
+        "Functions",
+        "事件驱动"
+      ]
+    },
+    {
+      "id": "D2-026",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure App Service 主要用于托管什么？",
+      "options": {
+        "A": "虚拟机",
+        "B": "Web 应用、REST API 和移动后端",
+        "C": "Kubernetes 群集",
+        "D": "虚拟网络"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "App Service 是托管的 Web 应用平台（PaaS），可以托管网站、REST API 和移动应用后端，支持 .NET、Java、Node.js、Python、PHP 及容器。平台负责操作系统补丁、负载均衡、自动缩放、部署槽和 SSL，开发者只管代码。",
+      "option_reasons": {
+        "A": "托管虚拟机是 Azure 虚拟机服务（IaaS）。",
+        "C": "Kubernetes 群集由 AKS 托管。",
+        "D": "虚拟网络是独立的网络服务。"
+      },
+      "reference": {
+        "title": "App Service 概述",
+        "url": "https://learn.microsoft.com/azure/app-service/overview"
+      },
+      "keywords": [
+        "App Service",
+        "PaaS"
+      ]
+    },
+    {
+      "id": "D2-027",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "使用 Azure App Service 托管 Web 应用可以获得下列哪两项内置能力？（选两项）",
+      "options": {
+        "A": "自动缩放（根据负载增减实例）",
+        "B": "自动为应用编写业务代码",
+        "C": "部署槽（Deployment Slots）实现零停机发布",
+        "D": "自动设计数据库架构"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "App Service 内置的平台能力包括：自动缩放、部署槽（先部署到暂存槽验证后再交换到生产，实现零停机和快速回滚）、自定义域与托管证书、身份验证集成、持续部署集成等。业务代码和数据库设计仍然是开发者的工作。",
+      "option_reasons": {
+        "B": "平台不会替你写业务代码。",
+        "D": "数据库架构设计属于应用设计工作，平台不代劳。"
+      },
+      "reference": {
+        "title": "App Service 概述",
+        "url": "https://learn.microsoft.com/azure/app-service/overview"
+      },
+      "keywords": [
+        "部署槽",
+        "自动缩放"
+      ]
+    },
+    {
+      "id": "D2-028",
+      "domain": "architecture-services",
+      "topic": "计算服务：Functions 与 App Service",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某系统需要在收到存储账户中新上传的文件时自动执行图片压缩逻辑。最合适且最省成本的方案是？",
+      "options": {
+        "A": "常开的虚拟机轮询存储账户",
+        "B": "由 Blob 触发器触发的 Azure Functions",
+        "C": "Azure 虚拟桌面",
+        "D": "Azure ExpressRoute"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "「事件发生 → 执行一段短逻辑」是 Azure Functions 的典型用例。Blob 触发器在文件上传时自动调用函数，无文件时不消耗资源也不计费，比常开虚拟机轮询省钱得多，也不需要自己写调度逻辑。",
+      "option_reasons": {
+        "A": "常开虚拟机 24 小时计费且需要自己实现轮询和并发控制，成本与复杂度都高。",
+        "C": "虚拟桌面服务与后台事件处理完全无关。",
+        "D": "ExpressRoute 是混合网络连接服务，与此场景无关。"
+      },
+      "reference": {
+        "title": "Azure Functions 概述",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-overview"
+      },
+      "keywords": [
+        "触发器",
+        "Functions"
+      ]
+    },
+    {
+      "id": "D2-029",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 虚拟网络（VNet）的主要作用是什么？",
+      "options": {
+        "A": "为 Azure 资源提供隔离的专用网络环境，实现资源间以及与本地网络的安全通信",
+        "B": "提供域名注册服务",
+        "C": "存储虚拟机的磁盘",
+        "D": "监控网络性能指标"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "虚拟网络是 Azure 中的私有网络基本构建块：它提供隔离与分段（子网）、Azure 资源之间的通信、与本地网络的通信（VPN/ExpressRoute）、与 Internet 的通信、以及流量筛选（NSG）和路由（用户定义路由）。",
+      "option_reasons": {
+        "B": "域名注册与 DNS 托管是 Azure DNS 的职责。",
+        "C": "磁盘存储由 Azure 托管磁盘提供。",
+        "D": "网络性能监控由 Azure Monitor / 网络观察程序完成。"
+      },
+      "reference": {
+        "title": "虚拟网络概述",
+        "url": "https://learn.microsoft.com/azure/virtual-network/virtual-networks-overview"
+      },
+      "keywords": [
+        "VNet",
+        "虚拟网络"
+      ]
+    },
+    {
+      "id": "D2-030",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 2,
+      "question": "两个位于不同 Azure 区域的虚拟网络需要直接通信，且流量不经过公共 Internet。应使用什么？",
+      "options": {
+        "A": "全球虚拟网络对等互连（Global VNet Peering）",
+        "B": "点到站点 VPN",
+        "C": "Azure Bastion",
+        "D": "网络安全组"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "虚拟网络对等互连让两个 VNet 像在同一个网络中一样通信，流量走 Microsoft 骨干网络，不经过公共 Internet，低延迟高带宽。跨区域时称为「全球对等互连」。注意：对等互连不具备传递性（A-B、B-C 不等于 A-C 互通）。",
+      "option_reasons": {
+        "B": "点到站点 VPN 用于单个客户端设备连接到 VNet，不是 VNet 之间的互联方案。",
+        "C": "Azure Bastion 提供通过浏览器安全访问虚拟机的能力，不做网络互联。",
+        "D": "网络安全组是流量筛选规则，不建立连接。"
+      },
+      "reference": {
+        "title": "虚拟网络对等互连",
+        "url": "https://learn.microsoft.com/azure/virtual-network/virtual-network-peering-overview"
+      },
+      "keywords": [
+        "peering",
+        "对等互连"
+      ]
+    },
+    {
+      "id": "D2-031",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 2,
+      "question": "网络安全组（NSG）的作用是什么？",
+      "options": {
+        "A": "加密网络流量",
+        "B": "基于源/目标 IP、端口和协议，允许或拒绝进出子网或网络接口的流量",
+        "C": "提供跨区域的负载均衡",
+        "D": "为虚拟机分配公共 IP"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "网络安全组包含一组入站和出站安全规则，按优先级评估，基于源/目标 IP 地址、端口和协议允许或拒绝流量。NSG 可以关联到子网或网络接口，是 Azure 中最基础的网络层访问控制手段。",
+      "option_reasons": {
+        "A": "加密由 VPN、TLS 等机制提供，NSG 只做筛选不做加密。",
+        "C": "跨区域负载均衡由 Traffic Manager 或 Azure Front Door 提供。",
+        "D": "公共 IP 是独立的资源，与 NSG 无关。"
+      },
+      "reference": {
+        "title": "网络安全组",
+        "url": "https://learn.microsoft.com/azure/virtual-network/network-security-groups-overview"
+      },
+      "keywords": [
+        "NSG"
+      ]
+    },
+    {
+      "id": "D2-032",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 1,
+      "question": "子网（Subnet）在虚拟网络中的作用是什么？",
+      "options": {
+        "A": "把虚拟网络划分成更小的地址段，便于组织资源和分别应用安全规则",
+        "B": "提供跨区域连接",
+        "C": "加密存储数据",
+        "D": "提高虚拟机的 CPU 性能"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "子网把 VNet 的地址空间分段，让你按用途（如 Web 层、应用层、数据层）隔离资源，并对不同子网应用不同的 NSG 规则和路由表。某些服务（如 VPN 网关、Azure Bastion、防火墙）还要求使用特定名称的专用子网。",
+      "option_reasons": {
+        "B": "跨区域连接由对等互连、VPN 网关或 ExpressRoute 提供。",
+        "C": "数据加密与子网划分无关。",
+        "D": "子网是网络概念，不影响计算性能。"
+      },
+      "reference": {
+        "title": "虚拟网络概述",
+        "url": "https://learn.microsoft.com/azure/virtual-network/virtual-networks-overview"
+      },
+      "keywords": [
+        "subnet",
+        "子网"
+      ]
+    },
+    {
+      "id": "D2-033",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 1,
+      "question": "公司需要在本地数据中心与 Azure 之间建立专用的私有连接，流量完全不经过公共 Internet，并要求更高的带宽和更可靠的延迟。应选择什么？",
+      "options": {
+        "A": "站点到站点 VPN",
+        "B": "Azure ExpressRoute",
+        "C": "点到站点 VPN",
+        "D": "虚拟网络对等互连"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "ExpressRoute 通过连接服务提供商建立本地与 Microsoft 云之间的专用私有链路，流量不走公共 Internet，因此可靠性更高、延迟更稳定、带宽更大（最高 100 Gbps），并且可以访问 Microsoft 365 等其他 Microsoft 云服务。代价是成本高、开通周期长。",
+      "option_reasons": {
+        "A": "站点到站点 VPN 通过公共 Internet 建立 IPsec 加密隧道，虽然安全但延迟和带宽受公网状况影响。",
+        "C": "点到站点 VPN 面向单个客户端设备（如员工笔记本），不适合数据中心级连接。",
+        "D": "对等互连只用于连接 Azure 虚拟网络之间，不能连接本地数据中心。"
+      },
+      "reference": {
+        "title": "ExpressRoute 简介",
+        "url": "https://learn.microsoft.com/azure/expressroute/expressroute-introduction"
+      },
+      "keywords": [
+        "ExpressRoute",
+        "专线"
+      ]
+    },
+    {
+      "id": "D2-034",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 1,
+      "question": "远程办公的员工需要从家中的笔记本电脑安全访问 Azure 虚拟网络中的资源。应使用哪种连接方式？",
+      "options": {
+        "A": "站点到站点 VPN",
+        "B": "点到站点 VPN",
+        "C": "ExpressRoute",
+        "D": "全球对等互连"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "点到站点（Point-to-Site，P2S）VPN 在单个客户端设备与虚拟网络之间建立安全连接，适合远程办公、出差人员等分散的个人用户，无需在家中部署 VPN 设备。",
+      "option_reasons": {
+        "A": "站点到站点连接的是「整个本地网络」与 VNet，需要本地 VPN 设备，不适合个人电脑。",
+        "C": "ExpressRoute 是企业级专线，为单个居家员工部署既不现实也不经济。",
+        "D": "对等互连用于 Azure VNet 之间，不服务于客户端设备接入。"
+      },
+      "reference": {
+        "title": "VPN 网关概述",
+        "url": "https://learn.microsoft.com/azure/vpn-gateway/vpn-gateway-about-vpngateways"
+      },
+      "keywords": [
+        "P2S",
+        "点到站点"
+      ]
+    },
+    {
+      "id": "D2-035",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "关于站点到站点 VPN 与 ExpressRoute 的对比，下列哪两项正确？（选两项）",
+      "options": {
+        "A": "站点到站点 VPN 的流量经过公共 Internet，并使用 IPsec 加密",
+        "B": "ExpressRoute 的流量不经过公共 Internet",
+        "C": "ExpressRoute 的部署速度通常比 VPN 更快、成本更低",
+        "D": "站点到站点 VPN 能提供比 ExpressRoute 更高的带宽保证"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "两者的本质差别在于传输路径：VPN 走公共 Internet 并用 IPsec 加密隧道保护，随公网状况波动；ExpressRoute 走运营商提供的专用链路，不触碰公共 Internet，带宽和延迟更可控。VPN 便宜、部署快；ExpressRoute 贵、开通周期长但性能和可靠性更好。",
+      "option_reasons": {
+        "C": "说反了——ExpressRoute 需要与运营商协调，部署周期长且成本高。",
+        "D": "说反了——ExpressRoute 提供的带宽上限和稳定性都高于基于公网的 VPN。"
+      },
+      "reference": {
+        "title": "ExpressRoute 简介",
+        "url": "https://learn.microsoft.com/azure/expressroute/expressroute-introduction"
+      },
+      "keywords": [
+        "VPN",
+        "ExpressRoute"
+      ]
+    },
+    {
+      "id": "D2-036",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure DNS 提供什么服务？",
+      "options": {
+        "A": "注册新的域名",
+        "B": "使用 Azure 基础结构托管 DNS 域并解析域名",
+        "C": "为虚拟机分配动态 IP",
+        "D": "过滤恶意 DNS 请求"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure DNS 是 DNS 域的托管服务：你把域名的 DNS 记录放在 Azure 中管理，利用 Azure 的任播网络获得高可用和快速解析，并可用 RBAC、活动日志和资源锁来治理这些记录。它本身不是域名注册商。",
+      "option_reasons": {
+        "A": "购买/注册域名需要通过域名注册商（Azure 中可用 App Service 域来购买），Azure DNS 只负责托管解析。",
+        "C": "IP 地址分配由虚拟网络的 DHCP 机制和公共 IP 资源负责。",
+        "D": "过滤恶意请求属于安全产品（如 Azure 防火墙、Defender）的能力。"
+      },
+      "reference": {
+        "title": "Azure DNS 概述",
+        "url": "https://learn.microsoft.com/azure/dns/dns-overview"
+      },
+      "keywords": [
+        "DNS"
+      ]
+    },
+    {
+      "id": "D2-037",
+      "domain": "architecture-services",
+      "topic": "网络服务：混合连接",
+      "type": "single",
+      "difficulty": 2,
+      "question": "专用终结点（Private Endpoint）的作用是什么？",
+      "options": {
+        "A": "为 Azure PaaS 服务在你的虚拟网络中分配一个专用 IP 地址，使流量不经过公共 Internet 访问该服务",
+        "B": "为虚拟机分配公共 IP 地址",
+        "C": "在 Internet 上公开虚拟网络",
+        "D": "加速静态内容分发"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "默认情况下，存储账户、Azure SQL 数据库等 PaaS 服务通过公共终结点访问。专用终结点在你的 VNet 子网中为该服务创建一个网络接口并分配专用 IP，访问流量走 Microsoft 骨干网，从而可以关闭公共访问，显著缩小攻击面。",
+      "option_reasons": {
+        "B": "为虚拟机分配公共 IP 的是「公共 IP 地址」资源，与专用终结点目标相反。",
+        "C": "专用终结点的目的恰恰是减少而不是增加公开暴露。",
+        "D": "静态内容加速是 Azure 内容分发网络（CDN）/Front Door 的职责。"
+      },
+      "reference": {
+        "title": "专用终结点概述",
+        "url": "https://learn.microsoft.com/azure/private-link/private-endpoint-overview"
+      },
+      "keywords": [
+        "Private Endpoint",
+        "专用终结点"
+      ]
+    },
+    {
+      "id": "D2-038",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "single",
+      "difficulty": 3,
+      "question": "Azure 负载均衡器（Load Balancer）工作在网络模型的哪一层，主要分发什么流量？",
+      "options": {
+        "A": "第 7 层，基于 URL 路径分发 HTTP 流量",
+        "B": "第 4 层，基于 IP 和端口分发 TCP/UDP 流量",
+        "C": "第 3 层，负责路由 IP 数据包",
+        "D": "第 2 层，负责 MAC 地址交换"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 负载均衡器是第 4 层（传输层）服务，按 IP 地址和端口把 TCP/UDP 流量分发到后端池，性能极高但不理解应用内容。需要按 URL 路径、主机名分发或做 Web 应用防火墙时，应使用第 7 层的应用程序网关（Application Gateway）。",
+      "option_reasons": {
+        "A": "基于 URL 路径分发是应用程序网关（第 7 层）的能力。",
+        "C": "第 3 层路由由 Azure 的系统路由和用户定义路由完成。",
+        "D": "第 2 层交换属于物理网络，客户不可见。"
+      },
+      "reference": {
+        "title": "Azure 负载均衡器概述",
+        "url": "https://learn.microsoft.com/azure/load-balancer/load-balancer-overview"
+      },
+      "keywords": [
+        "Load Balancer",
+        "第4层"
+      ]
+    },
+    {
+      "id": "D2-039",
+      "domain": "architecture-services",
+      "topic": "网络服务：虚拟网络",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：默认情况下，同一个虚拟网络中不同子网的资源之间可以直接通信。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。同一 VNet 内的所有子网默认互通，Azure 会自动创建系统路由实现这一点。如果需要隔离子网之间的流量，必须显式使用网络安全组规则或 Azure 防火墙来阻断。",
+      "option_reasons": {
+        "B": "默认互通是 Azure 虚拟网络的既定行为；「默认隔离」是需要自己配置 NSG 才能实现的。"
+      },
+      "reference": {
+        "title": "虚拟网络概述",
+        "url": "https://learn.microsoft.com/azure/virtual-network/virtual-networks-overview"
+      },
+      "keywords": [
+        "子网",
+        "默认路由"
+      ]
+    }
+  ]
+}

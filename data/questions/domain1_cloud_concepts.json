@@ -1,0 +1,1433 @@
+{
+  "domain": "cloud-concepts",
+  "title": "领域1 云概念",
+  "questions": [
+    {
+      "id": "D1-001",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "在共享责任模型中，无论采用 IaaS、PaaS 还是 SaaS，下列哪一项始终由客户负责？",
+      "options": {
+        "A": "物理数据中心的门禁与安保",
+        "B": "存储在云中的信息与数据",
+        "C": "物理网络设备",
+        "D": "虚拟机监控程序（Hypervisor）"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "共享责任模型里有三类责任永远属于客户，不随服务类型改变：①信息与数据（Information and data）②设备（移动设备和 PC）③账户与标识（Accounts and identities）。数据是你的资产，云厂商不会替你决定数据内容、分类和访问授权。反过来，物理主机、物理网络、物理数据中心这三项永远由 Microsoft 负责。",
+      "option_reasons": {
+        "A": "物理数据中心的安保始终由 Microsoft 负责，客户无法也不需要管理。",
+        "C": "物理网络设备属于 Microsoft 永远负责的范畴。",
+        "D": "Hypervisor 属于云平台基础设施，即使在 IaaS 中也由 Microsoft 维护，客户只管虚拟机内部。"
+      },
+      "reference": {
+        "title": "共享责任模型 - Azure 安全基础",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "shared responsibility",
+        "数据",
+        "责任"
+      ]
+    },
+    {
+      "id": "D1-002",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "某公司在 Azure 上使用 IaaS（虚拟机）运行业务系统。给虚拟机操作系统打安全补丁是谁的责任？",
+      "options": {
+        "A": "Microsoft",
+        "B": "客户",
+        "C": "由 Microsoft 和客户共同承担，Microsoft 主导",
+        "D": "取决于虚拟机所在的区域"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "IaaS 中，Microsoft 只负责到物理层和虚拟化层；客户机操作系统（Guest OS）的安装、配置、补丁、加固全部由客户负责。这正是 IaaS 与 PaaS 最典型的区别之一——在 PaaS 中操作系统由 Microsoft 维护。",
+      "option_reasons": {
+        "A": "Microsoft 只在 PaaS/SaaS 中负责操作系统；IaaS 的客户机 OS 归客户。",
+        "C": "操作系统补丁在 IaaS 中是客户单方责任，不是共担项。",
+        "D": "责任划分由服务类型（IaaS/PaaS/SaaS）决定，与区域无关。"
+      },
+      "reference": {
+        "title": "共享责任模型 - 按服务类型划分",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "IaaS",
+        "补丁",
+        "操作系统"
+      ]
+    },
+    {
+      "id": "D1-003",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "在共享责任模型中，下列哪两项始终由 Microsoft 负责？（选两项）",
+      "options": {
+        "A": "物理主机",
+        "B": "账户与标识",
+        "C": "物理数据中心",
+        "D": "应用程序代码"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "永远由 Microsoft 负责的三项是：物理主机（Physical hosts）、物理网络（Physical network）、物理数据中心（Physical datacenter）。这三项统称为云的物理基础设施，任何服务模型下客户都接触不到。",
+      "option_reasons": {
+        "B": "账户与标识是客户永远的责任——建哪些账号、给谁什么权限由客户决定。",
+        "D": "应用程序代码在 IaaS/PaaS 中主要由客户负责，只有 SaaS 中才由 Microsoft 负责。"
+      },
+      "reference": {
+        "title": "共享责任模型 - Azure 安全基础",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "物理主机",
+        "数据中心"
+      ]
+    },
+    {
+      "id": "D1-004",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "贵公司使用 Microsoft 365（SaaS）。谁负责维护该应用程序本身的代码和运行环境？",
+      "options": {
+        "A": "客户",
+        "B": "Microsoft",
+        "C": "客户的 IT 外包商",
+        "D": "客户与 Microsoft 平分"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "在 SaaS 中，Microsoft 负责应用程序、运行时、操作系统、虚拟化和物理设施；客户只负责数据、设备、账户与标识（以及部分标识与目录基础结构、网络控制的共担部分）。这就是 SaaS 客户管理负担最小的原因。",
+      "option_reasons": {
+        "A": "SaaS 客户无法接触应用代码，只能配置使用方式。",
+        "C": "外包商也只是代客户履行客户那部分责任，应用本身仍归 Microsoft。",
+        "D": "SaaS 中应用程序是 Microsoft 单方责任，不是共担。"
+      },
+      "reference": {
+        "title": "共享责任模型 - SaaS 责任划分",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "SaaS",
+        "Microsoft 365"
+      ]
+    },
+    {
+      "id": "D1-005",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪一项责任会随着服务类型（IaaS→PaaS→SaaS）的不同而在客户与 Microsoft 之间发生变化？",
+      "options": {
+        "A": "物理数据中心",
+        "B": "操作系统",
+        "C": "信息与数据",
+        "D": "账户与标识"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "操作系统是典型的「随服务类型变化」的责任项：IaaS 由客户负责，PaaS 和 SaaS 由 Microsoft 负责。同类的还有网络控制、应用程序、标识与目录基础结构。",
+      "option_reasons": {
+        "A": "物理数据中心永远是 Microsoft 的责任，不随服务类型变化。",
+        "C": "信息与数据永远是客户的责任，不随服务类型变化。",
+        "D": "账户与标识永远是客户的责任，不随服务类型变化。"
+      },
+      "reference": {
+        "title": "共享责任模型 - 责任随服务类型变化",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "操作系统",
+        "责任变化"
+      ]
+    },
+    {
+      "id": "D1-006",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "采用共享责任模型最主要的业务好处是什么？",
+      "options": {
+        "A": "客户可以把所有安全责任转移给云提供商",
+        "B": "明确划分双方职责，客户可以把精力集中在自己的数据和业务上",
+        "C": "云提供商可以访问客户数据以提供支持",
+        "D": "客户不再需要任何安全人员"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "共享责任模型的价值在于「责任边界清晰」：云提供商承担物理和平台层的繁重运维，客户专注于数据、身份和业务逻辑。它不是免责协议——客户对自己那部分（尤其是数据和身份）依然完全负责。",
+      "option_reasons": {
+        "A": "安全责任永远无法完全转移，数据和身份始终是客户的责任。",
+        "C": "共享责任模型不授予提供商访问客户数据的权利，那是隐私与合规问题。",
+        "D": "客户仍需管理身份、访问和数据保护，安全人员依然必要。"
+      },
+      "reference": {
+        "title": "共享责任模型 - Azure 安全基础",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "责任边界"
+      ]
+    },
+    {
+      "id": "D1-007",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某公司把本地 SQL Server 迁移到 Azure SQL 数据库（PaaS）。迁移后，数据库引擎的版本升级和补丁由谁负责？",
+      "options": {
+        "A": "客户的 DBA 团队",
+        "B": "Microsoft",
+        "C": "客户需要提交工单请求 Microsoft 执行",
+        "D": "由订阅类型决定"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure SQL 数据库是 PaaS，底层操作系统和数据库引擎的修补、升级、备份基础设施都由 Microsoft 托管。客户负责的是数据本身、架构设计、访问权限和查询性能。这正是 PaaS 相对 IaaS（在 VM 上自建 SQL Server）的核心优势。",
+      "option_reasons": {
+        "A": "PaaS 下 DBA 不再负责引擎补丁，这部分工作被平台接管。",
+        "C": "补丁是平台自动进行的，不需要客户提交工单。",
+        "D": "责任划分由服务类型决定，与订阅类型（如即用即付、EA）无关。"
+      },
+      "reference": {
+        "title": "共享责任模型 - PaaS 责任划分",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "PaaS",
+        "Azure SQL"
+      ]
+    },
+    {
+      "id": "D1-008",
+      "domain": "cloud-concepts",
+      "topic": "共享责任模型",
+      "type": "truefalse",
+      "difficulty": 1,
+      "question": "判断：在所有云服务模型中，配置哪些用户可以访问资源（访问授权）都是客户的责任。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。「账户与标识（Accounts and identities）」是客户永远的责任。无论 IaaS、PaaS 还是 SaaS，创建哪些账号、分配什么角色、授予什么访问权限，都由客户自行决定和承担后果。",
+      "option_reasons": {
+        "B": "这是常见误区：即便在 SaaS 中 Microsoft 托管了一切基础设施，用户账号与权限仍由客户管理。"
+      },
+      "reference": {
+        "title": "共享责任模型 - Azure 安全基础",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "账户",
+        "标识"
+      ]
+    },
+    {
+      "id": "D1-009",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "哪种云部署模型可以让组织把现有本地数据中心与 Azure 结合使用，按需把部分工作负载放到云中？",
+      "options": {
+        "A": "公有云",
+        "B": "私有云",
+        "C": "混合云",
+        "D": "多云"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "混合云（Hybrid cloud）同时使用本地（私有）环境和公有云，两者互联。典型场景包括：把敏感数据留在本地而把前端放到云上、用云做灾难恢复目标、以及「云爆发」（cloud bursting，本地资源不够时临时借用云资源）。",
+      "option_reasons": {
+        "A": "公有云指全部资源由第三方提供商托管，不包含本地数据中心。",
+        "B": "私有云是组织自己独占使用的云环境，不涉及与公有云的结合。",
+        "D": "多云指同时使用两个或以上不同的云提供商（如 Azure + AWS），描述的不是「本地 + 云」。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "hybrid",
+        "混合云"
+      ]
+    },
+    {
+      "id": "D1-010",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "某公司同时使用 Microsoft Azure 和 Amazon Web Services 承载不同的应用。这属于哪种部署模型？",
+      "options": {
+        "A": "混合云",
+        "B": "多云",
+        "C": "私有云",
+        "D": "社区云"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "多云（Multi-cloud）指组织同时使用两家或以上的公有云提供商。常见动机是规避单一供应商锁定、利用各家的特色服务，或因并购而继承了不同平台。管理多云环境的难点在于工具和技能不统一——Azure Arc 就是为跨云统一治理而设计的。",
+      "option_reasons": {
+        "A": "混合云强调的是「公有云 + 私有/本地」的组合，而不是两家公有云。",
+        "C": "私有云是单一组织独占的环境，与题干描述不符。",
+        "D": "AZ-900 官方大纲中的部署模型只有公有云、私有云、混合云和多云，不包含社区云。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "multicloud",
+        "多云"
+      ]
+    },
+    {
+      "id": "D1-011",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "哪个 Azure 服务允许你在 Azure 门户中统一管理和治理位于本地、其他云以及边缘的服务器和 Kubernetes 群集？",
+      "options": {
+        "A": "Azure Arc",
+        "B": "Azure Migrate",
+        "C": "Azure VMware 解决方案",
+        "D": "Azure Site Recovery"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Arc 把 Azure Resource Manager 的管理平面延伸到 Azure 之外：本地服务器、其他云上的虚拟机、Kubernetes 群集、SQL Server 都可以「投射」成 Azure 资源，从而套用 Azure Policy、RBAC、标记、Azure Monitor 和 Defender for Cloud。这是多云/混合云统一治理的标准答案。",
+      "option_reasons": {
+        "B": "Azure Migrate 用于评估和迁移本地工作负载到 Azure，是一次性的迁移工具，不做持续治理。",
+        "C": "Azure VMware 解决方案是在 Azure 中运行原生 VMware 环境，不是跨云管理工具。",
+        "D": "Azure Site Recovery 提供灾难恢复和故障转移，不是统一治理平台。"
+      },
+      "reference": {
+        "title": "Azure Arc 概述",
+        "url": "https://learn.microsoft.com/azure/azure-arc/overview"
+      },
+      "keywords": [
+        "Azure Arc",
+        "治理"
+      ]
+    },
+    {
+      "id": "D1-012",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某公司希望把本地 VMware 工作负载迁移到 Azure，且希望继续使用现有 VMware 工具和技能，尽量不改造应用。应该使用什么？",
+      "options": {
+        "A": "Azure VMware 解决方案",
+        "B": "Azure 虚拟机规模集",
+        "C": "Azure Kubernetes 服务",
+        "D": "Azure Arc"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure VMware 解决方案（AVS）在 Azure 数据中心里运行原生的 VMware vSphere/vSAN/NSX 环境，因此现有 VMware 虚拟机可以原样迁移（不需要重新平台化），团队继续用熟悉的 vCenter 管理。它是典型的「最小改动上云」路径。",
+      "option_reasons": {
+        "B": "虚拟机规模集是 Azure 原生的 VM 弹性伸缩能力，迁移过去意味着要重建工作负载。",
+        "C": "AKS 需要把应用容器化，改造量最大。",
+        "D": "Azure Arc 是把 Azure 管理能力延伸到本地，工作负载仍留在本地，不是迁移到 Azure。"
+      },
+      "reference": {
+        "title": "Azure VMware 解决方案",
+        "url": "https://learn.microsoft.com/azure/azure-vmware/introduction"
+      },
+      "keywords": [
+        "VMware",
+        "迁移"
+      ]
+    },
+    {
+      "id": "D1-013",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "关于公有云，下列哪两项描述是正确的？（选两项）",
+      "options": {
+        "A": "无需购买和维护硬件",
+        "B": "组织对硬件拥有完全的物理控制权",
+        "C": "资源由多个租户共享",
+        "D": "必须先投入大额资本支出才能开始使用"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "公有云的两个核心特征：①硬件由云提供商拥有和维护，客户无需资本支出；②基础设施是多租户共享的（通过虚拟化实现租户隔离）。它的优点是弹性高、起步快；代价是对底层硬件没有物理控制权。",
+      "option_reasons": {
+        "B": "对硬件有完全物理控制权是私有云的特征，不是公有云。",
+        "D": "公有云采用即用即付的消费模型，恰恰是为了避免大额前期资本支出。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "public cloud",
+        "多租户"
+      ]
+    },
+    {
+      "id": "D1-014",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 1,
+      "question": "某金融机构因监管要求，必须对数据存放的物理硬件拥有完全控制权，并自行采购和运维设备。最合适的部署模型是？",
+      "options": {
+        "A": "公有云",
+        "B": "私有云",
+        "C": "多云",
+        "D": "无服务器"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "私有云（Private cloud）是供单一组织独占使用的云环境，硬件通常由该组织自行拥有和运维（也可托管在第三方设施但仍独占）。它满足最严格的合规与数据主权要求，代价是需要资本支出、自行承担容量规划和运维。",
+      "option_reasons": {
+        "A": "公有云是多租户共享基础设施，无法提供对物理硬件的独占控制。",
+        "C": "多云是使用多家公有云提供商，同样不提供物理硬件控制权。",
+        "D": "无服务器是一种计算模型（如 Azure Functions），不是部署模型。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "private cloud",
+        "合规"
+      ]
+    },
+    {
+      "id": "D1-015",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "「云爆发（cloud bursting）」最符合哪种部署模型的使用场景？",
+      "options": {
+        "A": "公有云",
+        "B": "私有云",
+        "C": "混合云",
+        "D": "多云"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "云爆发指平时在本地私有环境运行，遇到流量高峰时临时把溢出的负载放到公有云，高峰过后释放。这种「本地 + 公有云协同」正是混合云的典型用例，兼顾了本地已有投资和云的弹性。",
+      "option_reasons": {
+        "A": "纯公有云中没有需要「爆发出去」的本地容量上限。",
+        "B": "纯私有云受限于自有硬件容量，无法弹性扩展到外部。",
+        "D": "多云强调跨多个公有云提供商，不是本地容量溢出的场景。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "cloud bursting",
+        "混合云"
+      ]
+    },
+    {
+      "id": "D1-016",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "truefalse",
+      "difficulty": 1,
+      "question": "判断：混合云可以让组织在需要时逐步把工作负载迁移到云中，而不必一次性全部迁移。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。混合云的一个重要价值就是提供「渐进式迁移」路径：先把部分负载放到云上，本地与云互联共存，验证后再逐步推进。这降低了大爆炸式迁移的风险。",
+      "option_reasons": {
+        "B": "混合云恰恰支持渐进式迁移，这是它相对「全上公有云」的主要灵活性优势。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "渐进迁移"
+      ]
+    },
+    {
+      "id": "D1-017",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于私有云，下列哪项说法是正确的？",
+      "options": {
+        "A": "私有云一定部署在组织自己的数据中心内",
+        "B": "私有云由单一组织独占使用，可以部署在本地或由第三方托管",
+        "C": "私有云不需要任何硬件维护",
+        "D": "私有云总是比公有云便宜"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "私有云的定义是「供单一组织独占使用的云环境」。它既可以建在自己的数据中心，也可以是第三方提供的专属托管环境——关键在于独占，而不是物理位置。",
+      "option_reasons": {
+        "A": "位置不是私有云的判定标准，第三方托管的独占环境同样是私有云。",
+        "C": "私有云的硬件仍需维护，只是可能由组织自己或托管方来做。",
+        "D": "私有云通常需要前期资本支出和持续运维投入，总体成本往往高于公有云。"
+      },
+      "reference": {
+        "title": "云计算的部署模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "private cloud"
+      ]
+    },
+    {
+      "id": "D1-018",
+      "domain": "cloud-concepts",
+      "topic": "云部署模型",
+      "type": "single",
+      "difficulty": 2,
+      "question": "组织已有大量本地服务器，现在希望对这些服务器应用与 Azure 资源相同的标记（Tag）和 Azure Policy 策略。应采用什么方案？",
+      "options": {
+        "A": "把服务器迁移到 Azure 虚拟机",
+        "B": "使用 Azure Arc 将服务器加入 Azure 管理",
+        "C": "在本地安装 Azure Stack HCI",
+        "D": "使用 Azure Site Recovery 复制服务器"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Arc 启用的服务器（Arc-enabled servers）会在 Azure 中生成一个对应的资源对象，从而可以像原生 Azure 资源一样被打标记、被 Azure Policy 评估、被 RBAC 授权、被 Azure Monitor 采集。服务器本身仍然留在本地。",
+      "option_reasons": {
+        "A": "迁移到 Azure 虚拟机确实能纳管，但题干要求的是让「现有本地服务器」被纳管，不是迁走。",
+        "C": "Azure Stack HCI 是本地超融合基础设施平台，用于运行虚拟化工作负载，不是把已有服务器纳入 Azure 治理的方案。",
+        "D": "Site Recovery 只做灾难恢复复制，不提供标记和策略治理。"
+      },
+      "reference": {
+        "title": "Azure Arc 概述",
+        "url": "https://learn.microsoft.com/azure/azure-arc/overview"
+      },
+      "keywords": [
+        "Azure Arc",
+        "Policy",
+        "标记"
+      ]
+    },
+    {
+      "id": "D1-019",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "single",
+      "difficulty": 1,
+      "question": "把自建数据中心迁移到 Azure 后，公司的支出模式通常发生什么变化？",
+      "options": {
+        "A": "从运营支出（OpEx）变为资本支出（CapEx）",
+        "B": "从资本支出（CapEx）变为运营支出（OpEx）",
+        "C": "资本支出和运营支出都会增加",
+        "D": "支出模式不会变化"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "自建数据中心需要预先购买服务器、存储、网络设备和机房，这些是资本支出（CapEx，一次性大额投入、逐年折旧）。上云后改为按使用量付费，成为运营支出（OpEx，持续的经营费用，通常当年即可抵扣）。这是云经济学最核心的考点。",
+      "option_reasons": {
+        "A": "方向说反了——上云是 CapEx 转 OpEx。",
+        "C": "上云的目的之一正是消除前期资本支出。",
+        "D": "支出模式的变化是上云最显著的财务影响之一。"
+      },
+      "reference": {
+        "title": "CapEx 与 OpEx",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "CapEx",
+        "OpEx"
+      ]
+    },
+    {
+      "id": "D1-020",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "基于消费的定价模型（consumption-based model）有哪两个特征？（选两项）",
+      "options": {
+        "A": "无需前期购买硬件的资本支出",
+        "B": "按实际使用的资源量付费",
+        "C": "必须签订三年期的固定合同",
+        "D": "必须一次性预付全年费用"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "消费模型（也叫即用即付，pay-as-you-go）的两大特征：没有前期资本支出；只为实际消耗的资源付费，不用时停止计费。它带来的好处是「为增长付费而不是为容量付费」——不必按峰值采购硬件。",
+      "option_reasons": {
+        "C": "固定期限合同是预留实例/节省计划等折扣方案的特征，不是消费模型本身的要求。",
+        "D": "消费模型是用多少付多少、按周期结算，不需要一次性预付全年。"
+      },
+      "reference": {
+        "title": "基于消费的模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "consumption",
+        "即用即付"
+      ]
+    },
+    {
+      "id": "D1-021",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "single",
+      "difficulty": 1,
+      "question": "下列哪一项属于资本支出（CapEx）？",
+      "options": {
+        "A": "每月支付的 Azure 虚拟机使用费",
+        "B": "购买本地服务器和存储阵列",
+        "C": "Azure 存储的出站数据传输费",
+        "D": "Microsoft 365 订阅的月费"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "CapEx 是为获取长期资产而发生的一次性大额支出：服务器、存储阵列、机房、网络设备、软件永久授权等，需要在使用年限内折旧。而按月/按量支付的云服务费属于 OpEx。",
+      "option_reasons": {
+        "A": "按使用量按月结算的云费用是典型的 OpEx。",
+        "C": "数据传输费按实际流量计费，属于 OpEx。",
+        "D": "订阅月费是持续性的经营费用，属于 OpEx。"
+      },
+      "reference": {
+        "title": "CapEx 与 OpEx",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "CapEx"
+      ]
+    },
+    {
+      "id": "D1-022",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "single",
+      "difficulty": 2,
+      "question": "使用云的消费模型时，下列哪项描述最准确地体现了它的成本优势？",
+      "options": {
+        "A": "云总是比本地便宜",
+        "B": "可以按峰值需求采购容量并长期持有",
+        "C": "可以在需求下降时缩减资源，从而只为真正使用的容量付费",
+        "D": "可以完全消除所有 IT 支出"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "消费模型的成本优势来自「弹性」：需求上升时扩容、下降时缩容，付费随之变化。本地数据中心必须按峰值采购，平时大量容量闲置——这部分浪费正是云要消除的。",
+      "option_reasons": {
+        "A": "云不一定总更便宜，长期满载的稳定负载有时本地更划算；这是常见的过度简化。",
+        "B": "按峰值长期持有容量恰恰是本地数据中心的缺点，不是云的优势。",
+        "D": "上云只是改变支出结构，IT 支出不可能被消除。"
+      },
+      "reference": {
+        "title": "基于消费的模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "弹性",
+        "成本"
+      ]
+    },
+    {
+      "id": "D1-023",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：在 Azure 中，如果停止（解除分配）一台虚拟机，该虚拟机的计算费用会停止产生，但其托管磁盘的存储费用仍会继续产生。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。停止并解除分配（Stop-Deallocated）虚拟机后不再计算计算资源费用，但附加的托管磁盘、预留的公共 IP 等资源依然占用存储/资源，仍会计费。要彻底停止计费必须删除这些资源。这是考试和实务中都很常见的陷阱。",
+      "option_reasons": {
+        "B": "误区在于以为「关机 = 完全不花钱」；磁盘等持久化资源会继续计费。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "计费",
+        "解除分配"
+      ]
+    },
+    {
+      "id": "D1-024",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "single",
+      "difficulty": 1,
+      "question": "云计算的「即用即付」模型如何帮助企业处理无法预测的业务增长？",
+      "options": {
+        "A": "允许企业提前锁定固定价格",
+        "B": "允许企业随时增加资源，只为新增的用量付费，无需重新采购硬件",
+        "C": "保证企业的月度账单固定不变",
+        "D": "免除企业的所有网络费用"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "面对无法预测的增长，本地环境需要提前数周甚至数月采购和上架硬件；云中只需几分钟就能扩容，且只为新增用量付费。这就是云的「敏捷性 + 弹性」带来的业务价值。",
+      "option_reasons": {
+        "A": "锁定固定价格是预留实例/节省计划的特征，与即用即付相反。",
+        "C": "即用即付的账单随用量波动，并不固定。",
+        "D": "网络出站流量等仍会计费，不会被免除。"
+      },
+      "reference": {
+        "title": "基于消费的模型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "敏捷性"
+      ]
+    },
+    {
+      "id": "D1-025",
+      "domain": "cloud-concepts",
+      "topic": "消费模型与成本",
+      "type": "single",
+      "difficulty": 1,
+      "question": "下列哪项最能说明云计算带来的「敏捷性（Agility）」好处？",
+      "options": {
+        "A": "自动为数据创建三个副本",
+        "B": "几分钟内即可部署和取消部署资源以响应业务变化",
+        "C": "保证 99.99% 的可用性 SLA",
+        "D": "通过 Azure Policy 强制资源合规"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "敏捷性指快速响应变化的能力：新想法可以在几分钟内获得所需的计算、存储和网络资源，验证失败后立即释放。这让实验成本极低，是云相对本地采购周期最显著的优势。",
+      "option_reasons": {
+        "A": "自动创建多个副本描述的是可靠性/冗余，不是敏捷性。",
+        "C": "可用性 SLA 属于高可用性范畴。",
+        "D": "强制合规属于治理与安全范畴。"
+      },
+      "reference": {
+        "title": "云的优势",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-compute/"
+      },
+      "keywords": [
+        "agility",
+        "敏捷性"
+      ]
+    },
+    {
+      "id": "D1-026",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 1,
+      "question": "把一台虚拟机从 2 核 8GB 内存升级为 8 核 32GB 内存，这属于哪种缩放方式？",
+      "options": {
+        "A": "水平缩放（横向扩展）",
+        "B": "垂直缩放（纵向扩展）",
+        "C": "地理复制",
+        "D": "负载均衡"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "垂直缩放（Vertical scaling / scale up）是给同一个实例增加 CPU、内存等资源，让单个实例变得更强。水平缩放（Horizontal scaling / scale out）则是增加实例数量。考试中常用「换更大的 VM 型号」来考垂直缩放。",
+      "option_reasons": {
+        "A": "水平缩放是增加/减少实例数量，而不是改变单个实例的规格。",
+        "C": "地理复制是把数据复制到其他区域，属于冗余/灾备范畴。",
+        "D": "负载均衡是把流量分发到多个实例，是水平缩放的配套能力。"
+      },
+      "reference": {
+        "title": "云的优势：缩放性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "scale up",
+        "垂直缩放"
+      ]
+    },
+    {
+      "id": "D1-027",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 1,
+      "question": "在促销期间，应用自动从 3 个实例增加到 20 个实例，促销结束后自动缩回 3 个。这体现了云的哪个特性？",
+      "options": {
+        "A": "高可用性",
+        "B": "弹性（Elasticity）",
+        "C": "灾难恢复",
+        "D": "治理"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "弹性指资源随需求自动增减的能力（自动缩放）。它建立在水平缩放之上，并直接带来成本优势——高峰时有足够容量，低谷时不为闲置资源付费。",
+      "option_reasons": {
+        "A": "高可用性关注的是「服务保持可用的时间比例」，不是随需求增减容量。",
+        "C": "灾难恢复关注区域级故障后的业务恢复，不是日常的负载波动。",
+        "D": "治理关注的是合规与策略控制，与自动伸缩无关。"
+      },
+      "reference": {
+        "title": "云的优势：弹性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "elasticity",
+        "自动缩放"
+      ]
+    },
+    {
+      "id": "D1-028",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 1,
+      "question": "云的「可靠性（Reliability）」主要通过什么方式实现？",
+      "options": {
+        "A": "通过分散式的全球基础设施，在某部分发生故障时仍能继续运行并自动恢复",
+        "B": "通过对所有数据加密",
+        "C": "通过限制用户访问权限",
+        "D": "通过降低资源价格"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "可靠性是系统从故障中恢复并继续运行的能力。云的分散式设计（多区域、多可用性区域、多副本）使得单点故障不会导致整体服务不可用，并支持自动故障转移。可靠性是 Azure 架构良好框架（Well-Architected Framework）的支柱之一。",
+      "option_reasons": {
+        "B": "加密属于安全范畴，保护的是机密性，不是故障恢复能力。",
+        "C": "限制访问权限属于安全与治理，不是可靠性。",
+        "D": "价格与可靠性无关。"
+      },
+      "reference": {
+        "title": "云的优势：可靠性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "reliability"
+      ]
+    },
+    {
+      "id": "D1-029",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "云的「可预测性（Predictability）」包含哪两个方面？（选两项）",
+      "options": {
+        "A": "性能可预测性",
+        "B": "成本可预测性",
+        "C": "地理位置可预测性",
+        "D": "硬件型号可预测性"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "可预测性分两类：①性能可预测性——通过自动缩放、负载均衡、高可用设计，保证用户体验稳定；②成本可预测性——通过定价计算器、TCO 计算器、Cost Management 和预算警报，预测和跟踪花费。",
+      "option_reasons": {
+        "C": "资源的地理位置由你选择的区域决定，不属于官方定义的可预测性范畴。",
+        "D": "云屏蔽了底层硬件细节，硬件型号不是可预测性的组成部分。"
+      },
+      "reference": {
+        "title": "云的优势：可预测性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "predictability"
+      ]
+    },
+    {
+      "id": "D1-030",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 2,
+      "question": "「云中的管理（management in the cloud）」指的是下列哪一项？",
+      "options": {
+        "A": "自动缩放资源以满足需求",
+        "B": "通过 Azure 门户、CLI、PowerShell 和 ARM 模板来管理云资源",
+        "C": "自动部署资源的模板化能力",
+        "D": "在资源不正常时自动替换资源"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "官方把管理性分为两类：①「云的管理（management of the cloud）」——云替你做的事，如自动缩放、按模板部署、自动替换失败资源、监控与警报；②「云中的管理（management in the cloud）」——你如何管理云环境，即 Azure 门户、Azure CLI、Azure PowerShell、REST API 和 ARM/Bicep 模板。",
+      "option_reasons": {
+        "A": "自动缩放属于「云的管理」。",
+        "C": "模板化自动部署属于「云的管理」。",
+        "D": "自动替换失败资源属于「云的管理」。"
+      },
+      "reference": {
+        "title": "云的优势：管理性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "manageability"
+      ]
+    },
+    {
+      "id": "D1-031",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 2,
+      "question": "服务级别协议（SLA）中的 99.9% 可用性，大约对应每月多长的允许停机时间？",
+      "options": {
+        "A": "约 43 分钟",
+        "B": "约 4.5 分钟",
+        "C": "约 8.8 小时",
+        "D": "约 22 小时"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "99.9%（三个九）每月允许的停机时间约为 43.2 分钟；99.99%（四个九）约 4.4 分钟；99%（两个九）约 7.3 小时。记住这个换算关系有助于理解为什么提高一个「九」的成本会大幅上升。",
+      "option_reasons": {
+        "B": "约 4.5 分钟对应的是 99.99%，不是 99.9%。",
+        "C": "约 8.8 小时接近 99%（约 7.3 小时）的量级，远低于 99.9%。",
+        "D": "约 22 小时对应大约 97% 的可用性，远低于题目所问。"
+      },
+      "reference": {
+        "title": "Azure 服务级别协议",
+        "url": "https://learn.microsoft.com/azure/reliability/reliability-guidance-overview"
+      },
+      "keywords": [
+        "SLA",
+        "可用性"
+      ]
+    },
+    {
+      "id": "D1-032",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 1,
+      "question": "把应用部署到多个可用性区域，主要是为了获得什么好处？",
+      "options": {
+        "A": "降低成本",
+        "B": "提高高可用性，使单个数据中心故障不影响服务",
+        "C": "简化代码",
+        "D": "提高数据加密强度"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "可用性区域是同一 Azure 区域内物理分离的数据中心（各自独立供电、制冷、网络）。把实例分布到多个区域可以让单个数据中心级别的故障不中断服务，因此是提升高可用性的标准做法，通常也是获得更高 SLA 的前提。",
+      "option_reasons": {
+        "A": "跨区域部署需要更多实例和跨区域流量，成本通常上升而不是下降。",
+        "C": "跨区域部署反而对应用架构提出更高要求（如无状态化），不会简化代码。",
+        "D": "加密强度由加密算法和密钥管理决定，与部署位置无关。"
+      },
+      "reference": {
+        "title": "可用性区域概述",
+        "url": "https://learn.microsoft.com/azure/reliability/availability-zones-overview"
+      },
+      "keywords": [
+        "高可用",
+        "可用性区域"
+      ]
+    },
+    {
+      "id": "D1-033",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪一项属于云在「治理（Governance）」方面的优势？",
+      "options": {
+        "A": "按需增减虚拟机数量",
+        "B": "使用模板和策略确保所有部署的资源都符合公司标准和法规要求",
+        "C": "在多个区域间复制数据",
+        "D": "按使用量付费"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "治理优势体现在：用基于模板的部署（ARM/Bicep）保证一致性，用 Azure Policy 审核和强制资源合规（如必须打标记、只能部署在指定区域），用 Advisor 和 Defender for Cloud 主动发现偏差。这让合规从「事后人工检查」变成「事前自动强制」。",
+      "option_reasons": {
+        "A": "按需增减实例属于缩放性/弹性。",
+        "C": "跨区域复制数据属于可靠性/灾难恢复。",
+        "D": "按使用量付费属于消费模型/成本优势。"
+      },
+      "reference": {
+        "title": "云的优势：治理",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "governance"
+      ]
+    },
+    {
+      "id": "D1-034",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "下列哪两项是云在安全性方面为客户带来的优势？（选两项）",
+      "options": {
+        "A": "客户可以选择由云提供商负责更多安全层（例如选择 PaaS 而非 IaaS）",
+        "B": "云提供商承担客户数据的分类与访问授权责任",
+        "C": "云提供商提供的工具和基线可以帮助客户快速达到合规要求",
+        "D": "使用云后客户不再需要考虑安全"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "云的安全优势有两层：①可以通过选择更高层的服务（PaaS/SaaS）把更多安全职责交给提供商；②提供商提供成熟的安全工具（Defender for Cloud、Azure Policy、合规基线、服务信任门户文档）帮助客户更快达到合规。但数据分类和授权始终是客户责任。",
+      "option_reasons": {
+        "B": "数据的分类与访问授权永远是客户的责任，云提供商不承担。",
+        "D": "这是典型的错误观念；共享责任模型下客户依然有明确的安全责任。"
+      },
+      "reference": {
+        "title": "云的优势：安全性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "security"
+      ]
+    },
+    {
+      "id": "D1-035",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 1,
+      "question": "水平缩放（scale out）指的是什么？",
+      "options": {
+        "A": "为现有虚拟机增加 CPU 和内存",
+        "B": "增加运行同一工作负载的实例数量",
+        "C": "把工作负载迁移到另一个区域",
+        "D": "增加磁盘的容量"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "水平缩放是增加（scale out）或减少（scale in）实例数量。它的优势是几乎没有上限、可以做到零停机、并且天然配合高可用；缺点是应用需要支持无状态和负载均衡。虚拟机规模集（VMSS）就是实现水平缩放的服务。",
+      "option_reasons": {
+        "A": "为现有实例增加 CPU 和内存是垂直缩放（scale up）。",
+        "C": "跨区域迁移属于灾备或数据驻留策略，不是缩放。",
+        "D": "增加磁盘容量是存储层的垂直扩展，不是题目所问的实例数量扩展。"
+      },
+      "reference": {
+        "title": "云的优势：缩放性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "scale out"
+      ]
+    },
+    {
+      "id": "D1-036",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于「高可用性」和「灾难恢复」的区别，下列说法正确的是？",
+      "options": {
+        "A": "两者是同一个概念的不同叫法",
+        "B": "高可用性关注在区域内应对组件故障保持服务运行；灾难恢复关注整个区域级灾难后恢复业务",
+        "C": "高可用性只适用于存储，灾难恢复只适用于计算",
+        "D": "灾难恢复不需要任何预先规划"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "高可用性（HA）解决的是「日常的局部故障」——某台主机、某个机架、某个数据中心（可用性区域）挂了服务照常；灾难恢复（DR）解决的是「整个区域不可用」的极端场景，依靠跨区域复制、区域对和故障转移计划。二者的衡量指标不同：HA 看可用性百分比，DR 看 RTO/RPO。",
+      "option_reasons": {
+        "A": "两者目标、机制和衡量指标都不同，不能混为一谈。",
+        "C": "HA 和 DR 都同时涉及计算、存储、网络和数据。",
+        "D": "灾难恢复恰恰最需要预先规划（复制策略、RTO/RPO 目标、演练）。"
+      },
+      "reference": {
+        "title": "可靠性与灾难恢复",
+        "url": "https://learn.microsoft.com/azure/reliability/overview"
+      },
+      "keywords": [
+        "HA",
+        "DR"
+      ]
+    },
+    {
+      "id": "D1-037",
+      "domain": "cloud-concepts",
+      "topic": "云的优势",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：自动缩放属于「云的管理（management of the cloud）」能力。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。「云的管理」是指云平台替你完成的管理工作，包括自动缩放、基于模板的自动部署、在资源不正常时自动替换、以及监控与警报。与之相对的「云中的管理」是你使用门户、CLI、PowerShell、API 和模板来操作云。",
+      "option_reasons": {
+        "B": "自动缩放由平台自动执行，属于「云的管理」，而不是「云中的管理」。"
+      },
+      "reference": {
+        "title": "云的优势：管理性",
+        "url": "https://learn.microsoft.com/training/modules/describe-benefits-use-cloud-services/"
+      },
+      "keywords": [
+        "manageability"
+      ]
+    },
+    {
+      "id": "D1-038",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "哪种云服务类型给予客户对基础设施的最大控制权，同时也要求客户承担最多的管理责任？",
+      "options": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "FaaS"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "IaaS（基础结构即服务）把硬件租给你：你拿到虚拟机、虚拟网络和磁盘，操作系统及以上全部自己管。控制权最大，责任也最重。记忆口诀：IaaS「租硬件」，PaaS「租平台」，SaaS「租软件」。",
+      "option_reasons": {
+        "B": "PaaS 由提供商管理操作系统和运行时，客户控制权较小。",
+        "C": "SaaS 客户控制权最小，只能配置应用的使用方式。",
+        "D": "FaaS（函数即服务）是 PaaS 的一个细分形态，控制权更小而非更大。"
+      },
+      "reference": {
+        "title": "云服务类型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "IaaS"
+      ]
+    },
+    {
+      "id": "D1-039",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "开发团队希望部署 Web 应用，但不想管理底层操作系统、补丁和服务器。应该选择哪种云服务类型？",
+      "options": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "私有云"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "PaaS（平台即服务）为开发者提供托管的应用运行环境——操作系统、运行时、补丁、负载均衡都由平台负责，开发者只管代码和数据。Azure App Service、Azure SQL 数据库、Azure Functions 都是 PaaS 的典型代表。",
+      "option_reasons": {
+        "A": "IaaS 中仍需自行管理操作系统和补丁，与需求相反。",
+        "C": "SaaS 提供的是现成的软件（如 Microsoft 365），不能用来部署自研应用。",
+        "D": "私有云是部署模型，不是回答「谁管操作系统」的服务类型。"
+      },
+      "reference": {
+        "title": "云服务类型：PaaS",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "PaaS",
+        "App Service"
+      ]
+    },
+    {
+      "id": "D1-040",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Microsoft 365 和 Dynamics 365 属于哪种云服务类型？",
+      "options": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "混合云"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "SaaS（软件即服务）是直接按订阅使用的完整软件产品，提供商负责从硬件到应用的一切，客户只负责自己的数据、设备和账户。Microsoft 365、Dynamics 365、Outlook.com 都是 SaaS。",
+      "option_reasons": {
+        "A": "IaaS 提供的是虚拟机等基础设施，不是成品软件。",
+        "B": "PaaS 提供的是开发和运行应用的平台，客户仍需自行开发应用。",
+        "D": "混合云是部署模型，不是服务类型。"
+      },
+      "reference": {
+        "title": "云服务类型：SaaS",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "SaaS",
+        "Microsoft 365"
+      ]
+    },
+    {
+      "id": "D1-041",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "公司需要把本地虚拟机「原样搬迁（lift and shift）」到云中，尽量不修改应用。最合适的服务类型是？",
+      "options": {
+        "A": "IaaS",
+        "B": "PaaS",
+        "C": "SaaS",
+        "D": "无服务器"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "lift and shift（提升并转移）指把现有工作负载原封不动搬到云上。IaaS 提供与本地虚拟机最接近的环境，因此改造量最小、迁移最快。代价是上云后仍要自己管操作系统，享受不到 PaaS 的免运维红利。",
+      "option_reasons": {
+        "B": "改用 PaaS 通常需要重构应用（重新平台化），不符合「不修改应用」的要求。",
+        "C": "SaaS 意味着用现成软件替换自研应用，改动最大。",
+        "D": "无服务器要求把应用拆成事件驱动的函数，改造量极大。"
+      },
+      "reference": {
+        "title": "云服务类型：IaaS 用例",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "lift and shift"
+      ]
+    },
+    {
+      "id": "D1-042",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "在 PaaS 场景下，下列哪两项由客户负责？（选两项）",
+      "options": {
+        "A": "操作系统补丁",
+        "B": "应用程序中存储的数据",
+        "C": "物理网络",
+        "D": "用户账户与访问权限"
+      },
+      "answer": [
+        "B",
+        "D"
+      ],
+      "explanation": "PaaS 中 Microsoft 负责物理设施、网络、虚拟化和操作系统；客户负责数据、账户与标识、以及自己的设备。应用程序和标识与目录基础结构属于共担项。数据和身份永远是客户责任——这是贯穿整个共享责任模型的主线。",
+      "option_reasons": {
+        "A": "PaaS 中操作系统由 Microsoft 维护，这正是 PaaS 相对 IaaS 的主要价值。",
+        "C": "物理网络永远由 Microsoft 负责。"
+      },
+      "reference": {
+        "title": "共享责任模型",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "PaaS",
+        "责任"
+      ]
+    },
+    {
+      "id": "D1-043",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 2,
+      "question": "无服务器（Serverless）计算最准确的描述是？",
+      "options": {
+        "A": "运行代码时不涉及任何服务器",
+        "B": "开发者无需预配或管理服务器，平台按事件自动分配资源并按执行计费",
+        "C": "只能运行静态网站",
+        "D": "必须先购买预留实例"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "无服务器并不是「没有服务器」，而是「服务器由平台管理，开发者看不见也不需要管」。平台按请求或事件自动分配资源、自动伸缩（可缩到零），并按实际执行时间/次数计费。Azure Functions 和 Azure Logic Apps 是代表服务。",
+      "option_reasons": {
+        "A": "字面理解错误——底层仍然运行在服务器上，只是对开发者透明。",
+        "C": "无服务器可以运行各种事件驱动的业务逻辑，不限于静态网站。",
+        "D": "无服务器通常按执行量计费，不要求购买预留实例。"
+      },
+      "reference": {
+        "title": "Azure Functions 概述",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-overview"
+      },
+      "keywords": [
+        "serverless"
+      ]
+    },
+    {
+      "id": "D1-044",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "下列哪个 Azure 服务属于 IaaS？",
+      "options": {
+        "A": "Azure 虚拟机",
+        "B": "Azure App Service",
+        "C": "Azure SQL 数据库",
+        "D": "Microsoft 365"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure 虚拟机是最典型的 IaaS：你获得一台虚拟服务器，自己选择操作系统镜像、自己安装软件、自己打补丁。App Service 和 Azure SQL 数据库是 PaaS，Microsoft 365 是 SaaS。",
+      "option_reasons": {
+        "B": "App Service 是托管的 Web 应用平台，属于 PaaS。",
+        "C": "Azure SQL 数据库是托管数据库服务，属于 PaaS。",
+        "D": "Microsoft 365 是成品办公软件套件，属于 SaaS。"
+      },
+      "reference": {
+        "title": "云服务类型",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "IaaS",
+        "虚拟机"
+      ]
+    },
+    {
+      "id": "D1-045",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "某初创公司希望以最低的运维投入快速上线一个电子邮件与协作系统。最合适的选择是？",
+      "options": {
+        "A": "在 Azure 虚拟机上自建 Exchange Server",
+        "B": "使用 Azure App Service 自研邮件系统",
+        "C": "订阅 Microsoft 365",
+        "D": "在本地部署私有云"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "需求是「现成能力 + 最低运维」，这正是 SaaS 的定位。订阅 Microsoft 365 后无需部署、无需打补丁、无需容量规划，按用户数付费即可使用邮件、文档协作等完整能力。",
+      "option_reasons": {
+        "A": "在 VM 上自建 Exchange 是 IaaS 路线，运维负担最重。",
+        "B": "自研邮件系统开发成本极高，完全不符合「最低投入快速上线」。",
+        "D": "自建私有云需要采购硬件和长周期建设，与快速上线矛盾。"
+      },
+      "reference": {
+        "title": "云服务类型：SaaS 用例",
+        "url": "https://learn.microsoft.com/training/modules/describe-cloud-service-types/"
+      },
+      "keywords": [
+        "SaaS"
+      ]
+    },
+    {
+      "id": "D1-046",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 1,
+      "question": "下列关于 IaaS、PaaS、SaaS 管理责任的排序，哪一项是正确的（从客户管理最多到最少）？",
+      "options": {
+        "A": "SaaS → PaaS → IaaS",
+        "B": "IaaS → PaaS → SaaS",
+        "C": "PaaS → IaaS → SaaS",
+        "D": "三者的客户管理责任相同"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "客户管理责任从多到少依次是 IaaS → PaaS → SaaS；提供商责任则相反。考试中经常用「谁管得最多/最少」「控制权最大/最小」的说法来考这个排序，记住这条单调的阶梯即可。",
+      "option_reasons": {
+        "A": "顺序完全颠倒了，SaaS 客户管理责任最少。",
+        "C": "PaaS 的客户责任小于 IaaS，不应排在最前。",
+        "D": "三种服务类型的责任划分明显不同，这是整个模型的基础。"
+      },
+      "reference": {
+        "title": "共享责任模型",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility"
+      },
+      "keywords": [
+        "责任排序"
+      ]
+    },
+    {
+      "id": "D1-047",
+      "domain": "cloud-concepts",
+      "topic": "云服务类型 IaaS/PaaS/SaaS",
+      "type": "single",
+      "difficulty": 2,
+      "question": "某公司要运行一个只在每天凌晨执行几分钟的数据清理任务，希望不运行时完全不产生计算费用。最合适的方案是？",
+      "options": {
+        "A": "常开的 Azure 虚拟机",
+        "B": "Azure Functions（消耗计划）",
+        "C": "Azure 虚拟机规模集",
+        "D": "Azure VMware 解决方案"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Functions 的消耗（Consumption）计划是无服务器模型：由计时器触发，只在执行期间计费，空闲时可缩放到零实例，费用为零。这正是「短时、间歇性任务」的最佳成本方案。",
+      "option_reasons": {
+        "A": "常开虚拟机 24 小时计费，绝大部分时间在空转，成本最高。",
+        "C": "规模集即使缩到最小实例数也仍在运行并计费。",
+        "D": "Azure VMware 解决方案是专用的 VMware 私有云集群，成本高且与场景完全不符。"
+      },
+      "reference": {
+        "title": "Azure Functions 概述",
+        "url": "https://learn.microsoft.com/azure/azure-functions/functions-overview"
+      },
+      "keywords": [
+        "serverless",
+        "Functions"
+      ]
+    }
+  ]
+}

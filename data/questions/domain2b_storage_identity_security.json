@@ -1,0 +1,1013 @@
+{
+  "domain": "architecture-services",
+  "title": "领域2B 存储 / 身份 / 安全",
+  "questions": [
+    {
+      "id": "D2-040",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "single",
+      "difficulty": 1,
+      "question": "本地冗余存储（LRS）提供什么级别的数据保护？",
+      "options": {
+        "A": "在单个数据中心内保存三个数据副本",
+        "B": "在三个可用性区域各保存一个副本",
+        "C": "在两个 Azure 区域各保存三个副本",
+        "D": "只保存一个副本"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "LRS 在主要区域的单个物理位置（一个数据中心）内同步复制三个副本，是成本最低的冗余选项，可防御磁盘、机架、服务器级别的故障，但无法抵御整个数据中心的灾难。适合可重建的非关键数据。",
+      "option_reasons": {
+        "B": "在三个可用性区域各存一个副本的是 ZRS（区域冗余存储）。",
+        "C": "跨两个区域复制的是 GRS/GZRS。",
+        "D": "任何 Azure 存储冗余选项都不止一个副本，最少是三个。"
+      },
+      "reference": {
+        "title": "Azure 存储冗余",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
+      },
+      "keywords": [
+        "LRS",
+        "冗余"
+      ]
+    },
+    {
+      "id": "D2-041",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "single",
+      "difficulty": 2,
+      "question": "需要数据在单个数据中心发生故障时仍然可用，但不需要跨区域保护。应选择哪种冗余？",
+      "options": {
+        "A": "LRS",
+        "B": "ZRS",
+        "C": "GRS",
+        "D": "RA-GRS"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "区域冗余存储（ZRS）把数据同步复制到主要区域内的三个可用性区域，因此单个数据中心（可用性区域）整体故障时数据仍可读写，同时数据不出区域，满足数据驻留要求。",
+      "option_reasons": {
+        "A": "LRS 的三个副本都在同一个数据中心内，该数据中心故障时数据不可用。",
+        "C": "GRS 会把数据复制到另一个区域，提供的保护超出需求，且数据出境可能违反数据驻留要求。",
+        "D": "RA-GRS 同样是跨区域方案，并额外提供对次要区域的读访问，超出本题需求。"
+      },
+      "reference": {
+        "title": "Azure 存储冗余",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
+      },
+      "keywords": [
+        "ZRS",
+        "可用性区域"
+      ]
+    },
+    {
+      "id": "D2-042",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "single",
+      "difficulty": 2,
+      "question": "异地冗余存储（GRS）的数据复制方式是？",
+      "options": {
+        "A": "在主要区域使用 LRS 三副本，并异步复制到配对的次要区域再做 LRS 三副本",
+        "B": "在主要区域使用 ZRS，并同步复制到次要区域",
+        "C": "只在次要区域保存数据",
+        "D": "在同一区域的三个可用性区域之间复制"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "GRS = 主要区域 LRS（3 副本）+ 异步复制到配对的次要区域再做 LRS（3 副本），共 6 个副本，提供约 16 个 9 的持久性。注意复制到次要区域是「异步」的，因此发生区域级灾难时可能丢失少量最新数据。默认情况下次要区域的数据不可读，需要 RA-GRS 才能读。",
+      "option_reasons": {
+        "B": "主要区域使用 ZRS 再复制到次要区域的是 GZRS，不是 GRS。",
+        "C": "主要区域始终保有数据，次要区域是额外的副本。",
+        "D": "只在区域内三个可用性区域之间复制的是 ZRS。"
+      },
+      "reference": {
+        "title": "Azure 存储冗余",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
+      },
+      "keywords": [
+        "GRS",
+        "异步复制"
+      ]
+    },
+    {
+      "id": "D2-043",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "single",
+      "difficulty": 2,
+      "question": "应用需要在主要区域不可用时，仍能从次要区域读取数据。应选择哪种冗余选项？",
+      "options": {
+        "A": "LRS",
+        "B": "ZRS",
+        "C": "GRS",
+        "D": "RA-GRS"
+      },
+      "answer": [
+        "D"
+      ],
+      "explanation": "只有带「RA（Read-Access，读取访问）」前缀的选项——RA-GRS 和 RA-GZRS——才允许应用直接从次要区域读取数据。普通 GRS/GZRS 的次要副本平时不可访问，只有在 Microsoft 发起故障转移后才可用。",
+      "option_reasons": {
+        "A": "LRS 只在单个数据中心内，没有次要区域。",
+        "B": "ZRS 不跨区域复制，没有次要区域可读。",
+        "C": "GRS 有次要副本，但默认不可读取，必须故障转移后才能访问。"
+      },
+      "reference": {
+        "title": "Azure 存储冗余",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
+      },
+      "keywords": [
+        "RA-GRS",
+        "读访问"
+      ]
+    },
+    {
+      "id": "D2-044",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "single",
+      "difficulty": 2,
+      "question": "提供最高持久性和可用性的存储冗余选项是？",
+      "options": {
+        "A": "LRS",
+        "B": "ZRS",
+        "C": "GRS",
+        "D": "GZRS / RA-GZRS"
+      },
+      "answer": [
+        "D"
+      ],
+      "explanation": "GZRS 结合了两种能力：主要区域内用 ZRS 跨三个可用性区域同步复制（抵御数据中心故障），再异步复制到次要区域做 LRS（抵御区域级灾难）。RA-GZRS 还额外允许读取次要区域，是 Azure 存储中保护级别最高的选项。",
+      "option_reasons": {
+        "A": "LRS 保护级别最低，只覆盖单个数据中心内的故障。",
+        "B": "ZRS 无法抵御整个区域的灾难。",
+        "C": "GRS 主要区域内仍是 LRS，抵御不了主要区域的数据中心级故障。"
+      },
+      "reference": {
+        "title": "Azure 存储冗余",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-redundancy"
+      },
+      "keywords": [
+        "GZRS"
+      ]
+    },
+    {
+      "id": "D2-045",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要存储大量图片、视频和备份文件等非结构化数据。应使用哪个 Azure 存储服务？",
+      "options": {
+        "A": "Azure Blob 存储",
+        "B": "Azure 文件存储",
+        "C": "Azure 队列存储",
+        "D": "Azure 表存储"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Blob（Binary Large Object）存储专为海量非结构化对象设计：图片、视频、日志、备份、文档等。它按对象访问（HTTP/HTTPS REST），容量几乎无限，并支持热/冷/冷存/存档访问层来优化成本。",
+      "option_reasons": {
+        "B": "Azure 文件存储提供 SMB/NFS 文件共享，用于需要挂载为网络驱动器的场景。",
+        "C": "队列存储用于组件间的异步消息传递，不适合存大文件。",
+        "D": "表存储是 NoSQL 键值存储，用于结构化的非关系数据。"
+      },
+      "reference": {
+        "title": "Azure 存储服务简介",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-introduction"
+      },
+      "keywords": [
+        "Blob",
+        "非结构化"
+      ]
+    },
+    {
+      "id": "D2-046",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 1,
+      "question": "多台虚拟机需要通过 SMB 协议访问同一个共享文件夹，并能像本地驱动器一样挂载。应使用什么？",
+      "options": {
+        "A": "Azure Blob 存储",
+        "B": "Azure 文件存储（Azure Files）",
+        "C": "Azure 表存储",
+        "D": "Azure 托管磁盘"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 文件存储提供完全托管的云文件共享，支持 SMB 和 NFS 协议，可以被 Windows、Linux、macOS 以及本地服务器同时挂载，适合「多客户端共享访问」和 lift-and-shift 场景中替换本地文件服务器。",
+      "option_reasons": {
+        "A": "Blob 存储通过 REST API 按对象访问，不能原生挂载为 SMB 共享。",
+        "C": "表存储是 NoSQL 键值数据库，与文件共享无关。",
+        "D": "托管磁盘一般只能挂载到单台虚拟机（共享磁盘是特定高级场景），不适合通用文件共享。"
+      },
+      "reference": {
+        "title": "Azure 存储服务简介",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-introduction"
+      },
+      "keywords": [
+        "Azure Files",
+        "SMB"
+      ]
+    },
+    {
+      "id": "D2-047",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "single",
+      "difficulty": 2,
+      "question": "数据需要保存 7 年以满足法规要求，几乎从不访问，且希望存储成本最低（可以接受取回时需要数小时）。应使用哪个访问层？",
+      "options": {
+        "A": "热（Hot）层",
+        "B": "冷（Cool）层",
+        "C": "存档（Archive）层",
+        "D": "冷存（Cold）层"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "存档层是脱机层，存储成本最低，但数据不能直接读取——必须先「解冻（rehydrate）」到热层或冷层，通常需要数小时。它的最短保留期为 180 天，非常适合长期合规归档。",
+      "option_reasons": {
+        "A": "热层存储单价最高，用于频繁访问的数据，长期归档使用极不划算。",
+        "B": "冷层适合至少 30 天不访问但仍需随时在线读取的数据，存储成本高于存档层。",
+        "D": "冷存层最短保留 90 天，成本介于冷层与存档层之间，但仍高于存档层。"
+      },
+      "reference": {
+        "title": "Blob 访问层",
+        "url": "https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview"
+      },
+      "keywords": [
+        "Archive",
+        "访问层"
+      ]
+    },
+    {
+      "id": "D2-048",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储类型与访问层",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "关于 Blob 存储访问层，下列哪两项说法正确？（选两项）",
+      "options": {
+        "A": "热层的存储成本最高，但访问（读取）成本最低",
+        "B": "存档层的存储成本最低，但取回数据的成本和延迟最高",
+        "C": "冷层的数据无法在线读取，必须先解冻",
+        "D": "所有访问层的存储单价完全相同"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "访问层的核心权衡是「存储成本 ↔ 访问成本」：越冷的层，存着越便宜、读取越贵越慢。热层适合频繁访问，冷层/冷存层适合偶尔访问但需在线，存档层适合长期不访问的归档。",
+      "option_reasons": {
+        "C": "冷层数据仍然是在线的、可直接读取的；必须解冻才能读的只有存档层。",
+        "D": "各层存储单价差异很大，这正是分层的意义所在。"
+      },
+      "reference": {
+        "title": "Blob 访问层",
+        "url": "https://learn.microsoft.com/azure/storage/blobs/access-tiers-overview"
+      },
+      "keywords": [
+        "访问层"
+      ]
+    },
+    {
+      "id": "D2-049",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 2,
+      "question": "公司需要把 60 TB 数据从本地迁移到 Azure，但办公室的网络带宽很小，在线传输需要数月。最合适的方案是？",
+      "options": {
+        "A": "AzCopy",
+        "B": "Azure Data Box",
+        "C": "Azure 存储资源管理器",
+        "D": "Azure 文件同步"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Data Box 是物理传输设备：Microsoft 寄一台加密的存储设备到你的机房，你把数据拷进去后寄回，Microsoft 在数据中心内导入 Azure。当数据量达到 TB~PB 级而网络带宽不足时，物理运输比在线传输快得多。",
+      "option_reasons": {
+        "A": "AzCopy 是命令行工具，仍然依赖网络带宽，无法解决带宽瓶颈。",
+        "C": "存储资源管理器是图形界面工具，同样受限于网络带宽。",
+        "D": "Azure 文件同步用于让本地文件服务器与 Azure 文件共享保持同步，不是大批量一次性迁移工具。"
+      },
+      "reference": {
+        "title": "Azure Data Box",
+        "url": "https://learn.microsoft.com/azure/databox/data-box-overview"
+      },
+      "keywords": [
+        "Data Box",
+        "离线迁移"
+      ]
+    },
+    {
+      "id": "D2-050",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 1,
+      "question": "哪个工具用于评估本地服务器、数据库和 Web 应用，并把它们迁移到 Azure？",
+      "options": {
+        "A": "Azure Migrate",
+        "B": "Azure Monitor",
+        "C": "Azure Advisor",
+        "D": "Azure Arc"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Migrate 是迁移中心：先发现和清点本地环境，再做评估（是否适合迁移、需要什么规格的 Azure 资源、预计花多少钱），最后执行服务器、数据库、Web 应用和虚拟桌面的迁移。",
+      "option_reasons": {
+        "B": "Azure Monitor 用于监控已运行的资源，不做迁移。",
+        "C": "Azure Advisor 为已有 Azure 资源提供优化建议，不负责迁移本地负载。",
+        "D": "Azure Arc 是把本地资源纳入 Azure 治理，工作负载仍留在本地。"
+      },
+      "reference": {
+        "title": "Azure Migrate 概述",
+        "url": "https://learn.microsoft.com/azure/migrate/migrate-services-overview"
+      },
+      "keywords": [
+        "Migrate",
+        "迁移"
+      ]
+    },
+    {
+      "id": "D2-051",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 2,
+      "question": "哪个命令行工具专门用于在本地与 Azure 存储之间（或存储账户之间）复制 Blob 和文件？",
+      "options": {
+        "A": "AzCopy",
+        "B": "Azure Data Box",
+        "C": "Azure 文件同步",
+        "D": "Azure Bastion"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "AzCopy 是一个跨平台命令行实用工具，用于上传、下载和在存储账户之间复制 Blob/文件，支持同步、断点续传和高并发，常用于脚本化和自动化的数据搬运。",
+      "option_reasons": {
+        "B": "Data Box 是物理设备，用于网络不足时的离线大批量迁移。",
+        "C": "Azure 文件同步用于本地文件服务器与 Azure 文件共享之间的持续同步与云分层。",
+        "D": "Azure Bastion 提供浏览器内安全访问虚拟机，与数据复制无关。"
+      },
+      "reference": {
+        "title": "AzCopy 入门",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-use-azcopy-v10"
+      },
+      "keywords": [
+        "AzCopy"
+      ]
+    },
+    {
+      "id": "D2-052",
+      "domain": "architecture-services",
+      "topic": "存储服务：迁移与数据传输",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 文件同步（Azure File Sync）的主要用途是？",
+      "options": {
+        "A": "把本地 Windows 文件服务器与 Azure 文件共享保持同步，并支持云分层节省本地空间",
+        "B": "在虚拟机之间同步磁盘",
+        "C": "同步 Entra ID 用户到本地 AD",
+        "D": "同步数据库架构"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure 文件同步把本地 Windows 服务器变成 Azure 文件共享的一个缓存：文件在云端保留完整副本，本地服务器可以只保留最常用的文件（云分层），既保持了本地访问性能，又极大降低了本地存储需求，还天然获得了云端备份。",
+      "option_reasons": {
+        "B": "虚拟机磁盘之间的复制由快照、映像或存储复制功能完成。",
+        "C": "把本地 AD 用户同步到 Entra ID 的是 Microsoft Entra Connect（方向也相反）。",
+        "D": "数据库架构同步属于数据库工具范畴。"
+      },
+      "reference": {
+        "title": "Azure 文件同步",
+        "url": "https://learn.microsoft.com/azure/storage/file-sync/file-sync-introduction"
+      },
+      "keywords": [
+        "File Sync",
+        "云分层"
+      ]
+    },
+    {
+      "id": "D2-053",
+      "domain": "architecture-services",
+      "topic": "存储服务：存储账户与冗余",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：存储账户的名称必须在整个 Azure 中全局唯一。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。存储账户名会构成公共访问终结点（如 https://<账户名>.blob.core.windows.net），因此必须在全球唯一，且只能使用 3–24 个小写字母和数字。类似的全局唯一要求也适用于 App Service 的默认域名等。",
+      "option_reasons": {
+        "B": "由于账户名直接映射为公共 DNS 名称，全局唯一是硬性要求。"
+      },
+      "reference": {
+        "title": "存储账户概述",
+        "url": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
+      },
+      "keywords": [
+        "存储账户",
+        "命名"
+      ]
+    },
+    {
+      "id": "D2-054",
+      "domain": "architecture-services",
+      "topic": "身份与访问：Microsoft Entra ID",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Microsoft Entra ID（前身为 Azure Active Directory）的主要功能是什么？",
+      "options": {
+        "A": "提供基于云的标识和访问管理服务",
+        "B": "提供虚拟机托管",
+        "C": "提供对象存储",
+        "D": "提供网络负载均衡"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Microsoft Entra ID 是基于云的标识与访问管理服务：管理用户和组、提供身份验证（含 MFA、无密码）、单点登录、条件访问，并作为 Azure、Microsoft 365 及数千个 SaaS 应用的统一身份提供程序。它是全球性服务，不绑定某个区域。",
+      "option_reasons": {
+        "B": "虚拟机托管是 Azure 虚拟机服务。",
+        "C": "对象存储是 Azure Blob 存储。",
+        "D": "负载均衡由 Azure 负载均衡器/应用程序网关提供。"
+      },
+      "reference": {
+        "title": "Microsoft Entra ID 是什么",
+        "url": "https://learn.microsoft.com/entra/fundamentals/whatis"
+      },
+      "keywords": [
+        "Entra ID",
+        "标识"
+      ]
+    },
+    {
+      "id": "D2-055",
+      "domain": "architecture-services",
+      "topic": "身份与访问：Microsoft Entra ID",
+      "type": "single",
+      "difficulty": 2,
+      "question": "组织需要让 Azure 中的虚拟机加入托管域，并使用组策略和 LDAP，但不想自己部署和维护域控制器。应使用什么？",
+      "options": {
+        "A": "Microsoft Entra ID（仅 ID）",
+        "B": "Microsoft Entra 域服务（Entra Domain Services）",
+        "C": "Azure Arc",
+        "D": "Microsoft Entra Connect"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Microsoft Entra 域服务提供托管的域服务能力：域加入、组策略、LDAP、Kerberos/NTLM 身份验证，全部由 Azure 托管，无需自己部署、修补和备份域控制器。适合需要传统 AD 功能的旧版应用上云。",
+      "option_reasons": {
+        "A": "Entra ID 本身不提供域加入、组策略、LDAP 或 Kerberos/NTLM 这些传统 AD 能力。",
+        "C": "Azure Arc 用于将 Azure 外的资源纳入 Azure 管理，与域服务无关。",
+        "D": "Entra Connect 用于把本地 AD 的身份同步到 Entra ID，本身不提供托管域。"
+      },
+      "reference": {
+        "title": "Microsoft Entra 域服务",
+        "url": "https://learn.microsoft.com/entra/identity/domain-services/overview"
+      },
+      "keywords": [
+        "Domain Services"
+      ]
+    },
+    {
+      "id": "D2-056",
+      "domain": "architecture-services",
+      "topic": "身份与访问：身份验证与条件访问",
+      "type": "single",
+      "difficulty": 1,
+      "question": "「身份验证（Authentication）」与「授权（Authorization）」的区别是什么？",
+      "options": {
+        "A": "身份验证确认你是谁；授权确定你被允许做什么",
+        "B": "身份验证确定你能做什么；授权确认你是谁",
+        "C": "两者是同义词",
+        "D": "身份验证只用于管理员，授权只用于普通用户"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "身份验证（AuthN）回答「你是谁」——通过密码、MFA、证书等证明身份；授权（AuthZ）回答「你能做什么」——在身份确认之后，根据 RBAC 角色或策略决定可访问哪些资源、执行哪些操作。顺序永远是先验证后授权。",
+      "option_reasons": {
+        "B": "两者的定义被颠倒了。",
+        "C": "二者是访问控制中相互独立又衔接的两个阶段，不是同义词。",
+        "D": "两者适用于所有主体（用户、组、服务主体、托管标识），与角色无关。"
+      },
+      "reference": {
+        "title": "身份验证与授权",
+        "url": "https://learn.microsoft.com/entra/identity-platform/authentication-vs-authorization"
+      },
+      "keywords": [
+        "AuthN",
+        "AuthZ"
+      ]
+    },
+    {
+      "id": "D2-057",
+      "domain": "architecture-services",
+      "topic": "身份与访问：身份验证与条件访问",
+      "type": "single",
+      "difficulty": 1,
+      "question": "多重身份验证（MFA）要求用户提供来自至少几类凭据的证明？",
+      "options": {
+        "A": "同一类别的两个不同凭据",
+        "B": "两个或以上不同类别的凭据（你知道的、你拥有的、你本身的）",
+        "C": "三个密码",
+        "D": "一个密码和一个用户名"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "MFA 要求组合不同「类别」的凭据：①你知道的（密码、PIN）②你拥有的（手机、令牌、FIDO2 密钥）③你本身的（指纹、面部）。关键在于跨类别——两个密码不构成 MFA，因为攻击者窃取密码库就能同时获得两者。",
+      "option_reasons": {
+        "A": "同类别的两个凭据不构成多重身份验证，防护价值有限。",
+        "C": "多个密码都属于「你知道的」这一类，不算多重。",
+        "D": "用户名是标识而非凭据，密码 + 用户名只是单因素验证。"
+      },
+      "reference": {
+        "title": "MFA 工作原理",
+        "url": "https://learn.microsoft.com/entra/identity/authentication/concept-mfa-howitworks"
+      },
+      "keywords": [
+        "MFA",
+        "多重身份验证"
+      ]
+    },
+    {
+      "id": "D2-058",
+      "domain": "architecture-services",
+      "topic": "身份与访问：身份验证与条件访问",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "下列哪两项属于无密码（Passwordless）身份验证方式？（选两项）",
+      "options": {
+        "A": "Windows Hello 企业版",
+        "B": "短信接收的一次性密码作为第二因素",
+        "C": "FIDO2 安全密钥",
+        "D": "长度 16 位的复杂密码"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "无密码验证完全去掉密码这一环节，改用「设备 + 生物识别/PIN」的组合。Microsoft 支持的三种无密码方式是：Windows Hello 企业版、Microsoft Authenticator 应用（无密码登录）、FIDO2 安全密钥。它们既更安全（无密码可被钓鱼或撞库）又更便捷。",
+      "option_reasons": {
+        "B": "短信一次性密码是 MFA 的第二因素，前提仍然是先输入密码，因此不是无密码方式，而且 SMS 易受 SIM 劫持攻击。",
+        "D": "再复杂的密码也仍然是密码，不属于无密码方式。"
+      },
+      "reference": {
+        "title": "无密码身份验证",
+        "url": "https://learn.microsoft.com/entra/identity/authentication/concept-authentication-passwordless"
+      },
+      "keywords": [
+        "passwordless",
+        "FIDO2"
+      ]
+    },
+    {
+      "id": "D2-059",
+      "domain": "architecture-services",
+      "topic": "身份与访问：身份验证与条件访问",
+      "type": "single",
+      "difficulty": 2,
+      "question": "条件访问（Conditional Access）的工作原理最准确的描述是？",
+      "options": {
+        "A": "始终阻止来自外部网络的所有访问",
+        "B": "收集用户、设备、位置、应用和风险等信号，据此决定允许访问、要求额外验证或阻止访问",
+        "C": "自动为所有用户重置密码",
+        "D": "对所有数据进行加密"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "条件访问是「如果…则…」的策略引擎：先收集信号（谁在登录、用什么设备、从哪个位置/IP、访问什么应用、风险等级如何），然后作出决策（允许、要求 MFA、要求合规设备、阻止）。它是实现零信任「显式验证」原则的核心工具。",
+      "option_reasons": {
+        "A": "条件访问是基于条件的细粒度决策，而不是一刀切地阻止外部访问。",
+        "C": "密码重置是自助密码重置（SSPR）功能，不是条件访问。",
+        "D": "数据加密是独立的安全机制，与访问决策无关。"
+      },
+      "reference": {
+        "title": "条件访问概述",
+        "url": "https://learn.microsoft.com/entra/identity/conditional-access/overview"
+      },
+      "keywords": [
+        "Conditional Access",
+        "条件访问"
+      ]
+    },
+    {
+      "id": "D2-060",
+      "domain": "architecture-services",
+      "topic": "身份与访问：身份验证与条件访问",
+      "type": "single",
+      "difficulty": 1,
+      "question": "单点登录（SSO）带来的主要安全好处是什么？",
+      "options": {
+        "A": "用户需要记住更多密码",
+        "B": "用户只需维护一组凭据，减少密码疲劳和弱密码/重复使用密码的风险",
+        "C": "完全消除了对身份验证的需要",
+        "D": "让每个应用各自管理自己的密码策略"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "SSO 让用户用一组凭据访问多个应用。安全价值在于：密码数量减少 → 用户不再因为记不住而设置弱密码或到处重复使用 → 同时企业可以把 MFA、条件访问等强保护集中施加在这一个身份上。代价是这组凭据一旦泄露影响面大，因此必须配合 MFA。",
+      "option_reasons": {
+        "A": "SSO 的目的恰恰是减少需要记忆的凭据数量。",
+        "C": "SSO 仍然需要身份验证，只是验证一次后可复用。",
+        "D": "SSO 是把身份验证集中化，而不是让各应用各自为政。"
+      },
+      "reference": {
+        "title": "什么是单点登录",
+        "url": "https://learn.microsoft.com/entra/identity/enterprise-apps/what-is-single-sign-on"
+      },
+      "keywords": [
+        "SSO"
+      ]
+    },
+    {
+      "id": "D2-061",
+      "domain": "architecture-services",
+      "topic": "身份与访问：RBAC 基于角色的访问控制",
+      "type": "single",
+      "difficulty": 2,
+      "question": "基于角色的访问控制（RBAC）中的「角色分配」由哪三个要素构成？",
+      "options": {
+        "A": "用户、密码、时间",
+        "B": "安全主体、角色定义、范围",
+        "C": "订阅、资源组、资源",
+        "D": "网络、存储、计算"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "一个 RBAC 角色分配 = 安全主体（谁：用户/组/服务主体/托管标识）+ 角色定义（能做什么：如「参与者」）+ 范围（在哪里生效：管理组/订阅/资源组/资源）。权限沿范围向下继承，并且多个分配是叠加（累加）的。",
+      "option_reasons": {
+        "A": "密码和时间不是角色分配的组成部分。",
+        "C": "这三项都属于「范围」的可选层级，只构成三要素中的一个。",
+        "D": "这是资源类别，与 RBAC 的构成无关。"
+      },
+      "reference": {
+        "title": "Azure RBAC 概述",
+        "url": "https://learn.microsoft.com/azure/role-based-access-control/overview"
+      },
+      "keywords": [
+        "RBAC",
+        "角色分配"
+      ]
+    },
+    {
+      "id": "D2-062",
+      "domain": "architecture-services",
+      "topic": "身份与访问：RBAC 基于角色的访问控制",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要让审计人员能够查看某个订阅中的所有资源，但不能做任何修改。应分配哪个内置角色？",
+      "options": {
+        "A": "所有者（Owner）",
+        "B": "参与者（Contributor）",
+        "C": "读者（Reader）",
+        "D": "用户访问管理员"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "「读者」角色只能查看资源，不能创建、修改或删除，完全符合最小权限原则下的审计需求。记住三个核心内置角色的阶梯：所有者（全部权限 + 可授予他人权限）> 参与者（可管理资源但不能授权）> 读者（只读）。",
+      "option_reasons": {
+        "A": "所有者拥有完全权限并能授予他人权限，远超审计需要，违反最小权限原则。",
+        "B": "参与者可以创建和删除资源，不符合「不能修改」的要求。",
+        "D": "用户访问管理员专门用于管理他人的访问权限，不是只读查看角色。"
+      },
+      "reference": {
+        "title": "Azure 内置角色",
+        "url": "https://learn.microsoft.com/azure/role-based-access-control/built-in-roles"
+      },
+      "keywords": [
+        "Reader",
+        "最小权限"
+      ]
+    },
+    {
+      "id": "D2-063",
+      "domain": "architecture-services",
+      "topic": "身份与访问：RBAC 基于角色的访问控制",
+      "type": "single",
+      "difficulty": 2,
+      "question": "在订阅级别为某用户分配了「参与者」角色。该用户对订阅下新建的资源组拥有什么权限？",
+      "options": {
+        "A": "没有任何权限，需要单独分配",
+        "B": "自动继承参与者权限",
+        "C": "只有读取权限",
+        "D": "拥有者权限"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "RBAC 权限沿层级向下继承：在订阅级别分配的角色自动适用于该订阅下的所有资源组和资源，包括之后新建的。这既是便利也是风险——在高层级授予宽泛权限会意外覆盖大量资源，因此应尽量在最小必要范围分配。",
+      "option_reasons": {
+        "A": "继承是 RBAC 的默认行为，无需重复分配。",
+        "C": "继承的是所分配角色的完整权限，不会降级为只读。",
+        "D": "继承不会提升权限级别，参与者不会变成所有者。"
+      },
+      "reference": {
+        "title": "Azure RBAC 概述",
+        "url": "https://learn.microsoft.com/azure/role-based-access-control/overview"
+      },
+      "keywords": [
+        "继承",
+        "范围"
+      ]
+    },
+    {
+      "id": "D2-064",
+      "domain": "architecture-services",
+      "topic": "身份与访问：RBAC 基于角色的访问控制",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：Azure RBAC 的多个角色分配是叠加的——用户的有效权限是其所有角色分配的并集。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。RBAC 是累加模型：如果用户在资源组上是「读者」、在其中某个资源上是「参与者」，那么他对该资源拥有参与者权限。要显式剥夺权限需要使用「拒绝分配」（deny assignment），而拒绝分配的优先级高于角色分配。",
+      "option_reasons": {
+        "B": "RBAC 默认是允许累加的模型，只有拒绝分配才会覆盖它。"
+      },
+      "reference": {
+        "title": "Azure RBAC 概述",
+        "url": "https://learn.microsoft.com/azure/role-based-access-control/overview"
+      },
+      "keywords": [
+        "叠加",
+        "拒绝分配"
+      ]
+    },
+    {
+      "id": "D2-065",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "零信任（Zero Trust）模型的指导原则包括下列哪两项？（选两项）",
+      "options": {
+        "A": "显式验证（Verify explicitly）",
+        "B": "信任企业网络内部的所有流量",
+        "C": "使用最小权限访问（Use least privilege access）",
+        "D": "只在边界部署防火墙即可"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "零信任的三大原则是：①显式验证——每次访问都基于所有可用信号（身份、设备、位置、风险）进行验证；②最小权限访问——只给完成工作所需的最低权限，并配合实时（JIT）和恰足（JEA）访问；③假定已泄露（Assume breach）——按照攻击者已在网络内的前提设计防御，进行分段和加密。",
+      "option_reasons": {
+        "B": "「默认信任内网」正是传统边界安全模型的前提，零信任明确否定它——「永不信任，始终验证」。",
+        "D": "只靠边界防火墙是传统城堡护城河模型，零信任要求在每一层都验证。"
+      },
+      "reference": {
+        "title": "零信任概述",
+        "url": "https://learn.microsoft.com/security/zero-trust/zero-trust-overview"
+      },
+      "keywords": [
+        "Zero Trust",
+        "零信任"
+      ]
+    },
+    {
+      "id": "D2-066",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 2,
+      "question": "「纵深防御（Defense in Depth）」策略的核心思想是什么？",
+      "options": {
+        "A": "只在网络边界部署最强的防护",
+        "B": "使用多层防护机制，任何一层被突破后仍有其他层继续提供保护",
+        "C": "把所有数据存放在一个受保护的位置",
+        "D": "只依赖加密来保护所有资产"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "纵深防御通过分层来消除单点失效：物理安全 → 标识与访问 → 外围（DDoS 防护、防火墙）→ 网络（分段、限制通信）→ 计算（补丁、终结点保护）→ 应用程序（安全开发、无嵌入机密）→ 数据（加密、分类）。每一层都减缓攻击并提供检测机会。",
+      "option_reasons": {
+        "A": "只加固边界正是纵深防御要克服的单点失效问题。",
+        "C": "把资产集中在一处反而形成单点失效，与分层防御无关。",
+        "D": "加密只是数据层的一种手段，无法替代其他层的防护。"
+      },
+      "reference": {
+        "title": "纵深防御",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/overview"
+      },
+      "keywords": [
+        "defense in depth",
+        "纵深防御"
+      ]
+    },
+    {
+      "id": "D2-067",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 2,
+      "question": "在纵深防御的分层模型中，位于最内层、也是最终要保护的对象通常是什么？",
+      "options": {
+        "A": "物理安全",
+        "B": "网络层",
+        "C": "数据",
+        "D": "外围层"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "纵深防御的各层最终都服务于一个目的：保护数据。数据是攻击者的目标，也是法规要求企业承担责任的对象。因此数据层的加密、分类、访问控制是整个防御体系的核心，其余各层都是外围屏障。",
+      "option_reasons": {
+        "A": "物理安全是最外层的第一道屏障，不是最内层。",
+        "B": "网络层处于中间位置，用于分段和限制通信。",
+        "D": "外围层负责 DDoS 防护和边界过滤，属于外部层次。"
+      },
+      "reference": {
+        "title": "纵深防御",
+        "url": "https://learn.microsoft.com/azure/security/fundamentals/overview"
+      },
+      "keywords": [
+        "分层",
+        "数据"
+      ]
+    },
+    {
+      "id": "D2-068",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Microsoft Defender for Cloud 提供的核心能力是什么？",
+      "options": {
+        "A": "提供云工作负载的安全态势管理与威胁防护，并给出安全分数和改进建议",
+        "B": "托管虚拟机",
+        "C": "管理成本预算",
+        "D": "托管 DNS 记录"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Defender for Cloud 同时是 CSPM（云安全态势管理）和 CWP（云工作负载保护）平台：它持续评估资源配置、用「安全分数（Secure Score）」量化态势、给出具体修复建议、提供法规合规仪表板，并对虚拟机、存储、数据库、容器等提供威胁检测。借助 Azure Arc 还可覆盖本地和其他云。",
+      "option_reasons": {
+        "B": "托管虚拟机是计算服务的职责。",
+        "C": "预算管理是 Microsoft Cost Management 的功能。",
+        "D": "DNS 托管是 Azure DNS 的功能。"
+      },
+      "reference": {
+        "title": "Defender for Cloud 简介",
+        "url": "https://learn.microsoft.com/azure/defender-for-cloud/defender-for-cloud-introduction"
+      },
+      "keywords": [
+        "Defender for Cloud",
+        "Secure Score"
+      ]
+    },
+    {
+      "id": "D2-069",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Microsoft Defender for Cloud 中的「安全分数（Secure Score）」用来做什么？",
+      "options": {
+        "A": "衡量资源的性能",
+        "B": "量化当前安全态势，并按改进效果排序给出修复建议",
+        "C": "计算每月的 Azure 费用",
+        "D": "评估网络带宽利用率"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "安全分数把当前环境与 Microsoft 云安全基准做对比，用一个百分比量化安全态势，并把待修复项按「修复后能提升多少分」排序，让团队知道先做哪件事收益最大。它是把安全工作变成可跟踪、可汇报指标的关键机制。",
+      "option_reasons": {
+        "A": "性能指标由 Azure Monitor 提供。",
+        "C": "费用由 Cost Management 计算。",
+        "D": "带宽利用率属于网络监控指标。"
+      },
+      "reference": {
+        "title": "Defender for Cloud 简介",
+        "url": "https://learn.microsoft.com/azure/defender-for-cloud/defender-for-cloud-introduction"
+      },
+      "keywords": [
+        "Secure Score"
+      ]
+    },
+    {
+      "id": "D2-070",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 3,
+      "question": "下列哪项最能体现零信任中的「假定已泄露（Assume breach）」原则？",
+      "options": {
+        "A": "默认信任来自公司办公网络的流量",
+        "B": "对网络进行微分段并对内部流量加密，限制横向移动",
+        "C": "只在外网入口部署防火墙",
+        "D": "为所有用户分配所有者角色以便于工作"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "「假定已泄露」要求按照攻击者已经在内部的前提来设计：最小化爆炸半径（微分段）、端到端加密、验证每一次访问、持续分析遥测以发现异常。目标是让攻击者即使进入也无法横向移动和扩大战果。",
+      "option_reasons": {
+        "A": "默认信任内网流量是被零信任明确否定的传统假设。",
+        "C": "仅靠边界防火墙无法应对已经进入内部的攻击者。",
+        "D": "普发高权限与最小权限原则完全相悖，会极大放大泄露后果。"
+      },
+      "reference": {
+        "title": "零信任概述",
+        "url": "https://learn.microsoft.com/security/zero-trust/zero-trust-overview"
+      },
+      "keywords": [
+        "assume breach"
+      ]
+    },
+    {
+      "id": "D2-071",
+      "domain": "architecture-services",
+      "topic": "身份与访问：Microsoft Entra ID",
+      "type": "single",
+      "difficulty": 3,
+      "question": "托管标识（Managed Identity）解决的主要问题是什么？",
+      "options": {
+        "A": "让 Azure 资源在访问其他 Azure 服务时无需在代码或配置中保存凭据",
+        "B": "为用户提供单点登录",
+        "C": "加密虚拟机磁盘",
+        "D": "过滤网络流量"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "托管标识由 Azure 自动在 Entra ID 中创建和维护身份，并自动轮换凭据。应用（如虚拟机上的程序或 App Service）可以直接用这个身份去访问存储、密钥保管库等服务，从而彻底消除「把连接字符串和密钥写在代码或配置文件里」这一常见安全隐患。",
+      "option_reasons": {
+        "B": "单点登录面向的是用户登录多个应用，托管标识面向的是服务到服务的身份。",
+        "C": "磁盘加密由 Azure 磁盘加密/平台托管密钥负责。",
+        "D": "网络流量过滤由 NSG 和防火墙负责。"
+      },
+      "reference": {
+        "title": "托管标识概述",
+        "url": "https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview"
+      },
+      "keywords": [
+        "Managed Identity"
+      ]
+    },
+    {
+      "id": "D2-072",
+      "domain": "architecture-services",
+      "topic": "安全：零信任与纵深防御",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Key Vault 的用途是什么？",
+      "options": {
+        "A": "集中安全地存储和管理机密、密钥与证书，并控制访问权限",
+        "B": "存储虚拟机的操作系统磁盘",
+        "C": "存储应用日志",
+        "D": "存储备份文件"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Key Vault 是托管的机密管理服务：集中保管密码、连接字符串、加密密钥和 TLS/SSL 证书，支持硬件安全模块（HSM）保护、访问审计、密钥轮换和细粒度访问控制。配合托管标识使用，可以让应用完全不接触明文机密。",
+      "option_reasons": {
+        "B": "虚拟机磁盘由托管磁盘服务提供。",
+        "C": "日志存储在 Log Analytics 工作区或存储账户中。",
+        "D": "备份由 Azure 备份服务和恢复服务保管库负责。"
+      },
+      "reference": {
+        "title": "Azure Key Vault 概述",
+        "url": "https://learn.microsoft.com/azure/key-vault/general/overview"
+      },
+      "keywords": [
+        "Key Vault",
+        "机密"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1832 @@
+{
+  "domain": "management-governance",
+  "title": "领域3 Azure 管理与治理",
+  "questions": [
+    {
+      "id": "D3-001",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "下列哪两项会影响 Azure 资源的成本？（选两项）",
+      "options": {
+        "A": "资源部署所在的区域（地理位置）",
+        "B": "资源组的名称长度",
+        "C": "出站网络流量（数据传出）的大小",
+        "D": "订阅所使用的语言设置"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "影响 Azure 成本的主要因素包括：资源类型、使用量（消耗）、区域（不同区域单价不同）、网络流量（出站数据传输通常收费，入站通常免费）、订阅类型、以及 Azure 市场中的第三方产品。",
+      "option_reasons": {
+        "B": "资源组和资源的命名不影响计费。",
+        "D": "门户语言等显示设置与费用无关。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "成本因素",
+        "出站流量"
+      ]
+    },
+    {
+      "id": "D3-002",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "工作负载稳定运行且预计将持续三年。哪种方式能最有效地降低虚拟机成本？",
+      "options": {
+        "A": "使用即用即付定价",
+        "B": "购买预留实例（Azure Reservations）",
+        "C": "使用现成（Spot）虚拟机",
+        "D": "把虚拟机部署到更多区域"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "预留实例通过承诺使用 1 年或 3 年来换取大幅折扣（相对即用即付最高可省约 72%），非常适合长期稳定运行的可预测工作负载。如果还持有带软件保障的 Windows Server/SQL Server 许可证，再叠加 Azure 混合权益可以进一步降本。",
+      "option_reasons": {
+        "A": "即用即付是单价最高的方式，适合短期或波动负载，不适合长期稳定负载。",
+        "C": "Spot 虚拟机价格低但可能被随时收回，只适合可中断的批处理任务，不适合稳定运行的生产负载。",
+        "D": "部署到更多区域会增加而不是减少成本。"
+      },
+      "reference": {
+        "title": "Azure 预留",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/reservations/save-compute-costs-reservations"
+      },
+      "keywords": [
+        "预留实例",
+        "折扣"
+      ]
+    },
+    {
+      "id": "D3-003",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 混合权益（Azure Hybrid Benefit）可以带来什么好处？",
+      "options": {
+        "A": "利用已有的带软件保障的 Windows Server / SQL Server 许可证，在 Azure 中降低相应的许可成本",
+        "B": "免费获得无限的存储空间",
+        "C": "免除所有网络出站流量费用",
+        "D": "把本地服务器迁移到 Azure"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure 混合权益允许你把已购买的、带软件保障（Software Assurance）的 Windows Server 和 SQL Server 许可证带到云上使用，从而只支付计算部分的费用，显著降低总成本。它是纯粹的许可优化手段。",
+      "option_reasons": {
+        "B": "存储始终按用量计费，没有无限免费额度。",
+        "C": "出站流量费用不受许可权益影响。",
+        "D": "迁移工作由 Azure Migrate 等工具完成，混合权益只涉及许可计费。"
+      },
+      "reference": {
+        "title": "Azure 混合权益",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/scope-level/"
+      },
+      "keywords": [
+        "Hybrid Benefit"
+      ]
+    },
+    {
+      "id": "D3-004",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于 Azure 的数据传输费用，下列说法正确的是？",
+      "options": {
+        "A": "入站（进入 Azure）和出站（离开 Azure）数据都收费",
+        "B": "入站数据通常免费，出站数据通常收费",
+        "C": "入站数据收费，出站数据免费",
+        "D": "所有数据传输都免费"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 的通用规则是：数据传入（ingress）不收费，数据传出（egress，离开 Azure 数据中心或跨区域传输）按流量收费。这是设计架构时的重要考量——比如跨区域复制和多云架构会产生可观的出站流量成本。",
+      "option_reasons": {
+        "A": "入站流量通常不收费。",
+        "C": "方向完全说反了。",
+        "D": "出站流量是实实在在的计费项。"
+      },
+      "reference": {
+        "title": "带宽定价",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/understand/understand-azure-marketplace-charges"
+      },
+      "keywords": [
+        "egress",
+        "出站"
+      ]
+    },
+    {
+      "id": "D3-005",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "single",
+      "difficulty": 1,
+      "question": "在把工作负载部署到 Azure 之前，想估算计划中的虚拟机、存储和带宽每月大约花多少钱。应使用什么工具？",
+      "options": {
+        "A": "定价计算器（Pricing Calculator）",
+        "B": "TCO 计算器",
+        "C": "Azure Advisor",
+        "D": "Cost Management 的成本分析"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "定价计算器用于「尚未部署」的资源做费用估算：选择服务、区域、规格和数量，即可得到预估月度成本，还能保存和分享估算方案。注意它只估算 Azure 侧的成本，不与本地做对比。",
+      "option_reasons": {
+        "B": "TCO 计算器用于「本地环境 vs Azure」的总拥有成本对比，包含硬件、电力、人力等本地成本，目的不同。",
+        "C": "Advisor 是针对已部署资源给出优化建议，无法估算尚未存在的资源。",
+        "D": "成本分析展示的是已经产生的实际费用，不能预估未部署资源。"
+      },
+      "reference": {
+        "title": "定价计算器",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/understand/pricing-calculator"
+      },
+      "keywords": [
+        "Pricing Calculator"
+      ]
+    },
+    {
+      "id": "D3-006",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "single",
+      "difficulty": 1,
+      "question": "管理层希望比较「继续维护本地数据中心」与「迁移到 Azure」在未来几年的总成本差异。应使用什么工具？",
+      "options": {
+        "A": "定价计算器",
+        "B": "总拥有成本（TCO）计算器",
+        "C": "Azure Monitor",
+        "D": "Azure Policy"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "TCO 计算器专门用于「本地 vs Azure」的总拥有成本对比：你输入现有服务器、数据库、存储和网络规模，它会估算本地的硬件、软件、电力、制冷、机房和人力成本，并与等效的 Azure 成本做多年对比，输出可用于商业论证的报告。",
+      "option_reasons": {
+        "A": "定价计算器只估算 Azure 的费用，不计算本地数据中心成本，无法做对比。",
+        "C": "Azure Monitor 用于监控运行中的资源，与成本对比无关。",
+        "D": "Azure Policy 用于合规治理，与成本测算无关。"
+      },
+      "reference": {
+        "title": "TCO 计算器",
+        "url": "https://learn.microsoft.com/azure/cloud-adoption-framework/strategy/cloud-migration-business-case"
+      },
+      "keywords": [
+        "TCO"
+      ]
+    },
+    {
+      "id": "D3-007",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "Microsoft Cost Management 提供下列哪两项能力？（选两项）",
+      "options": {
+        "A": "分析和可视化历史与当前的实际花费",
+        "B": "自动重构应用程序代码以降低成本",
+        "C": "创建预算并在花费接近阈值时发送警报",
+        "D": "自动删除超出预算的资源"
+      },
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "Cost Management 的核心能力是「看清楚 + 管得住」：成本分析（按订阅、资源组、标记、服务等维度切分历史花费）、预算与警报（达到阈值时通知）、成本建议、成本分摊和数据导出。",
+      "option_reasons": {
+        "B": "优化代码是开发团队的工作，工具不会自动重构应用。",
+        "D": "预算警报只发送通知，默认不会自动删除资源（可以自行配置自动化操作，但这不是内置默认行为）。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "预算",
+        "成本分析"
+      ]
+    },
+    {
+      "id": "D3-008",
+      "domain": "management-governance",
+      "topic": "成本管理：标记（Tags）",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 标记（Tags）的主要用途是什么？",
+      "options": {
+        "A": "提高资源的运行性能",
+        "B": "为资源附加键值对元数据，用于分类、成本分摊和自动化",
+        "C": "加密资源数据",
+        "D": "限制资源所在的区域"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "标记是附加在资源上的「键:值」元数据，如 Environment:Production、CostCenter:Finance、Owner:张三。它们让你可以按业务维度筛选资源、在成本分析中按部门/项目分摊费用，并作为自动化脚本和策略的判断依据。",
+      "option_reasons": {
+        "A": "标记纯粹是元数据，对性能没有任何影响。",
+        "C": "加密由存储加密、Key Vault 等机制实现，与标记无关。",
+        "D": "限制部署区域由 Azure Policy 实现，不是标记本身的功能。"
+      },
+      "reference": {
+        "title": "使用标记组织资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources"
+      },
+      "keywords": [
+        "Tags",
+        "标记"
+      ]
+    },
+    {
+      "id": "D3-009",
+      "domain": "management-governance",
+      "topic": "成本管理：标记（Tags）",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于标记的继承，下列说法正确的是？",
+      "options": {
+        "A": "资源会自动继承其资源组的标记",
+        "B": "资源默认不会继承资源组的标记，但可以用 Azure Policy 强制附加",
+        "C": "标记只能应用于订阅级别",
+        "D": "标记一旦设置就无法修改"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "这是高频陷阱：Azure 中的标记默认不继承——给资源组打了标记，其中的资源并不会自动获得。要实现统一打标，通常用 Azure Policy 的 modify/append 效果，在资源创建或修复时自动补上所需标记。",
+      "option_reasons": {
+        "A": "默认不继承，这正是很多人成本分摊算不准的原因。",
+        "C": "标记可用于订阅、资源组和大多数资源，不限于订阅级别。",
+        "D": "标记可以随时添加、修改和删除。"
+      },
+      "reference": {
+        "title": "使用标记组织资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources"
+      },
+      "keywords": [
+        "标记继承",
+        "Policy"
+      ]
+    },
+    {
+      "id": "D3-010",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "财务部门希望在 Azure 月度花费达到预算的 80% 时收到邮件通知。应配置什么？",
+      "options": {
+        "A": "Azure Policy 规则",
+        "B": "Cost Management 中的预算与预算警报",
+        "C": "资源锁",
+        "D": "Azure Service Health 警报"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "在 Cost Management 中创建预算（Budget），设置金额、周期和范围（订阅/资源组/管理组），并配置在达到某个百分比阈值时触发操作组发送邮件或调用自动化。这是控制超支的标准做法。",
+      "option_reasons": {
+        "A": "Azure Policy 控制的是资源配置合规，不监控花费金额。",
+        "C": "资源锁防止资源被误删或修改，与成本无关。",
+        "D": "Service Health 警报通知的是 Azure 服务故障和计划维护，不是花费。"
+      },
+      "reference": {
+        "title": "创建和管理预算",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+      },
+      "keywords": [
+        "预算",
+        "警报"
+      ]
+    },
+    {
+      "id": "D3-011",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要确保团队只能在「中国东部」和「东南亚」两个区域创建资源。应使用什么？",
+      "options": {
+        "A": "资源锁",
+        "B": "Azure Policy",
+        "C": "RBAC 读者角色",
+        "D": "管理组"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Policy 用于对资源属性强制执行规则：内置的「允许的位置」策略可以拒绝在指定区域之外创建资源。Policy 关注「资源应该是什么样」，而 RBAC 关注「谁可以做什么」，两者互补。",
+      "option_reasons": {
+        "A": "资源锁只能防止删除或修改已有资源，无法限制新资源的部署位置。",
+        "C": "RBAC 控制的是用户权限，无法表达「只能部署在某些区域」这样的资源属性约束。",
+        "D": "管理组是治理层级容器，本身不含规则，需要配合 Azure Policy 才能生效。"
+      },
+      "reference": {
+        "title": "Azure Policy 概述",
+        "url": "https://learn.microsoft.com/azure/governance/policy/overview"
+      },
+      "keywords": [
+        "Policy",
+        "允许的位置"
+      ]
+    },
+    {
+      "id": "D3-012",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Policy 与 Azure RBAC 的核心区别是什么？",
+      "options": {
+        "A": "Policy 控制用户能做什么，RBAC 控制资源属性",
+        "B": "Policy 控制资源的属性和配置是否合规，RBAC 控制谁可以对资源执行哪些操作",
+        "C": "两者完全相同",
+        "D": "Policy 只能用于虚拟机"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "记忆方式：RBAC 管「人和权限」（谁能创建虚拟机），Azure Policy 管「资源和配置」（创建出来的虚拟机必须打标记、必须在指定区域、不能使用某些规格）。一个用户即使有权限创建资源，仍可能被 Policy 拒绝。",
+      "option_reasons": {
+        "A": "两者的职责被颠倒了。",
+        "C": "两者是互补的独立机制，评估的对象完全不同。",
+        "D": "Azure Policy 适用于几乎所有资源类型。"
+      },
+      "reference": {
+        "title": "Azure Policy 概述",
+        "url": "https://learn.microsoft.com/azure/governance/policy/overview"
+      },
+      "keywords": [
+        "Policy",
+        "RBAC"
+      ]
+    },
+    {
+      "id": "D3-013",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Policy 中的「计划（Initiative，又称策略集）」是什么？",
+      "options": {
+        "A": "一个用于部署资源的模板",
+        "B": "一组相关策略定义的集合，可作为整体分配以实现某个合规目标",
+        "C": "资源的成本预算",
+        "D": "虚拟机的维护计划"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "计划把多个策略定义打包在一起统一分配和跟踪合规性。例如「ISO 27001」或「启用 Defender for Cloud 全部监视」这类计划包含几十上百条策略，按计划分配比逐条分配更易管理，也更便于查看整体合规得分。",
+      "option_reasons": {
+        "A": "部署资源的模板是 ARM 模板或 Bicep 文件。",
+        "C": "成本预算属于 Cost Management。",
+        "D": "虚拟机维护计划属于更新管理范畴。"
+      },
+      "reference": {
+        "title": "Azure Policy 概述",
+        "url": "https://learn.microsoft.com/azure/governance/policy/overview"
+      },
+      "keywords": [
+        "Initiative",
+        "策略集"
+      ]
+    },
+    {
+      "id": "D3-014",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要防止生产环境中的一个关键存储账户被任何人意外删除，包括订阅所有者。应使用什么？",
+      "options": {
+        "A": "CanNotDelete（删除）资源锁",
+        "B": "ReadOnly 资源锁",
+        "C": "Azure Policy 的审核效果",
+        "D": "移除所有用户的参与者角色"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "CanNotDelete 锁允许授权用户读取和修改资源，但任何人（包括所有者）都不能删除它——必须先显式移除锁才能删除。这是防止误操作的强力护栏，且锁的效力优先于 RBAC 权限。",
+      "option_reasons": {
+        "B": "ReadOnly 锁会同时阻止所有修改操作，限制过强，可能影响日常运维（例如无法写入数据或更改配置）。",
+        "C": "审核（Audit）效果只记录不合规情况，不会阻止删除动作。",
+        "D": "移除角色会影响正常工作，且所有者仍可自行恢复权限，无法可靠防止删除。"
+      },
+      "reference": {
+        "title": "锁定资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+      },
+      "keywords": [
+        "资源锁",
+        "CanNotDelete"
+      ]
+    },
+    {
+      "id": "D3-015",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "Azure 资源锁有哪两种类型？（选两项）",
+      "options": {
+        "A": "CanNotDelete（删除）",
+        "B": "ReadOnly（只读）",
+        "C": "NoAccess（禁止访问）",
+        "D": "Encrypt（加密）"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "资源锁只有两种：CanNotDelete——可读可改不可删；ReadOnly——只能读，既不能改也不能删（效果相当于对所有人施加只读角色）。锁可应用在订阅、资源组或单个资源上，并向下继承。",
+      "option_reasons": {
+        "C": "Azure 中没有 NoAccess 类型的资源锁。",
+        "D": "加密不是资源锁的类型，而是独立的数据保护功能。"
+      },
+      "reference": {
+        "title": "锁定资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+      },
+      "keywords": [
+        "资源锁"
+      ]
+    },
+    {
+      "id": "D3-016",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：在资源组上设置的资源锁会被该资源组中的所有资源继承。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。资源锁沿层级继承：订阅上的锁覆盖其下所有资源组和资源，资源组上的锁覆盖其中所有资源。当一个资源受多个锁影响时，最严格的锁生效（ReadOnly 严于 CanNotDelete）。",
+      "option_reasons": {
+        "B": "继承是资源锁的设计行为，这也是它能高效保护整组资源的原因。"
+      },
+      "reference": {
+        "title": "锁定资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+      },
+      "keywords": [
+        "继承",
+        "资源锁"
+      ]
+    },
+    {
+      "id": "D3-017",
+      "domain": "management-governance",
+      "topic": "治理与合规：Purview 与服务信任门户",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Microsoft Purview 主要解决什么问题？",
+      "options": {
+        "A": "统一的数据治理：发现、分类和管理跨本地、多云和 SaaS 的数据资产",
+        "B": "虚拟机的自动缩放",
+        "C": "网络流量的负载均衡",
+        "D": "Azure 费用的预算控制"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Microsoft Purview 是统一的数据治理与合规平台：它自动扫描和绘制数据资产地图（Data Map）、建立可搜索的数据目录（Data Catalog）、识别和分类敏感数据（如身份证号、信用卡号），并覆盖本地、多云和 SaaS 数据源，帮助组织回答「我的敏感数据在哪里、谁在用」。",
+      "option_reasons": {
+        "B": "自动缩放属于计算服务能力。",
+        "C": "负载均衡属于网络服务。",
+        "D": "预算控制属于 Cost Management。"
+      },
+      "reference": {
+        "title": "Microsoft Purview 治理",
+        "url": "https://learn.microsoft.com/purview/purview"
+      },
+      "keywords": [
+        "Purview",
+        "数据治理"
+      ]
+    },
+    {
+      "id": "D3-018",
+      "domain": "management-governance",
+      "topic": "治理与合规：Purview 与服务信任门户",
+      "type": "single",
+      "difficulty": 2,
+      "question": "审计团队需要获取 Azure 的 ISO 27001 和 SOC 2 审计报告以及合规性文档。应该去哪里获取？",
+      "options": {
+        "A": "Azure 门户的「成本分析」页面",
+        "B": "服务信任门户（Service Trust Portal）",
+        "C": "Azure Advisor",
+        "D": "Azure Monitor 日志"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "服务信任门户是 Microsoft 发布合规性资料的官方站点：独立第三方审计报告（ISO、SOC、FedRAMP 等）、数据保护说明、隐私白皮书和风险评估工具都在这里下载。它回答的是「Microsoft 自己是否合规」，而 Defender for Cloud 的合规仪表板回答的是「你的资源是否合规」。",
+      "option_reasons": {
+        "A": "成本分析展示的是费用数据，与合规文档无关。",
+        "C": "Advisor 提供资源优化建议，不提供审计报告。",
+        "D": "Azure Monitor 日志记录的是你自己资源的遥测数据。"
+      },
+      "reference": {
+        "title": "服务信任门户",
+        "url": "https://learn.microsoft.com/compliance/regulatory/offering-home"
+      },
+      "keywords": [
+        "Service Trust Portal",
+        "合规"
+      ]
+    },
+    {
+      "id": "D3-019",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Policy 的哪种效果（Effect）会在资源不符合规则时阻止其创建？",
+      "options": {
+        "A": "Audit（审核）",
+        "B": "Deny（拒绝）",
+        "C": "Append（追加）",
+        "D": "Disabled（已禁用）"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Deny 效果在资源创建或更新请求到达 ARM 时直接拒绝不合规的操作，是最强的强制手段。Audit 只记录不合规事件供后续查看；Append/Modify 会自动补充或修改属性；DeployIfNotExists 会自动部署缺失的配套资源。",
+      "option_reasons": {
+        "A": "Audit 只生成合规性记录和警告，不阻止操作。",
+        "C": "Append 是在请求中追加字段（如自动加标记），不会阻止创建。",
+        "D": "Disabled 表示该策略分配不生效。"
+      },
+      "reference": {
+        "title": "Azure Policy 效果",
+        "url": "https://learn.microsoft.com/azure/governance/policy/concepts/effects"
+      },
+      "keywords": [
+        "Deny",
+        "效果"
+      ]
+    },
+    {
+      "id": "D3-020",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 2,
+      "question": "公司要求所有新建资源必须带有 CostCenter 标记，缺失时自动补上默认值。最合适的机制是？",
+      "options": {
+        "A": "资源锁",
+        "B": "带 Modify 或 Append 效果的 Azure Policy",
+        "C": "RBAC 角色分配",
+        "D": "预算警报"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Policy 的 Modify/Append 效果可以在资源创建或更新时自动添加缺失的标记，还能通过修正（Remediation）任务批量修复已有资源。这比依赖人工规范可靠得多，也是保证成本分摊数据完整的关键。",
+      "option_reasons": {
+        "A": "资源锁只能阻止删除或修改，不能添加标记。",
+        "C": "RBAC 决定谁能操作资源，无法约束资源必须带哪些属性。",
+        "D": "预算警报只在花费达阈值时通知，与标记无关。"
+      },
+      "reference": {
+        "title": "Azure Policy 效果",
+        "url": "https://learn.microsoft.com/azure/governance/policy/concepts/effects"
+      },
+      "keywords": [
+        "Modify",
+        "标记"
+      ]
+    },
+    {
+      "id": "D3-021",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure Cloud Shell 的主要特点是什么？",
+      "options": {
+        "A": "必须在本地安装才能使用",
+        "B": "基于浏览器的交互式 Shell，预装了 Azure CLI 和 Azure PowerShell，无需本地安装",
+        "C": "只支持 PowerShell",
+        "D": "只能用于查看资源，不能修改"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Cloud Shell 是浏览器中的命令行环境：可以在 Bash 和 PowerShell 之间切换，已经预装并自动认证了 Azure CLI、Azure PowerShell 和常用工具（git、terraform 等），并用 Azure 文件共享持久化你的主目录。它让你在任何设备上都能管理 Azure。",
+      "option_reasons": {
+        "A": "Cloud Shell 运行在云端，不需要本地安装任何东西。",
+        "C": "它同时支持 Bash（Azure CLI）和 PowerShell 两种环境。",
+        "D": "Cloud Shell 具备完整的管理能力，可以创建、修改和删除资源。"
+      },
+      "reference": {
+        "title": "Azure Cloud Shell 概述",
+        "url": "https://learn.microsoft.com/azure/cloud-shell/overview"
+      },
+      "keywords": [
+        "Cloud Shell"
+      ]
+    },
+    {
+      "id": "D3-022",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure CLI 与 Azure PowerShell 的主要区别是？",
+      "options": {
+        "A": "Azure CLI 只能在 Windows 上运行",
+        "B": "两者功能大体相当，区别在于语法风格：CLI 使用 az 命令，PowerShell 使用 cmdlet（动词-名词）",
+        "C": "Azure PowerShell 无法创建资源",
+        "D": "Azure CLI 只能查看资源"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "两者都是跨平台（Windows/Linux/macOS）的命令行管理工具，能力基本对等，选择主要看团队习惯：Azure CLI 是 `az vm create` 这样的风格，更贴近 Bash 脚本；Azure PowerShell 是 `New-AzVM` 这样的动词-名词 cmdlet，输出为对象，便于 PowerShell 管道处理。",
+      "option_reasons": {
+        "A": "Azure CLI 是跨平台的，Linux 和 macOS 上同样可用。",
+        "C": "Azure PowerShell 具备完整的资源管理能力。",
+        "D": "Azure CLI 同样可以创建、修改和删除资源。"
+      },
+      "reference": {
+        "title": "Azure CLI 概述",
+        "url": "https://learn.microsoft.com/cli/azure/what-is-azure-cli"
+      },
+      "keywords": [
+        "CLI",
+        "PowerShell"
+      ]
+    },
+    {
+      "id": "D3-023",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure 门户（Azure Portal）最适合下列哪种场景？",
+      "options": {
+        "A": "大规模重复性的自动化部署",
+        "B": "通过图形界面浏览资源、查看仪表板和执行一次性管理操作",
+        "C": "在 CI/CD 流水线中自动创建资源",
+        "D": "把资源配置纳入版本控制"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "门户是基于 Web 的图形管理界面，优势是直观、可发现性强，适合探索服务、查看监控仪表板、排查问题和做一次性操作。但它是手工操作，不可重复、不可版本化，因此大规模和自动化场景应改用 CLI/PowerShell 或基础结构即代码。",
+      "option_reasons": {
+        "A": "手工点击无法规模化，重复部署应使用模板或脚本。",
+        "C": "CI/CD 流水线需要可脚本化的接口，门户无法集成。",
+        "D": "版本控制需要文本化的定义文件，如 ARM 模板或 Bicep。"
+      },
+      "reference": {
+        "title": "Azure 门户概述",
+        "url": "https://learn.microsoft.com/azure/azure-portal/azure-portal-overview"
+      },
+      "keywords": [
+        "门户"
+      ]
+    },
+    {
+      "id": "D3-024",
+      "domain": "management-governance",
+      "topic": "管理工具：ARM 模板与 Bicep",
+      "type": "single",
+      "difficulty": 2,
+      "question": "ARM 模板（Azure Resource Manager 模板）的核心特点是什么？",
+      "options": {
+        "A": "使用命令式脚本逐步描述操作步骤",
+        "B": "使用声明式 JSON 描述目标状态，具备幂等性，可重复部署得到一致结果",
+        "C": "只能部署虚拟机",
+        "D": "只能在 Azure 门户中手工创建"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "ARM 模板是声明式的：你描述「最终应该有什么」，而不是「一步步怎么做」，ARM 负责计算差异并并行编排部署。幂等性意味着同一模板重复部署会得到同样的结果，不会重复创建资源——这是基础结构即代码（IaC）的基石。",
+      "option_reasons": {
+        "A": "命令式描述步骤是脚本（如 CLI 脚本）的做法，模板是声明式的。",
+        "C": "ARM 模板可以部署几乎所有 Azure 资源类型。",
+        "D": "模板是文本文件，可以纳入 Git 版本控制并通过流水线部署。"
+      },
+      "reference": {
+        "title": "ARM 模板概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/templates/overview"
+      },
+      "keywords": [
+        "ARM",
+        "声明式",
+        "幂等"
+      ]
+    },
+    {
+      "id": "D3-025",
+      "domain": "management-governance",
+      "topic": "管理工具：ARM 模板与 Bicep",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Bicep 相对于 ARM JSON 模板的主要优势是什么？",
+      "options": {
+        "A": "语法更简洁易读，且编译后与 ARM 模板等效，支持模块化和类型校验",
+        "B": "可以部署到 AWS",
+        "C": "不需要 Azure 订阅",
+        "D": "运行速度比 ARM 快 10 倍"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Bicep 是 Azure 原生的领域特定语言（DSL），用更简洁的语法描述资源（无需大量 JSON 括号和转义），支持模块、参数类型检查和智能提示，最终会转译（transpile）为 ARM 模板由 ARM 执行。它没有引入新的运行时，因此能力与 ARM 完全一致。",
+      "option_reasons": {
+        "B": "Bicep 是 Azure 专用的，不能部署到其他云（跨云 IaC 可考虑 Terraform）。",
+        "C": "部署任何 Azure 资源都需要订阅。",
+        "D": "Bicep 最终转译为 ARM 模板执行，部署速度与 ARM 相同，优势在于编写体验。"
+      },
+      "reference": {
+        "title": "Bicep 概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/bicep/overview"
+      },
+      "keywords": [
+        "Bicep",
+        "IaC"
+      ]
+    },
+    {
+      "id": "D3-026",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 1,
+      "question": "运维人员在外出途中需要用手机查看 Azure 资源状态并重启一台虚拟机。最合适的工具是？",
+      "options": {
+        "A": "Azure 移动应用（Azure mobile app）",
+        "B": "ARM 模板",
+        "C": "Azure Policy",
+        "D": "Azure Data Box"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure 移动应用（iOS/Android）让你在手机上查看资源状态、监控警报、查看服务运行状况，并执行启动/停止/重启虚拟机、重启 Web 应用等常用操作，还内置了 Cloud Shell，适合应急响应。",
+      "option_reasons": {
+        "B": "ARM 模板用于部署基础结构，不是日常运维操作工具。",
+        "C": "Azure Policy 用于合规治理。",
+        "D": "Data Box 是数据迁移的物理设备。"
+      },
+      "reference": {
+        "title": "Azure 移动应用",
+        "url": "https://learn.microsoft.com/azure/azure-portal/mobile-app/overview"
+      },
+      "keywords": [
+        "移动应用"
+      ]
+    },
+    {
+      "id": "D3-027",
+      "domain": "management-governance",
+      "topic": "管理工具：ARM 模板与 Bicep",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "使用基础结构即代码（IaC）管理 Azure 资源可以带来下列哪两项好处？（选两项）",
+      "options": {
+        "A": "配置可以纳入版本控制，变更有迹可循",
+        "B": "可以在不同环境中重复部署出完全一致的基础结构",
+        "C": "完全消除对 Azure 订阅的需要",
+        "D": "自动降低资源的单价"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "IaC 把基础结构定义成文本文件，因而获得软件工程的全部红利：版本控制与代码审查、环境一致性（开发/测试/生产用同一份模板）、可重复与可回滚、以及与 CI/CD 流水线集成实现自动化部署。",
+      "option_reasons": {
+        "C": "无论怎样部署，都需要 Azure 订阅来承载资源和计费。",
+        "D": "资源单价由定价方案决定，与部署方式无关（不过 IaC 有助于避免遗留未清理的资源从而减少浪费）。"
+      },
+      "reference": {
+        "title": "ARM 模板概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/templates/overview"
+      },
+      "keywords": [
+        "IaC",
+        "版本控制"
+      ]
+    },
+    {
+      "id": "D3-028",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Arc 在管理与治理方面的作用是？",
+      "options": {
+        "A": "把 Azure 的管理能力（Policy、RBAC、标记、监控）扩展到本地、其他云和边缘的资源",
+        "B": "自动把本地服务器迁移到 Azure",
+        "C": "提供虚拟桌面",
+        "D": "生成成本报表"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Arc 把非 Azure 资源投射为 Azure 资源对象，从而可以用同一套 Azure 治理工具统一管理：应用 Azure Policy、分配 RBAC、打标记、接入 Azure Monitor 和 Defender for Cloud。这解决了混合与多云环境「工具割裂」的根本痛点。",
+      "option_reasons": {
+        "B": "迁移工作由 Azure Migrate 负责，Arc 管理的资源仍留在原地。",
+        "C": "虚拟桌面是 Azure Virtual Desktop。",
+        "D": "成本报表由 Cost Management 生成。"
+      },
+      "reference": {
+        "title": "Azure Arc 概述",
+        "url": "https://learn.microsoft.com/azure/azure-arc/overview"
+      },
+      "keywords": [
+        "Azure Arc"
+      ]
+    },
+    {
+      "id": "D3-029",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure Monitor 的核心作用是什么？",
+      "options": {
+        "A": "收集、分析和处理来自云和本地环境的遥测数据（指标与日志），并基于其发出警报",
+        "B": "部署虚拟机",
+        "C": "管理用户身份",
+        "D": "提供数据备份"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Monitor 是 Azure 的全栈监控平台：采集指标（Metrics，数值型、近实时）和日志（Logs，结构化事件），提供可视化（仪表板、工作簿）、分析（Log Analytics + KQL 查询）、响应（警报和自动操作），覆盖从基础结构到应用程序的各个层次。",
+      "option_reasons": {
+        "B": "部署虚拟机是计算服务的职责。",
+        "C": "身份管理是 Microsoft Entra ID。",
+        "D": "备份由 Azure 备份服务提供。"
+      },
+      "reference": {
+        "title": "Azure Monitor 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/overview"
+      },
+      "keywords": [
+        "Azure Monitor"
+      ]
+    },
+    {
+      "id": "D3-030",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "需要对收集到的日志数据运行复杂查询以排查问题。应使用 Azure Monitor 的哪个组件？",
+      "options": {
+        "A": "Log Analytics（日志分析）",
+        "B": "Application Insights",
+        "C": "Azure Advisor",
+        "D": "Service Health"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Log Analytics 是 Azure Monitor 中用于编写和运行日志查询的工具，使用 Kusto 查询语言（KQL）对存放在 Log Analytics 工作区的数据做筛选、聚合、关联和可视化。它是深入排查问题的主力工具。",
+      "option_reasons": {
+        "B": "Application Insights 专注于应用程序性能监控（APM），其数据同样可以用 KQL 查询，但题目问的是通用的日志查询组件。",
+        "C": "Advisor 提供的是优化建议，不是日志查询工具。",
+        "D": "Service Health 报告的是 Azure 平台的服务状况，不用于查询自有日志。"
+      },
+      "reference": {
+        "title": "Log Analytics 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/logs/log-analytics-overview"
+      },
+      "keywords": [
+        "Log Analytics",
+        "KQL"
+      ]
+    },
+    {
+      "id": "D3-031",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 1,
+      "question": "开发团队希望监控 Web 应用的响应时间、失败请求率和依赖项调用情况，并做用户行为分析。应使用什么？",
+      "options": {
+        "A": "Application Insights",
+        "B": "Azure Advisor",
+        "C": "Azure Policy",
+        "D": "Azure Service Health"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Application Insights 是 Azure Monitor 中的应用程序性能管理（APM）功能：自动采集请求速率与响应时间、失败率、依赖项（数据库/外部 API）调用、异常堆栈，并提供实时指标流、应用程序映射和用户行为分析（漏斗、留存）。",
+      "option_reasons": {
+        "B": "Advisor 给出的是资源配置层面的优化建议，不采集应用性能遥测。",
+        "C": "Azure Policy 是治理工具，与应用监控无关。",
+        "D": "Service Health 报告的是 Azure 平台自身的服务事件。"
+      },
+      "reference": {
+        "title": "Application Insights 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview"
+      },
+      "keywords": [
+        "Application Insights",
+        "APM"
+      ]
+    },
+    {
+      "id": "D3-032",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 1,
+      "question": "Azure Advisor 提供的建议覆盖哪些类别？",
+      "options": {
+        "A": "只有成本",
+        "B": "可靠性、安全性、性能、成本和卓越运营五大类",
+        "C": "只有安全性和性能",
+        "D": "只有合规性"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Advisor 是个性化的云顾问，基于你实际的资源使用情况给出五类建议：可靠性（Reliability）、安全性（Security）、性能（Performance）、成本（Cost）和卓越运营（Operational Excellence）。这五类对应 Azure 架构良好框架的支柱。",
+      "option_reasons": {
+        "A": "成本只是五个类别之一。",
+        "C": "遗漏了可靠性、成本和卓越运营三类。",
+        "D": "合规性由 Azure Policy 和 Defender for Cloud 的合规仪表板负责，不是 Advisor 的类别。"
+      },
+      "reference": {
+        "title": "Azure Advisor 概述",
+        "url": "https://learn.microsoft.com/azure/advisor/advisor-overview"
+      },
+      "keywords": [
+        "Advisor"
+      ]
+    },
+    {
+      "id": "D3-033",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 1,
+      "question": "需要了解某个 Azure 服务是否正在发生中断、是否有计划内维护会影响自己的资源。应使用什么？",
+      "options": {
+        "A": "Azure Service Health",
+        "B": "Azure Advisor",
+        "C": "Azure Monitor 指标",
+        "D": "Azure Policy"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Azure Service Health 提供针对「你所使用的服务和区域」的个性化健康信息，包含三类事件：服务问题（正在发生的中断）、计划内维护、健康公告（如即将弃用的功能）。你还可以基于它配置警报，在事件发生时收到通知。",
+      "option_reasons": {
+        "B": "Advisor 提供优化建议，不报告平台故障。",
+        "C": "Azure Monitor 指标反映的是你自己资源的运行数据，不解释平台级中断原因。",
+        "D": "Azure Policy 是合规治理工具。"
+      },
+      "reference": {
+        "title": "Azure Service Health 概述",
+        "url": "https://learn.microsoft.com/azure/service-health/overview"
+      },
+      "keywords": [
+        "Service Health"
+      ]
+    },
+    {
+      "id": "D3-034",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 3,
+      "question": "Azure 状态（Azure Status）、Service Health 和资源运行状况（Resource Health）三者的区别是？",
+      "options": {
+        "A": "三者完全相同",
+        "B": "Azure 状态展示全球所有区域所有服务的整体状况；Service Health 针对你使用的服务和区域做个性化通知；资源运行状况报告你单个资源的健康状态",
+        "C": "只有 Azure 状态可以配置警报",
+        "D": "资源运行状况用于展示全球服务状态"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "三者是从「全球 → 你的订阅 → 单个资源」逐级聚焦的关系：Azure 状态是面向所有人的全球公告页；Service Health 只告诉你与自己订阅相关的事件；资源运行状况则回答「我这一台虚拟机现在是否健康、为什么不可用」。",
+      "option_reasons": {
+        "A": "三者的范围和用途各不相同。",
+        "C": "Service Health 和资源运行状况都支持配置警报，Azure 状态是公开页面。",
+        "D": "资源运行状况只针对单个资源，不展示全球状态。"
+      },
+      "reference": {
+        "title": "Azure Service Health 概述",
+        "url": "https://learn.microsoft.com/azure/service-health/overview"
+      },
+      "keywords": [
+        "Resource Health",
+        "Azure Status"
+      ]
+    },
+    {
+      "id": "D3-035",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Monitor 中的「指标（Metrics）」与「日志（Logs）」的主要区别是什么？",
+      "options": {
+        "A": "指标是数值型、按时间序列采集的轻量数据，近实时；日志是结构化的事件记录，适合复杂查询和长期保留",
+        "B": "指标只能用于虚拟机，日志只能用于应用",
+        "C": "两者完全相同",
+        "D": "日志不能用于触发警报"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "指标是时间序列数值（如 CPU 百分比、请求数），采集开销小、延迟低，适合实时监控和快速告警；日志是带有丰富属性的事件记录，存放在 Log Analytics 工作区，用 KQL 做复杂分析。两者都可以触发警报，只是适用场景不同。",
+      "option_reasons": {
+        "B": "两者都适用于各类资源，不存在这种限制。",
+        "C": "二者的数据结构、存储方式和查询方式都不同。",
+        "D": "日志查询同样可以配置日志警报规则。"
+      },
+      "reference": {
+        "title": "Azure Monitor 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/overview"
+      },
+      "keywords": [
+        "Metrics",
+        "Logs"
+      ]
+    },
+    {
+      "id": "D3-036",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "当虚拟机 CPU 使用率连续 5 分钟超过 90% 时自动发送邮件通知运维团队。应配置什么？",
+      "options": {
+        "A": "Azure Monitor 警报规则与操作组",
+        "B": "Azure Policy 分配",
+        "C": "资源锁",
+        "D": "Azure Advisor 建议"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "在 Azure Monitor 中创建警报规则：定义监视目标（该虚拟机）、条件（CPU 百分比 > 90%，聚合窗口 5 分钟），并关联操作组（Action Group）来定义响应动作——发邮件、发短信、调用 Webhook 或触发 Logic App/Function 自动修复。",
+      "option_reasons": {
+        "B": "Azure Policy 评估的是资源配置合规性，不监控运行指标。",
+        "C": "资源锁用于防止删除和修改。",
+        "D": "Advisor 只是周期性给出建议，不能按阈值实时告警。"
+      },
+      "reference": {
+        "title": "Azure Monitor 警报",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-overview"
+      },
+      "keywords": [
+        "警报",
+        "操作组"
+      ]
+    },
+    {
+      "id": "D3-037",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Advisor 发现某台虚拟机长期 CPU 使用率低于 5%，最可能给出什么类别的建议？",
+      "options": {
+        "A": "成本建议：调整虚拟机规格或关停以节省费用",
+        "B": "安全建议：启用 MFA",
+        "C": "可靠性建议：增加副本",
+        "D": "性能建议：升级到更大的规格"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "长期低利用率意味着为闲置容量付费，Advisor 会把它列为成本优化建议，提示「调整大小（right-size）或关闭」该虚拟机。识别闲置和超配资源是云成本治理中最常见、见效最快的动作。",
+      "option_reasons": {
+        "B": "MFA 属于安全建议，与 CPU 利用率无关。",
+        "C": "低利用率不是可靠性问题，增加副本只会进一步增加浪费。",
+        "D": "利用率低说明规格已经过剩，升级规格与事实相反。"
+      },
+      "reference": {
+        "title": "Azure Advisor 概述",
+        "url": "https://learn.microsoft.com/azure/advisor/advisor-overview"
+      },
+      "keywords": [
+        "Advisor",
+        "right-size"
+      ]
+    },
+    {
+      "id": "D3-038",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：Azure Monitor 只能监控 Azure 中的资源，无法监控本地服务器。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "错误。通过安装 Azure Monitor 代理（AMA）或借助 Azure Arc，Azure Monitor 同样可以采集本地服务器和其他云上虚拟机的指标与日志，实现混合环境的统一监控。这正是混合云可观测性的常见做法。",
+      "option_reasons": {
+        "A": "这是常见误区。Azure Monitor 支持混合与多云监控，不局限于 Azure 内的资源。"
+      },
+      "reference": {
+        "title": "Azure Monitor 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/overview"
+      },
+      "keywords": [
+        "混合监控"
+      ]
+    },
+    {
+      "id": "D3-039",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Cost Management 中的「成本分析（Cost analysis）」主要用于？",
+      "options": {
+        "A": "预估尚未部署资源的费用",
+        "B": "按订阅、资源组、服务或标记等维度查看和分解已经产生的实际费用",
+        "C": "自动优化应用代码",
+        "D": "检查资源是否符合安全基线"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "成本分析是「回看」工具：按时间、订阅、资源组、资源类型、位置或标记等维度切分已发生的费用，识别花钱最多的资源和异常增长趋势。要「前瞻」估算未部署资源的费用应使用定价计算器。",
+      "option_reasons": {
+        "A": "预估未部署资源费用是定价计算器的职责。",
+        "C": "代码优化不属于成本管理工具的能力。",
+        "D": "安全基线检查由 Defender for Cloud 完成。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "成本分析"
+      ]
+    },
+    {
+      "id": "D3-040",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 3,
+      "question": "某订阅中已有 200 台虚拟机未打标记。刚刚创建的 Azure Policy 要求必须有 Environment 标记。如何让已有资源也符合要求？",
+      "options": {
+        "A": "策略会自动立即修改所有已有资源",
+        "B": "创建修正（Remediation）任务，对已有的不合规资源批量应用策略效果",
+        "C": "必须删除并重建所有虚拟机",
+        "D": "已有资源永远无法被策略管理"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure Policy 对新建/更新的资源实时生效，但对存量资源只是标记为「不合规」。要真正修复存量资源，需要为 DeployIfNotExists 或 Modify 类策略创建修正任务，由策略的托管标识批量执行变更。",
+      "option_reasons": {
+        "A": "策略不会自动修改存量资源，必须显式触发修正任务。",
+        "C": "删除重建是极端且不必要的做法，修正任务即可解决。",
+        "D": "存量资源会被持续评估合规性，并可通过修正任务治理。"
+      },
+      "reference": {
+        "title": "策略修正",
+        "url": "https://learn.microsoft.com/azure/governance/policy/how-to/remediate-resources"
+      },
+      "keywords": [
+        "Remediation",
+        "修正"
+      ]
+    },
+    {
+      "id": "D3-041",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪种虚拟机定价方式最适合可以被随时中断的批处理作业，并能获得最大折扣？",
+      "options": {
+        "A": "即用即付",
+        "B": "预留实例",
+        "C": "现成（Spot）虚拟机",
+        "D": "专用主机"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "Spot 虚拟机使用 Azure 的闲置容量，价格极低（可低至按需价格的一小部分），但当 Azure 需要回收容量时会被驱逐（提前 30 秒通知）。因此只适合可中断、可重试的工作负载，如批量渲染、大规模测试和数据处理。",
+      "option_reasons": {
+        "A": "即用即付没有折扣，价格最高。",
+        "B": "预留实例需要承诺 1 或 3 年，适合长期稳定负载而不是临时批处理。",
+        "D": "专用主机提供物理服务器隔离，价格更高，用于合规和许可场景。"
+      },
+      "reference": {
+        "title": "Azure Spot 虚拟机",
+        "url": "https://learn.microsoft.com/azure/virtual-machines/spot-vms"
+      },
+      "keywords": [
+        "Spot",
+        "折扣"
+      ]
+    },
+    {
+      "id": "D3-042",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "multi",
+      "difficulty": 2,
+      "question": "下列哪两项可以帮助组织主动发现 Azure 环境中的安全风险？（选两项）",
+      "options": {
+        "A": "Microsoft Defender for Cloud 的安全分数与建议",
+        "B": "Azure Advisor 的安全建议",
+        "C": "Azure 定价计算器",
+        "D": "资源锁"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Defender for Cloud 持续评估资源配置并以安全分数量化态势、给出修复步骤；Azure Advisor 的安全类别建议实际上就来自 Defender for Cloud。两者都是「主动发现风险」的工具。",
+      "option_reasons": {
+        "C": "定价计算器只用于费用估算，与安全无关。",
+        "D": "资源锁是防止误删误改的护栏，属于被动保护措施，不能发现风险。"
+      },
+      "reference": {
+        "title": "Azure Advisor 概述",
+        "url": "https://learn.microsoft.com/azure/advisor/advisor-overview"
+      },
+      "keywords": [
+        "安全建议"
+      ]
+    },
+    {
+      "id": "D3-043",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于 Azure 门户、CLI、PowerShell 和 REST API 的关系，下列说法正确的是？",
+      "options": {
+        "A": "它们互相独立，产生的结果可能不一致",
+        "B": "它们最终都通过 Azure Resource Manager 执行操作，因此结果一致",
+        "C": "只有门户可以创建资源",
+        "D": "REST API 只能读取不能写入"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "所有管理工具都是 ARM 的客户端：请求统一经过 ARM 进行身份验证、RBAC 授权和策略评估，再交给资源提供程序。这保证了无论用哪个工具，同样的操作会得到同样的结果，也让权限和策略无法通过换工具绕过。",
+      "option_reasons": {
+        "A": "统一经由 ARM 正是为了保证一致性。",
+        "C": "CLI、PowerShell、REST API、SDK 同样可以创建资源。",
+        "D": "REST API 支持完整的创建、更新和删除操作。"
+      },
+      "reference": {
+        "title": "Azure Resource Manager 概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/overview"
+      },
+      "keywords": [
+        "ARM",
+        "一致性"
+      ]
+    },
+    {
+      "id": "D3-044",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Monitor 中的「操作组（Action Group）」定义的是什么？",
+      "options": {
+        "A": "触发警报的条件",
+        "B": "警报触发后要执行的通知和操作集合（邮件、短信、Webhook、自动化等）",
+        "C": "资源的访问权限",
+        "D": "资源的部署顺序"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "警报规则回答「什么时候告警」，操作组回答「告警后做什么」：给谁发邮件/短信/推送、调用哪个 Webhook、触发哪个 Logic App、Function 或 Runbook 做自动修复。操作组可被多个警报规则复用。",
+      "option_reasons": {
+        "A": "触发条件定义在警报规则中，不在操作组。",
+        "C": "访问权限由 RBAC 管理。",
+        "D": "部署顺序由 ARM 模板的依赖关系决定。"
+      },
+      "reference": {
+        "title": "Azure Monitor 警报",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/alerts/alerts-overview"
+      },
+      "keywords": [
+        "Action Group"
+      ]
+    },
+    {
+      "id": "D3-045",
+      "domain": "management-governance",
+      "topic": "治理与合规：Purview 与服务信任门户",
+      "type": "single",
+      "difficulty": 2,
+      "question": "组织需要在 Azure 中自动发现哪些存储中含有身份证号、银行卡号等敏感信息，并进行分类标注。应使用什么？",
+      "options": {
+        "A": "Microsoft Purview",
+        "B": "Azure Monitor",
+        "C": "Azure Policy",
+        "D": "Azure Advisor"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Microsoft Purview 的数据映射和分类能力可以自动扫描数据源，用内置或自定义分类器识别敏感信息类型（身份证、信用卡、健康信息等）并打上分类标签，从而回答「敏感数据在哪里」这个数据治理的首要问题。",
+      "option_reasons": {
+        "B": "Azure Monitor 采集的是运行遥测数据，不扫描数据内容。",
+        "C": "Azure Policy 评估资源配置属性，不检查数据内容。",
+        "D": "Advisor 给出的是资源优化建议。"
+      },
+      "reference": {
+        "title": "Microsoft Purview 治理",
+        "url": "https://learn.microsoft.com/purview/purview"
+      },
+      "keywords": [
+        "Purview",
+        "数据分类"
+      ]
+    },
+    {
+      "id": "D3-046",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪项做法无法降低 Azure 成本？",
+      "options": {
+        "A": "对开发测试环境的虚拟机在非工作时间自动关机",
+        "B": "为长期稳定的工作负载购买预留实例",
+        "C": "把所有资源都部署到尽可能多的区域",
+        "D": "删除未挂载的孤立磁盘和未使用的公共 IP"
+      },
+      "answer": [
+        "C"
+      ],
+      "explanation": "多区域部署会成倍增加资源数量并产生跨区域流量费用，属于为可用性付出的成本，而不是降本手段。真正常见的降本动作包括：非工作时间关机、预留实例/节省计划、调整规格、清理孤立资源、使用 Spot 虚拟机和混合权益。",
+      "option_reasons": {
+        "A": "开发测试环境夜间和周末关机通常能直接省下 60% 以上的计算费用。",
+        "B": "预留实例对稳定负载可节省高达约 72%。",
+        "D": "孤立磁盘和保留的公共 IP 会持续计费，清理它们是典型的快速降本动作。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "降本"
+      ]
+    },
+    {
+      "id": "D3-047",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 3,
+      "question": "「合规性」在 Azure 中由多个工具共同支撑。下列哪个工具用于查看「你自己的资源」相对于某个法规标准（如 ISO 27001）的合规状态？",
+      "options": {
+        "A": "服务信任门户",
+        "B": "Microsoft Defender for Cloud 的法规合规性仪表板",
+        "C": "Azure 定价计算器",
+        "D": "Azure 移动应用"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "区分两个方向：服务信任门户回答「Microsoft 的云平台是否通过了某项认证」，提供审计报告下载；Defender for Cloud 的法规合规性仪表板回答「我部署的资源当前是否满足某项标准的控制要求」，并列出具体的不合规项和修复方法。",
+      "option_reasons": {
+        "A": "服务信任门户提供的是 Microsoft 自身的审计报告，不评估你的资源。",
+        "C": "定价计算器与合规无关。",
+        "D": "移动应用只是管理界面，不提供合规评估。"
+      },
+      "reference": {
+        "title": "法规合规性仪表板",
+        "url": "https://learn.microsoft.com/azure/defender-for-cloud/regulatory-compliance-dashboard"
+      },
+      "keywords": [
+        "合规",
+        "Defender"
+      ]
+    },
+    {
+      "id": "D3-048",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "truefalse",
+      "difficulty": 2,
+      "question": "判断：Azure Cloud Shell 需要在首次使用时关联一个 Azure 存储账户，用于持久保存文件。",
+      "options": {
+        "A": "正确",
+        "B": "错误"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "正确。Cloud Shell 会话本身是临时的，为了在会话之间保留脚本和文件，首次启动时会提示创建或选择一个存储账户，并在其中创建文件共享挂载为主目录（clouddrive）。该存储账户会产生少量存储费用。",
+      "option_reasons": {
+        "B": "没有持久化存储，Cloud Shell 会话结束后文件就会丢失，因此需要关联存储账户。"
+      },
+      "reference": {
+        "title": "Azure Cloud Shell 概述",
+        "url": "https://learn.microsoft.com/azure/cloud-shell/overview"
+      },
+      "keywords": [
+        "Cloud Shell",
+        "持久化"
+      ]
+    },
+    {
+      "id": "D3-049",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 中用于查询 Log Analytics 工作区数据的查询语言是？",
+      "options": {
+        "A": "SQL",
+        "B": "Kusto 查询语言（KQL）",
+        "C": "GraphQL",
+        "D": "XPath"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Log Analytics 使用 Kusto 查询语言（KQL）。它是只读的、管道式的查询语言，语法类似 `Heartbeat | where TimeGenerated > ago(1h) | summarize count() by Computer`，专为大规模日志和时序数据的快速分析设计。",
+      "option_reasons": {
+        "A": "SQL 用于关系型数据库，不是 Log Analytics 的查询语言。",
+        "C": "GraphQL 是 API 查询语言，与日志分析无关。",
+        "D": "XPath 用于 XML 文档定位。"
+      },
+      "reference": {
+        "title": "Log Analytics 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/logs/log-analytics-overview"
+      },
+      "keywords": [
+        "KQL"
+      ]
+    },
+    {
+      "id": "D3-050",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "关于 Azure 免费账户，下列说法正确的是？",
+      "options": {
+        "A": "永久免费使用所有 Azure 服务",
+        "B": "提供有限期的试用额度和一组在 12 个月内免费的热门服务，以及始终免费的服务层",
+        "C": "只能使用虚拟机",
+        "D": "需要先签订企业协议"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Azure 免费账户包含三部分：一笔在 30 天内使用的试用额度、一组在 12 个月内免费的热门服务（有用量上限），以及一批「始终免费」的服务层（如一定额度的 Functions 调用）。超出额度后按标准价格计费。",
+      "option_reasons": {
+        "A": "免费额度有明确的时间和用量上限，不是永久免费使用全部服务。",
+        "C": "免费账户可以使用多种服务，不限于虚拟机。",
+        "D": "个人用信用卡验证即可注册，不需要企业协议。"
+      },
+      "reference": {
+        "title": "Azure 免费账户",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/manage/avoid-charges-free-account"
+      },
+      "keywords": [
+        "免费账户"
+      ]
+    },
+    {
+      "id": "D3-051",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure 中用于查看「某一台特定虚拟机当前是否可用，以及不可用是由平台事件还是用户操作导致」的功能是？",
+      "options": {
+        "A": "资源运行状况（Resource Health）",
+        "B": "Azure 状态页",
+        "C": "Azure Advisor",
+        "D": "成本分析"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "资源运行状况针对单个资源给出「可用 / 不可用 / 降级 / 未知」的状态，并说明原因分类——平台启动的事件（如主机故障、计划维护）还是用户启动的操作（如自己关机）。这对区分「是 Azure 的问题还是我们自己的问题」非常关键。",
+      "option_reasons": {
+        "B": "Azure 状态页展示的是全球范围的大规模服务中断，不针对单个资源。",
+        "C": "Advisor 提供的是优化建议，不报告实时可用性。",
+        "D": "成本分析展示的是费用数据。"
+      },
+      "reference": {
+        "title": "资源运行状况",
+        "url": "https://learn.microsoft.com/azure/service-health/resource-health-overview"
+      },
+      "keywords": [
+        "Resource Health"
+      ]
+    },
+    {
+      "id": "D3-052",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "single",
+      "difficulty": 1,
+      "question": "使用定价计算器时，下列哪项会直接影响估算结果？",
+      "options": {
+        "A": "选择的区域和资源规格",
+        "B": "资源组的名称",
+        "C": "订阅的显示语言",
+        "D": "使用门户还是 CLI 部署"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "定价计算器的估算基于：服务类型、规格（如虚拟机大小）、数量、运行时长、区域（不同区域单价不同）、冗余选项和许可方式。命名、界面语言和部署工具都不影响价格。",
+      "option_reasons": {
+        "B": "资源命名与计费无关。",
+        "C": "语言设置只影响界面显示。",
+        "D": "部署工具不同不会改变资源单价。"
+      },
+      "reference": {
+        "title": "定价计算器",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/understand/pricing-calculator"
+      },
+      "keywords": [
+        "Pricing Calculator"
+      ]
+    },
+    {
+      "id": "D3-053",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪项最准确地描述了 Azure 中「治理（Governance）」要解决的核心问题？",
+      "options": {
+        "A": "确保资源的部署和使用符合组织的标准、预算和法规要求，并可持续审计",
+        "B": "提高应用程序的运行速度",
+        "C": "减少虚拟机的启动时间",
+        "D": "自动编写基础结构代码"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "治理的目标是「在保持敏捷的同时不失控」：用管理组和订阅划分边界，用 Azure Policy 强制标准，用 RBAC 控制权限，用标记和 Cost Management 管住预算，用资源锁防止误操作，用 Defender for Cloud 和 Purview 持续证明合规。",
+      "option_reasons": {
+        "B": "性能优化属于架构与调优范畴，不是治理的核心目标。",
+        "C": "启动时间属于性能指标。",
+        "D": "编写基础结构代码是实现手段，不是治理本身的目标。"
+      },
+      "reference": {
+        "title": "Azure 治理",
+        "url": "https://learn.microsoft.com/azure/governance/"
+      },
+      "keywords": [
+        "治理"
+      ]
+    },
+    {
+      "id": "D3-054",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 2,
+      "question": "组织希望在 Azure 计划对其使用的区域执行维护前收到通知。应配置什么？",
+      "options": {
+        "A": "基于 Azure Service Health 的警报",
+        "B": "Azure Advisor 建议",
+        "C": "预算警报",
+        "D": "资源锁"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Service Health 覆盖三类事件，其中「计划内维护」正是本题场景。你可以针对订阅、区域和服务创建 Service Health 警报规则，并关联操作组，在事件发布时通过邮件、短信或 Webhook 通知相关团队提前准备。",
+      "option_reasons": {
+        "B": "Advisor 提供的是优化建议，不发布维护通知。",
+        "C": "预算警报只与花费有关。",
+        "D": "资源锁是防误删机制。"
+      },
+      "reference": {
+        "title": "Azure Service Health 概述",
+        "url": "https://learn.microsoft.com/azure/service-health/overview"
+      },
+      "keywords": [
+        "Service Health",
+        "计划维护"
+      ]
+    },
+    {
+      "id": "D3-055",
+      "domain": "management-governance",
+      "topic": "管理工具：门户、CLI、PowerShell 与 Cloud Shell",
+      "type": "multi",
+      "difficulty": 1,
+      "question": "下列哪两项属于 Azure 中的「基础结构即代码」工具？（选两项）",
+      "options": {
+        "A": "ARM 模板",
+        "B": "Bicep",
+        "C": "Azure 门户",
+        "D": "Azure 移动应用"
+      },
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "ARM 模板（JSON）和 Bicep（DSL）都是声明式的基础结构即代码工具：定义写在文本文件里，可以版本控制、代码审查、在流水线中自动部署并保证幂等。（第三方的 Terraform 也属于此类，但不是 Azure 原生工具。）",
+      "option_reasons": {
+        "C": "Azure 门户是图形界面手工操作，不可版本控制、不可重复。",
+        "D": "移动应用是运维查看和应急操作工具，与代码化部署无关。"
+      },
+      "reference": {
+        "title": "ARM 模板概述",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/templates/overview"
+      },
+      "keywords": [
+        "IaC"
+      ]
+    },
+    {
+      "id": "D3-056",
+      "domain": "management-governance",
+      "topic": "监控：Azure Monitor 与 Application Insights",
+      "type": "single",
+      "difficulty": 2,
+      "question": "需要把 Azure 虚拟机的性能数据、应用日志以及本地服务器日志汇总到一处进行统一分析。应使用什么？",
+      "options": {
+        "A": "Log Analytics 工作区",
+        "B": "Azure Blob 存储的存档层",
+        "C": "Azure 队列存储",
+        "D": "定价计算器"
+      },
+      "answer": [
+        "A"
+      ],
+      "explanation": "Log Analytics 工作区是 Azure Monitor 日志数据的存储和分析容器：通过 Azure Monitor 代理可以把 Azure 资源、本地服务器和其他云上虚拟机的日志与性能数据统一发送到同一个工作区，然后用 KQL 做跨源关联分析。",
+      "option_reasons": {
+        "B": "存档层适合长期不访问的归档数据，无法直接查询分析。",
+        "C": "队列存储用于异步消息传递，不是日志分析平台。",
+        "D": "定价计算器用于费用估算。"
+      },
+      "reference": {
+        "title": "Log Analytics 概述",
+        "url": "https://learn.microsoft.com/azure/azure-monitor/logs/log-analytics-overview"
+      },
+      "keywords": [
+        "工作区",
+        "统一监控"
+      ]
+    },
+    {
+      "id": "D3-057",
+      "domain": "management-governance",
+      "topic": "成本管理：影响因素与优化",
+      "type": "single",
+      "difficulty": 2,
+      "question": "下列哪种订阅/账户结构最适合把不同部门的 Azure 花费清晰分开结算？",
+      "options": {
+        "A": "所有部门共用一个订阅和一个资源组",
+        "B": "为每个部门创建独立的订阅（或至少用标记与资源组严格区分）",
+        "C": "为每个部门创建独立的 Entra 租户",
+        "D": "让每个部门各自注册免费账户"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "订阅是计费边界，按部门拆分订阅可以直接得到分离的账单，管理上再用管理组统一施加策略。如果不便拆分订阅，则至少要通过资源组划分 + 强制标记（用 Azure Policy 保证标记完整）来实现成本分摊。",
+      "option_reasons": {
+        "A": "混在一起后无法清晰归集成本，也难以分别授权。",
+        "C": "拆分租户会造成身份割裂和巨大管理负担，属于过度设计。",
+        "D": "免费账户有额度限制，不适合承载生产负载，也无法统一治理。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "计费边界",
+        "成本分摊"
+      ]
+    },
+    {
+      "id": "D3-058",
+      "domain": "management-governance",
+      "topic": "治理与合规：Azure Policy 与资源锁",
+      "type": "single",
+      "difficulty": 3,
+      "question": "某资源同时被订阅级别的 ReadOnly 锁和资源组级别的 CanNotDelete 锁覆盖。实际生效的是什么？",
+      "options": {
+        "A": "CanNotDelete，因为它更靠近资源",
+        "B": "ReadOnly，因为多个锁中最严格的生效",
+        "C": "两个锁互相抵消，都不生效",
+        "D": "随机生效一个"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "当资源继承到多个锁时，最严格（most restrictive）的锁生效。ReadOnly 严于 CanNotDelete，因此该资源既不能修改也不能删除。这一点与 RBAC 的「就近覆盖」直觉不同，是常见的考点陷阱。",
+      "option_reasons": {
+        "A": "锁不遵循「就近优先」，而是「最严格优先」。",
+        "C": "多个锁会叠加，不会互相抵消。",
+        "D": "生效规则是确定的，不存在随机性。"
+      },
+      "reference": {
+        "title": "锁定资源",
+        "url": "https://learn.microsoft.com/azure/azure-resource-manager/management/lock-resources"
+      },
+      "keywords": [
+        "资源锁",
+        "最严格"
+      ]
+    },
+    {
+      "id": "D3-059",
+      "domain": "management-governance",
+      "topic": "监控：Advisor 与 Service Health",
+      "type": "single",
+      "difficulty": 2,
+      "question": "Azure Advisor 的建议是基于什么生成的？",
+      "options": {
+        "A": "通用的行业最佳实践清单，与实际使用情况无关",
+        "B": "对你实际部署的资源配置和使用遥测数据的分析，因此是个性化的",
+        "C": "其他客户的配置",
+        "D": "随机抽样"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Advisor 会分析你订阅中资源的实际配置和使用情况（如利用率、冗余设置、安全配置），据此生成针对性的建议并按影响程度分级。因为是个性化的，所以不同订阅看到的建议完全不同。",
+      "option_reasons": {
+        "A": "如果只是通用清单就失去了「顾问」的意义，Advisor 明确是个性化的。",
+        "C": "Advisor 不会基于其他客户的数据生成你的建议。",
+        "D": "建议基于确定性的分析规则，不是随机产生。"
+      },
+      "reference": {
+        "title": "Azure Advisor 概述",
+        "url": "https://learn.microsoft.com/azure/advisor/advisor-overview"
+      },
+      "keywords": [
+        "Advisor",
+        "个性化"
+      ]
+    },
+    {
+      "id": "D3-060",
+      "domain": "management-governance",
+      "topic": "成本管理：计算器与 Cost Management",
+      "type": "single",
+      "difficulty": 3,
+      "question": "关于 Microsoft Cost Management 的使用范围，下列说法正确的是？",
+      "options": {
+        "A": "只能查看 Azure 的费用",
+        "B": "可以查看 Azure 的费用，并且支持查看已连接的 AWS 等其他云的费用",
+        "C": "只能查看单个资源组的费用",
+        "D": "必须购买额外许可才能使用"
+      },
+      "answer": [
+        "B"
+      ],
+      "explanation": "Cost Management 主要用于 Azure 成本治理，同时支持连接 AWS 账户以在同一界面中查看和分析多云成本（该跨云功能可能产生额外费用）。对 Azure 使用而言，Cost Management 本身是免费的。",
+      "option_reasons": {
+        "A": "它支持连接其他云进行多云成本可见性管理。",
+        "C": "它支持管理组、订阅、资源组等多种范围。",
+        "D": "针对 Azure 用量使用 Cost Management 不额外收费。"
+      },
+      "reference": {
+        "title": "Azure 成本管理概述",
+        "url": "https://learn.microsoft.com/azure/cost-management-billing/costs/overview-cost-management"
+      },
+      "keywords": [
+        "多云成本"
+      ]
+    }
+  ]
+}
