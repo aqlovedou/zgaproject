@@ -1,0 +1,27 @@
+[package]
+name = "az900-desktop"
+description = "AZ-900 刷题台"
+authors = ["az900"]
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "az900_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+az900-core = { path = "../crates/core" }
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+rand.workspace = true
+
+[features]
+# Tauri CLI 在生产构建时注入
+custom-protocol = ["tauri/custom-protocol"]

@@ -1,0 +1,13 @@
+[package]
+name = "az900-core"
+description = "AZ-900 刷题台的业务逻辑与数据层：组卷、判分、间隔重复、SQLite 存储"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+rusqlite.workspace = true
+rand.workspace = true
