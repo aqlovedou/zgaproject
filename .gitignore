@@ -3,3 +3,10 @@ data/state/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# 桌面版构建产物
+desktop/node_modules/
+desktop/dist/
+desktop/target/
+desktop/src-tauri/target/
+desktop/src-tauri/gen/

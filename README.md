@@ -1,7 +1,15 @@
 # AZ-900 五天冲刺刷题系统
 
-面向 Microsoft Azure Fundamentals（AZ-900）考试的命令行刷题程序：按官方领域权重组卷的全真模拟考、
+面向 Microsoft Azure Fundamentals（AZ-900）考试的刷题程序：按官方领域权重组卷的全真模拟考、
 即时讲评的专项练习、带间隔重复算法的错题本，以及达标判断。
+
+提供三个版本，共用同一份题库：
+
+| 版本 | 位置 | 说明 |
+| --- | --- | --- |
+| **桌面版** | `desktop/` | Vue 3 + TypeScript + Tauri，成绩和错题本存本地 SQLite。功能最全，推荐 |
+| 命令行版 | `az900.py` | Python，无第三方依赖，进度存 JSON |
+| 网页版 | `web/` | 单页应用，手机也能刷 |
 
 **179 道题**，每题都包含：详细解析 + 每个错误选项为什么错 + Microsoft Learn 官方文档出处。
 
@@ -15,13 +23,22 @@ AZ-900 的考点范围完全由官方大纲界定，题型高度固定（单选�
 
 ## 快速开始
 
+**桌面版**（需要 Node 18+ 和 Rust）：
+
 ```bash
-git clone <this-repo> && cd zgaproject
+cd desktop && npm install
+npm run dev      # 开发模式
+npm run build    # 打包成 .msi / .dmg / .AppImage
+```
+
+详见 [`desktop/README.md`](desktop/README.md)。
+
+**命令行版**（只需 Python 3.10+，无任何第三方依赖）：
+
+```bash
 python3 az900.py plan          # 看 5 天冲刺计划
 python3 az900.py exam          # 50 题 / 45 分钟全真模拟考
 ```
-
-只需要 Python 3.10+，无任何第三方依赖。
 
 ## 命令
 
@@ -95,11 +112,15 @@ python3 tools/build_web.py     # 从 data/questions/ 重新打包 web/bank.js
 ## 开发
 
 ```bash
-python3 -m pytest tests/ -q
+python3 -m pytest tests/ -q        # 命令行版：18 项
+cd desktop && cargo test           # 桌面版 Rust：29 项
+cd desktop && npm test             # 桌面版前端：19 项
+cd desktop && npm run typecheck    # vue-tsc 严格模式
 ```
 
 测试覆盖题库完整性（每个错误选项必须有解释、每题必须有 learn.microsoft.com 出处、
 题号与领域一致）、组卷的领域权重、评分折算、选项解析和错题本的间隔重复逻辑。
+桌面版还有端到端测试：用真实题库跑完「考试 → 交卷 → 错题本 → 复习 → 攻克」并验证 SQLite 落盘。
 
 题库是 `data/questions/*.json`，schema 见 `az900/models.py` 的 `Question`。
 新增题目只需往 JSON 里加，`Bank.load()` 会自动校验格式。
